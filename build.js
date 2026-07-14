@@ -111,10 +111,9 @@ function cleanStr(str) {
 
 function getSrcset(url) {
   if (!url) return '';
-  // Shopify CDN transform parameter allows getting different sizes
-  // Instead of complex params, we can just append transform
-  const sizes = [400, 600, 800, 1200];
-  return sizes.map(s => `${url}&width=${s} ${s}w`).join(', ');
+  const sizes = [200, 400, 600, 800, 1200];
+  const sep = url.includes('?') ? '&' : '?';
+  return sizes.map(s => `${url}${sep}width=${s} ${s}w`).join(', ');
 }
 
 async function build() {
@@ -220,10 +219,14 @@ async function build() {
     let mainImagesHtml = '';
     let thumbRowHtml = '';
     product.images.edges.forEach((edge, idx) => {
-        let iUrl = edge.node.url;
+        const baseImgUrl = edge.node.url;
+        let iUrl = baseImgUrl;
         if (iUrl.includes('?')) iUrl += '&width=1200'; else iUrl += '?width=1200';
-        let tUrl = edge.node.url;
+        let tUrl = baseImgUrl;
         if (tUrl.includes('?')) tUrl += '&width=200'; else tUrl += '?width=200';
+        
+        const srcset = getSrcset(baseImgUrl);
+        const sizes = '(max-width: 768px) 100vw, 50vw';
         
         const activeClass = idx === 0 ? 'active' : '';
         const loading = idx === 0 ? 'eager' : 'lazy';
@@ -234,7 +237,7 @@ async function build() {
         mainImagesHtml += `
           <div class="lm-pp-main-img ${activeClass}" id="img-${idx}" ${idx !== 0 ? 'style="display:none;"' : ''}>
             <span class="lm-pp-img-badge" style="display:none;"></span>
-            <img src="${iUrl}" alt="${altText} - View ${idx + 1}" loading="${loading}" decoding="${decoding}" fetchpriority="${fetchPri}" width="800" height="1200" style="object-fit:cover; width:100%; height:100%;">
+            <img src="${iUrl}" srcset="${srcset}" sizes="${sizes}" alt="${altText} - View ${idx + 1}" loading="${loading}" decoding="${decoding}" fetchpriority="${fetchPri}" width="800" height="1200" style="object-fit:cover; width:100%; height:100%;">
           </div>
         `;
         thumbRowHtml += `
@@ -336,10 +339,16 @@ async function build() {
         const v = p.variants.edges[0]?.node;
         const pPrice = v?.price?.amount || 0;
         const pComp = v?.compareAtPrice?.amount || 0;
-        let iUrl1 = p.images.edges[0]?.node?.url || '';
+        const baseImgUrl1 = p.images.edges[0]?.node?.url || '';
+        let iUrl1 = baseImgUrl1;
         if (iUrl1 && iUrl1.includes('?')) iUrl1 += '&width=600'; else if(iUrl1) iUrl1 += '?width=600';
-        let iUrl2 = p.images.edges[1]?.node?.url || iUrl1;
+        const baseImgUrl2 = p.images.edges[1]?.node?.url || baseImgUrl1;
+        let iUrl2 = baseImgUrl2;
         if (iUrl2 && iUrl2.includes('?')) iUrl2 += '&width=600'; else if(iUrl2) iUrl2 += '?width=600';
+        
+        const srcset1 = getSrcset(baseImgUrl1);
+        const srcset2 = getSrcset(baseImgUrl2);
+        const sizes = '(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw';
         
         const isSoldOut = !v?.availableForSale;
         const isSale = parseFloat(pComp) > parseFloat(pPrice);
@@ -358,8 +367,8 @@ async function build() {
         <div class="product-card" onclick="window.location.href='/products/${p.handle}'" data-id="${v?.id}" data-handle="${p.handle}" data-title="${cleanStr(p.title)}" data-price="${pPrice}" data-inventory="${v?.quantityAvailable ?? 10}" data-type="${p.productType || 'Saree'}" data-tags="${(p.tags || []).join(',').replace(/"/g, '&quot;')}">
             <div class="card-img-wrap" style="position:relative; width:100%; aspect-ratio:2/3; overflow:hidden;">
                 ${badgeHtml}
-                <img src="${iUrl1}" alt="${altText}" class="primary-img" loading="${loading}" decoding="${decoding}" fetchpriority="${fetchPri}" width="400" height="600" style="object-fit:cover; width:100%; height:100%; position:absolute; inset:0; transition:opacity 0.3s;">
-                ${iUrl2 !== iUrl1 ? `<img src="${iUrl2}" alt="${altText} hover" class="hover-img" loading="lazy" decoding="async" width="400" height="600" style="object-fit:cover; width:100%; height:100%; position:absolute; inset:0; opacity:0; transition:opacity 0.3s;">` : ''}
+                <img src="${iUrl1}" srcset="${srcset1}" sizes="${sizes}" alt="${altText}" class="primary-img" loading="${loading}" decoding="${decoding}" fetchpriority="${fetchPri}" width="400" height="600" style="object-fit:cover; width:100%; height:100%; position:absolute; inset:0; transition:opacity 0.3s;">
+                ${iUrl2 !== iUrl1 ? `<img src="${iUrl2}" srcset="${srcset2}" sizes="${sizes}" alt="${altText} hover" class="hover-img" loading="lazy" decoding="async" width="400" height="600" style="object-fit:cover; width:100%; height:100%; position:absolute; inset:0; opacity:0; transition:opacity 0.3s;">` : ''}
                 <div class="card-overlay"></div>
                 <button class="card-wish" data-id="${v?.id}" data-title="${cleanStr(p.title)}" data-price="${pPrice}" data-img="${iUrl1}" data-handle="${p.handle}" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)">♡</button>
                 <button class="quick-add" data-id="${v?.id}" data-title="${cleanStr(p.title)}" data-price="${pPrice}" data-img="${iUrl1}" data-handle="${p.handle}" data-inventory="${v?.quantityAvailable ?? 10}" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add to cart <span>+</span></button>
