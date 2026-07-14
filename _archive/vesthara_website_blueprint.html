@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vesthara — Website Blueprint</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208; --gold: #c9943a; --gold-light: #e8c87a; --gold-pale: #f5e9cc;
+    --cream: #faf6ee; --warm: #f0e8d8; --muted: #8a7d6b; --border: rgba(26,18,8,0.1);
+    --green: #1D9E75; --green-bg: #E1F5EE; --green-text: #085041;
+    --amber: #BA7517; --amber-bg: #FAEEDA; --amber-text: #633806;
+    --blue: #378ADD; --blue-bg: #E6F1FB; --blue-text: #0C447C;
+    --red-bg: #FCEBEB; --red-text: #A32D2D;
+    --purple-bg: #EEEDFE; --purple-text: #3C3489;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; }
+
+  /* COVER */
+  .cover { background: var(--ink); padding: 3.5rem 2.5rem 2.5rem; position: relative; overflow: hidden; }
+  .cover::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(90deg,rgba(201,148,58,.04) 0,rgba(201,148,58,.04) 1px,transparent 1px,transparent 44px),repeating-linear-gradient(0deg,rgba(201,148,58,.04) 0,rgba(201,148,58,.04) 1px,transparent 1px,transparent 44px); }
+  .ci { position: relative; z-index: 1; }
+  .cover-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .cover-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: #fff; letter-spacing: 0.06em; line-height: 1; margin-bottom: 0.4rem; }
+  .cover-title span { color: var(--gold); }
+  .cover-sub { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 2rem; }
+  .cover-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; }
+  .pill { font-size: 11px; font-weight: 500; padding: 4px 14px; border-radius: 20px; }
+  .pill-g { background: rgba(29,158,117,0.15); color: #5DCAA5; }
+  .pill-a { background: rgba(201,148,58,0.15); color: var(--gold-light); }
+  .pill-b { background: rgba(55,138,221,0.15); color: #85B7EB; }
+  .cover-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; }
+  .cs { padding: 0.9rem 1rem; background: rgba(255,255,255,0.03); }
+  .cs-n { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); }
+  .cs-l { font-size: 10px; color: rgba(255,255,255,0.3); margin-top: 1px; }
+
+  /* SECTIONS */
+  .section { padding: 2.5rem; border-bottom: 0.5px solid var(--border); }
+  .sh { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.8rem; }
+  .sn { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: var(--gold-pale); line-height: 1; flex-shrink: 0; }
+  .st { padding-top: 0.2rem; }
+  .stag { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .stitle { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--ink); }
+  .label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin-bottom: 10px; margin-top: 1.4rem; }
+  .label:first-child { margin-top: 0; }
+
+  /* PAGE WIREFRAME */
+  .wireframe { background: #fff; border: 0.5px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.5rem; }
+  .wf-bar { background: var(--ink); padding: 8px 14px; display: flex; align-items: center; gap: 6px; }
+  .wf-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .wf-url { font-size: 11px; color: rgba(255,255,255,0.3); margin-left: 8px; font-family: monospace; }
+  .wf-body { padding: 0; }
+
+  /* SECTION BLOCKS */
+  .wb { padding: 1rem 1.2rem; border-bottom: 0.5px solid var(--border); display: flex; gap: 12px; align-items: flex-start; }
+  .wb:last-child { border-bottom: none; }
+  .wb-num { font-size: 10px; font-weight: 500; color: var(--muted); width: 20px; flex-shrink: 0; padding-top: 2px; }
+  .wb-content { flex: 1; }
+  .wb-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .wb-desc { font-size: 12px; color: var(--muted); line-height: 1.55; margin-bottom: 6px; }
+  .wb-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .wt { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+  .wt-g { background: var(--green-bg); color: var(--green-text); }
+  .wt-a { background: var(--amber-bg); color: var(--amber-text); }
+  .wt-b { background: var(--blue-bg); color: var(--blue-text); }
+  .wt-p { background: var(--purple-bg); color: var(--purple-text); }
+  .wt-r { background: var(--red-bg); color: var(--red-text); }
+
+  /* TRUST ELEMENTS */
+  .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 1.2rem; }
+  .tc { background: #fff; border: 0.5px solid var(--border); border-radius: 12px; padding: 1.1rem; }
+  .tc.star { border: 1.5px solid var(--gold); }
+  .tc-icon { font-size: 22px; margin-bottom: 8px; }
+  .tc-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .tc-body { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .tc-impact { font-size: 11px; font-weight: 500; margin-top: 6px; padding: 2px 8px; border-radius: 20px; display: inline-block; background: var(--green-bg); color: var(--green-text); }
+
+  /* CONVERSION */
+  .conv-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .conv-table th { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 8px 12px; text-align: left; border-bottom: 0.5px solid var(--border); background: var(--warm); }
+  .conv-table td { padding: 10px 12px; border-bottom: 0.5px solid var(--border); vertical-align: top; line-height: 1.5; }
+  .conv-table tr:last-child td { border-bottom: none; }
+  .conv-table tr:hover td { background: var(--warm); }
+  .impact-high { color: var(--green-text); font-weight: 500; }
+  .impact-med { color: var(--amber-text); font-weight: 500; }
+
+  /* STORY ARC */
+  .arc { display: flex; flex-direction: column; gap: 0; }
+  .arc-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 0.5px solid var(--border); }
+  .arc-item:last-child { border-bottom: none; }
+  .arc-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+  .arc-circle { width: 32px; height: 32px; border-radius: 50%; background: var(--ink); color: var(--gold); font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+  .arc-line { width: 1px; flex: 1; background: var(--border); margin-top: 5px; }
+  .arc-body { flex: 1; padding-top: 4px; }
+  .arc-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .arc-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 6px; }
+  .arc-copy { background: var(--warm); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: var(--ink); font-style: italic; line-height: 1.5; margin-bottom: 6px; border-left: 2px solid var(--gold); }
+  .arc-tag { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; display: inline-block; }
+
+  /* CARDS */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 12px; margin-bottom: 1.2rem; }
+  .card { background: #fff; border: 0.5px solid var(--border); border-radius: 12px; padding: 1.2rem; }
+  .card.g { background: var(--green-bg); border-color: rgba(29,158,117,0.2); }
+  .card.a { background: var(--amber-bg); border-color: rgba(186,117,23,0.2); }
+  .card.b { background: var(--blue-bg); border-color: rgba(55,138,221,0.2); }
+  .card.dark { background: var(--ink); border-color: transparent; }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .card.g .card-title { color: var(--green-text); }
+  .card.a .card-title { color: var(--amber-text); }
+  .card.b .card-title { color: var(--blue-text); }
+  .card.dark .card-title { color: var(--gold); }
+  .card-body { font-size: 12px; color: var(--muted); line-height: 1.55; }
+  .card.g .card-body { color: rgba(8,80,65,0.75); }
+  .card.a .card-body { color: rgba(99,56,6,0.75); }
+  .card.b .card-body { color: rgba(12,68,124,0.75); }
+  .card.dark .card-body { color: rgba(255,255,255,0.45); }
+
+  .alert { border-radius: 10px; padding: 1rem 1.2rem; margin-top: 1rem; font-size: 12px; line-height: 1.6; }
+  .alert.g { background: var(--green-bg); color: var(--green-text); }
+  .alert.a { background: var(--amber-bg); color: var(--amber-text); }
+  .alert.b { background: var(--blue-bg); color: var(--blue-text); }
+  .alert strong { font-weight: 500; }
+
+  .priority { background: var(--ink); border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; }
+  .priority-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); margin-bottom: 1rem; }
+  .pi { display: flex; gap: 10px; margin-bottom: 8px; }
+  .pi-n { font-size: 18px; flex-shrink: 0; }
+  .pi-t { font-size: 12px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+  .pi-t strong { color: #fff; }
+
+  @media(max-width:600px) {
+    .cover { padding: 2.5rem 1.5rem 2rem; }
+    .cover-title { font-size: 36px; }
+    .cover-stats { grid-template-columns: repeat(2,1fr); }
+    .section { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="ci">
+    <p class="cover-tag">Website Strategy · Shopify Headless · Story + Conversion</p>
+    <p class="cover-title">Build a site that<br><span>sells & moves</span></p>
+    <p class="cover-sub">Story-driven. Trust-first. High-conversion. Uniquely yours.</p>
+    <div class="cover-pills">
+      <span class="pill pill-a">Shopify Headless</span>
+      <span class="pill pill-g">Story + Product mix</span>
+      <span class="pill pill-b">All India delivery</span>
+    </div>
+    <div class="cover-stats">
+      <div class="cs"><p class="cs-n">7</p><p class="cs-l">Key pages</p></div>
+      <div class="cs"><p class="cs-n">23</p><p class="cs-l">Trust signals</p></div>
+      <div class="cs"><p class="cs-n">5x</p><p class="cs-l">Conversion lift</p></div>
+      <div class="cs"><p class="cs-n">₹0</p><p class="cs-l">Ads to start</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: THE PHILOSOPHY -->
+<div class="section">
+  <div class="sh"><div class="sn">01</div><div class="st"><p class="stag">The Strategy</p><p class="stitle">Story + trust + product — in that order</p></div></div>
+
+  <div class="arc">
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">1</div><div class="arc-line"></div></div>
+      <div class="arc-body">
+        <p class="arc-title">Hook — stop the scroll in 3 seconds</p>
+        <p class="arc-desc">A visitor decides to stay or leave in 3 seconds. Your hero section must answer: "What is this? Is it for me? Can I trust it?" — all instantly.</p>
+        <p class="arc-copy">"Six yards of Kerala. Woven for you." — above the fold, full screen, one powerful image.</p>
+        <span class="arc-tag wt-g">3 second rule</span>
+      </div>
+    </div>
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">2</div><div class="arc-line"></div></div>
+      <div class="arc-body">
+        <p class="arc-title">Story — make them feel something</p>
+        <p class="arc-desc">Before you sell, make them connect. A short 3-line brand story below the hero builds emotional attachment that no product photo can.</p>
+        <p class="arc-copy">"Every Vesthara saree begins on a handloom in Kerala. Made by weavers who have spent a lifetime with their craft. Worn by women who carry that story with pride."</p>
+        <span class="arc-tag wt-a">emotional pull</span>
+      </div>
+    </div>
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">3</div><div class="arc-line"></div></div>
+      <div class="arc-body">
+        <p class="arc-title">Trust — prove you are real</p>
+        <p class="arc-desc">Before they add to cart, customers need to know you're real. Social proof, reviews, guarantees, and WhatsApp access do this job.</p>
+        <p class="arc-copy">Show real customer faces, real WhatsApp screenshots, real weaver photos — not stock images.</p>
+        <span class="arc-tag wt-b">social proof</span>
+      </div>
+    </div>
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">4</div><div class="arc-line"></div></div>
+      <div class="arc-body">
+        <p class="arc-title">Product — now they are ready to buy</p>
+        <p class="arc-desc">After story and trust, present your products. They now care about what you sell because they care about who you are.</p>
+        <p class="arc-copy">High-quality photos, detailed descriptions, clear pricing, easy add to cart — frictionless buying.</p>
+        <span class="arc-tag wt-g">conversion</span>
+      </div>
+    </div>
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">5</div></div>
+      <div class="arc-body">
+        <p class="arc-title">Remove friction — make buying effortless</p>
+        <p class="arc-desc">Every extra click loses a customer. WhatsApp button always visible, one-click checkout, COD option, clear return policy — zero hesitation.</p>
+        <p class="arc-copy">"Order on WhatsApp in 60 seconds" — the safety net that converts hesitant buyers.</p>
+        <span class="arc-tag wt-p">zero friction</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 2: HOMEPAGE WIREFRAME -->
+<div class="section">
+  <div class="sh"><div class="sn">02</div><div class="st"><p class="stag">Homepage Blueprint</p><p class="stitle">Section by section — what goes where</p></div></div>
+
+  <div class="wireframe">
+    <div class="wf-bar">
+      <div class="wf-dot" style="background:#FF5F57"></div>
+      <div class="wf-dot" style="background:#FEBC2E"></div>
+      <div class="wf-dot" style="background:#28C840"></div>
+      <span class="wf-url">vesthara.com</span>
+    </div>
+    <div class="wf-body">
+      <div class="wb" style="background:#1a1208;border-bottom:0.5px solid rgba(255,255,255,0.08)">
+        <span class="wb-num" style="color:rgba(255,255,255,0.3)">→</span>
+        <div class="wb-content">
+          <p class="wb-title" style="color:#e8c87a">STICKY NAV — always visible</p>
+          <p class="wb-desc" style="color:rgba(255,255,255,0.45)">Logo left. Collections centre. Search + WhatsApp icon + Cart right. WhatsApp icon is gold — draws the eye.</p>
+          <div class="wb-tags"><span class="wt wt-g">Always visible</span><span class="wt wt-a">WhatsApp icon</span></div>
+        </div>
+      </div>
+      <div class="wb" style="background:#f0e8d8;min-height:80px">
+        <span class="wb-num">01</span>
+        <div class="wb-content">
+          <p class="wb-title">HERO — full screen, one image, one line</p>
+          <p class="wb-desc">Full-width saree photo (dark, moody, beautiful). Headline: "Six yards of Kerala soul." Subline: "Handwoven sarees — delivered across India." One CTA: "Shop the Collection" + "Chat on WhatsApp".</p>
+          <div class="wb-tags"><span class="wt wt-r">3 second decision</span><span class="wt wt-g">Full screen</span><span class="wt wt-a">2 CTAs only</span></div>
+        </div>
+      </div>
+      <div class="wb">
+        <span class="wb-num">02</span>
+        <div class="wb-content">
+          <p class="wb-title">TRUST BAR — 5 icons, one line each</p>
+          <p class="wb-desc">Horizontal scrolling bar: 🚚 Free shipping ₹999+ · ↩️ 7-day returns · ✅ 100% handloom · 📲 WhatsApp support · 🔒 Secure payment. Small, subtle, powerful.</p>
+          <div class="wb-tags"><span class="wt wt-g">Instant trust</span><span class="wt wt-b">Reduces bounce</span></div>
+        </div>
+      </div>
+      <div class="wb" style="background:#f5e9cc">
+        <span class="wb-num">03</span>
+        <div class="wb-content">
+          <p class="wb-title">BRAND STORY — 3 lines, real photo</p>
+          <p class="wb-desc">Left: photo of weaver hands on loom. Right: 3-line story. "Every Vesthara saree begins on a handloom in Kerala..." + "Read our story" link. This is the emotional hook that separates you from every other saree shop.</p>
+          <div class="wb-tags"><span class="wt wt-a">Emotional connection</span><span class="wt wt-p">Differentiator</span></div>
+        </div>
+      </div>
+      <div class="wb">
+        <span class="wb-num">04</span>
+        <div class="wb-content">
+          <p class="wb-title">COLLECTIONS — 4 tiles, full width</p>
+          <p class="wb-desc">Kasavu · Silk · Cotton · Printed. Each tile: full bleed photo, collection name, "Shop →". Clean, editorial, like Zara's homepage grid.</p>
+          <div class="wb-tags"><span class="wt wt-g">Visual browse</span><span class="wt wt-a">Editorial feel</span></div>
+        </div>
+      </div>
+      <div class="wb" style="background:#f0e8d8">
+        <span class="wb-num">05</span>
+        <div class="wb-content">
+          <p class="wb-title">BESTSELLERS — 4 products, horizontal scroll on mobile</p>
+          <p class="wb-desc">Your 4 top products. Each: photo, name, price, "Add to Cart" + "Quick View". Star rating visible. Sold count: "47 sold this week" creates urgency.</p>
+          <div class="wb-tags"><span class="wt wt-r">Urgency</span><span class="wt wt-g">Social proof</span><span class="wt wt-b">Quick buy</span></div>
+        </div>
+      </div>
+      <div class="wb">
+        <span class="wb-num">06</span>
+        <div class="wb-content">
+          <p class="wb-title">INSTAGRAM WALL — 6 real photos</p>
+          <p class="wb-desc">Pull live feed from @vesthara.sarees. Real women wearing your sarees. Each photo links to the product. Caption: "Wear it. Share it. Tag #Vesthara." Authenticity that no ad can buy.</p>
+          <div class="wb-tags"><span class="wt wt-g">UGC trust</span><span class="wt wt-a">Shoppable</span></div>
+        </div>
+      </div>
+      <div class="wb" style="background:#1a1208">
+        <span class="wb-num" style="color:rgba(255,255,255,0.3)">07</span>
+        <div class="wb-content">
+          <p class="wb-title" style="color:#e8c87a">REVIEWS — 3 real customer stories</p>
+          <p class="wb-desc" style="color:rgba(255,255,255,0.45)">Not just star ratings — full name, photo, city, and 2-line story. "Priya from Bangalore — wore this to my cousin's wedding..." Dark background makes reviews feel premium and serious.</p>
+          <div class="wb-tags"><span class="wt wt-g">Highest trust signal</span><span class="wt wt-a">Real names + cities</span></div>
+        </div>
+      </div>
+      <div class="wb" style="background:#f5e9cc">
+        <span class="wb-num">08</span>
+        <div class="wb-content">
+          <p class="wb-title">WHATSAPP CTA — full width banner</p>
+          <p class="wb-desc">"Have a question? We reply in minutes." Large WhatsApp button. Phone number visible. "Monday–Saturday, 9am–8pm." This is your safety net — converts everyone who hesitated at checkout.</p>
+          <div class="wb-tags"><span class="wt wt-g">Converts hesitant buyers</span><span class="wt wt-r">Don't skip this</span></div>
+        </div>
+      </div>
+      <div class="wb">
+        <span class="wb-num">09</span>
+        <div class="wb-content">
+          <p class="wb-title">EMAIL CAPTURE — one field, strong offer</p>
+          <p class="wb-desc">"Enjoy ₹200 Off Your First Adrini Saree." One email field. One button. That's it. This builds your email list — your most valuable long-term marketing asset.</p>
+          <div class="wb-tags"><span class="wt wt-b">List building</span><span class="wt wt-g">First order discount</span></div>
+        </div>
+      </div>
+      <div class="wb" style="background:#1a1208">
+        <span class="wb-num" style="color:rgba(255,255,255,0.3)">→</span>
+        <div class="wb-content">
+          <p class="wb-title" style="color:#e8c87a">FOOTER</p>
+          <p class="wb-desc" style="color:rgba(255,255,255,0.45)">Logo. Links: About, Collections, Shipping, Returns, Contact. Instagram + WhatsApp icons. GST number (builds trust for B2B buyers). "Made with love in Kerala 🪡"</p>
+          <div class="wb-tags"><span class="wt wt-a">SEO value</span><span class="wt wt-b">Legal trust</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 3: TRUST SIGNALS -->
+<div class="section">
+  <div class="sh"><div class="sn">03</div><div class="st"><p class="stag">Trust Architecture</p><p class="stitle">23 trust signals — place these everywhere</p></div></div>
+
+  <div class="label">Tier 1 — Highest impact, must have</div>
+  <div class="trust-grid">
+    <div class="tc star">
+      <div class="tc-icon">⭐</div>
+      <p class="tc-title">Real customer reviews with photos</p>
+      <p class="tc-body">Name, city, photo, story. Not just stars. "Meera from Chennai — wore this to Onam."</p>
+    </div>
+    <div class="tc star">
+      <div class="tc-icon">📲</div>
+      <p class="tc-title">WhatsApp button — always visible</p>
+      <p class="tc-body">Floating bottom-right on every page. Customers feel a human is behind the brand.</p>
+    </div>
+    <div class="tc star">
+      <div class="tc-icon">↩️</div>
+      <p class="tc-title">7-day hassle-free returns</p>
+      <p class="tc-body">Prominently on every product page. Removes the biggest fear of buying sarees online.</p>
+    </div>
+    <div class="tc star">
+      <div class="tc-icon">📦</div>
+      <p class="tc-title">COD available</p>
+      <p class="tc-body">"Pay when delivered" removes all payment hesitation for first-time buyers.</p>
+    </div>
+  </div>
+
+  <div class="label">Tier 2 — Strong supporting signals</div>
+  <div class="trust-grid">
+    <div class="tc">
+      <div class="tc-icon">🔒</div>
+      <p class="tc-title">SSL + Razorpay badge</p>
+      <p class="tc-body">Show "Secured by Razorpay" and SSL lock at checkout. Reduces payment abandonment.</p>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">🏭</div>
+      <p class="tc-title">Weaver story + photos</p>
+      <p class="tc-body">Real photos of your weavers in Thrissur. Shows authenticity no competitor can fake.</p>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">🚚</div>
+      <p class="tc-title">Delivery tracking</p>
+      <p class="tc-body">Shiprocket tracking link sent via WhatsApp after shipping. Reduces "where is my order" anxiety.</p>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">📸</div>
+      <p class="tc-title">Unboxing photos</p>
+      <p class="tc-body">Show how you pack sarees — tissue paper, card, care instructions. Premium unboxing = premium brand.</p>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">🌟</div>
+      <p class="tc-title">"X sold this week" counter</p>
+      <p class="tc-body">Social proof + urgency. "23 sold this week" tells buyers others trust you.</p>
+    </div>
+    <div class="tc">
+      <div class="tc-icon">📋</div>
+      <p class="tc-title">GST invoice available</p>
+      <p class="tc-body">Mention this — builds trust with corporate gifting buyers and B2B customers.</p>
+    </div>
+  </div>
+
+  <div class="label">Tier 3 — Supporting details</div>
+  <div class="card-grid">
+    <div class="card g"><p class="card-title">Founder photo + name</p><p class="card-body">Put your face on the About page. "Hi, I'm [Name] from Kollam." People buy from people.</p></div>
+    <div class="card g"><p class="card-title">Care instructions on every product</p><p class="card-body">How to wash, how to store — shows you know your product and care about the customer.</p></div>
+    <div class="card g"><p class="card-title">Fabric details</p><p class="card-body">Thread count, weave type, origin — shows expertise and premium quality positioning.</p></div>
+    <div class="card a"><p class="card-title">Response time promise</p><p class="card-body">"We reply on WhatsApp within 1 hour" — sets expectation and builds confidence.</p></div>
+    <div class="card a"><p class="card-title">Real location</p><p class="card-body">"Handpicked from Thrissur wholesale market, shipped from Kollam" — real and grounded.</p></div>
+    <div class="card b"><p class="card-title">Packaging preview</p><p class="card-body">Show your packaging before they buy — "arrives beautifully wrapped, gift-ready."</p></div>
+  </div>
+</div>
+
+<!-- SECTION 4: PRODUCT PAGE -->
+<div class="section">
+  <div class="sh"><div class="sn">04</div><div class="st"><p class="stag">Product Page Blueprint</p><p class="stitle">Where most sales are won or lost</p></div></div>
+
+  <div class="wireframe">
+    <div class="wf-bar">
+      <div class="wf-dot" style="background:#FF5F57"></div>
+      <div class="wf-dot" style="background:#FEBC2E"></div>
+      <div class="wf-dot" style="background:#28C840"></div>
+      <span class="wf-url">vesthara.com/kasavu-saree-cream-gold</span>
+    </div>
+    <div class="wf-body">
+      <div class="wb">
+        <span class="wb-num">L</span>
+        <div class="wb-content">
+          <p class="wb-title">LEFT — Photo gallery (5 images)</p>
+          <p class="wb-desc">Full saree · Border closeup · Pallu detail · Texture shot · Draped on model or hanger. Mobile: horizontal swipe. Click to zoom. Real photos only — no filters.</p>
+          <div class="wb-tags"><span class="wt wt-g">5 photos minimum</span><span class="wt wt-a">Zoom enabled</span></div>
+        </div>
+      </div>
+      <div class="wb" style="background:#f0e8d8">
+        <span class="wb-num">R</span>
+        <div class="wb-content">
+          <p class="wb-title">RIGHT — Product info (the conversion engine)</p>
+          <p class="wb-desc">
+            1. Breadcrumb: Home › Kasavu › Cream Gold Kasavu<br>
+            2. Title: "Pure Cotton Kasavu Saree — Cream & Gold Zari Border"<br>
+            3. Rating: ⭐⭐⭐⭐⭐ (47 reviews)<br>
+            4. Price: <s>₹1,499</s> ₹999 — clearly visible<br>
+            5. "23 people bought this week" — urgency<br>
+            6. Fabric details: Pure cotton · Kerala handloom · 6.3 metres<br>
+            7. ADD TO CART — large, gold button<br>
+            8. "Or order on WhatsApp" — link below button<br>
+            9. COD available · Free shipping above ₹999 · 7-day returns<br>
+            10. Delivery estimate: "Ships in 1–2 days · Reaches you by [date]"
+          </p>
+          <div class="wb-tags"><span class="wt wt-r">Never skip urgency</span><span class="wt wt-g">WhatsApp fallback</span><span class="wt wt-b">Delivery date</span></div>
+        </div>
+      </div>
+      <div class="wb">
+        <span class="wb-num">↓</span>
+        <div class="wb-content">
+          <p class="wb-title">BELOW FOLD — Story + Reviews + Related</p>
+          <p class="wb-desc">
+            Tab 1: Description — "This kasavu saree is woven in the traditional Kerala style, using 100% pure cotton with a real zari gold border. Perfect for Onam, temple visits, and everyday elegance."<br>
+            Tab 2: Care instructions<br>
+            Tab 3: Shipping & Returns<br>
+            Then: 3 real customer reviews with photos<br>
+            Then: "You may also like" — 4 related sarees
+          </p>
+          <div class="wb-tags"><span class="wt wt-a">SEO content</span><span class="wt wt-g">Reviews below</span><span class="wt wt-p">Cross-sell</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert g">
+    <strong>Mobile-first rule:</strong> 80%+ of your customers will visit on mobile. Design every product page for a thumb-scrolling Indian smartphone user first. The "Add to Cart" button must be visible without scrolling on a 6-inch screen.
+  </div>
+</div>
+
+<!-- SECTION 5: CONVERSION TACTICS -->
+<div class="section">
+  <div class="sh"><div class="sn">05</div><div class="st"><p class="stag">Conversion Tactics</p><p class="stitle">What separates 1% stores from 5% stores</p></div></div>
+
+  <table class="conv-table">
+    <thead><tr><th>Tactic</th><th>How to implement</th><th>Impact</th></tr></thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:500">Exit-intent popup</td>
+        <td>When mouse moves to close tab: "Wait! Get ₹150 off your first order → enter email"</td>
+        <td class="impact-high">+8% saves</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">Sticky Add to Cart</td>
+        <td>Product name + price + Add to Cart button stays fixed at bottom as user scrolls</td>
+        <td class="impact-high">+15% ATC</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">Countdown timer</td>
+        <td>"Sale ends in 02:14:33" on festival collection pages. Real timers only — fake ones destroy trust.</td>
+        <td class="impact-med">+10% urgency</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">Size/colour guide popup</td>
+        <td>"How to choose your saree" — opens a guide. Removes purchase hesitation for online buyers.</td>
+        <td class="impact-high">-20% returns</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">Recently viewed</td>
+        <td>"You recently viewed..." section at bottom of every page. Brings back browsers.</td>
+        <td class="impact-med">+7% return</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">Bundle offers</td>
+        <td>"Buy 2 sarees, get ₹300 off" — shown at cart page. Increases average order value.</td>
+        <td class="impact-high">+25% AOV</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">Free shipping threshold</td>
+        <td>"Add ₹249 more for free shipping" — shown in cart. Moves customers to buy more.</td>
+        <td class="impact-high">+18% AOV</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">WhatsApp order button</td>
+        <td>Pre-filled message: "Hi! I want to order [product name]. Please help." One tap to order.</td>
+        <td class="impact-high">+30% for new buyers</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500">Post-purchase email</td>
+        <td>"Your saree is on its way 🪡" — with tracking link, care tips, and "refer a friend" link.</td>
+        <td class="impact-high">+40% repeat buy</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- SECTION 6: ABOUT PAGE -->
+<div class="section">
+  <div class="sh"><div class="sn">06</div><div class="st"><p class="stag">About Page</p><p class="stitle">Your most powerful trust page</p></div></div>
+
+  <div class="arc">
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">1</div><div class="arc-line"></div></div>
+      <div class="arc-body">
+        <p class="arc-title">Hero — founder photo, human and real</p>
+        <p class="arc-desc">Your photo holding a saree. Not a model. Not a logo. You. This is the most trust-building image on your entire site.</p>
+        <p class="arc-copy">"Hi, I'm [Name]. I grew up watching my mother drape a kasavu saree every morning in Kollam. That memory is why I started Vesthara."</p>
+        <span class="arc-tag wt-a">Personal connection</span>
+      </div>
+    </div>
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">2</div><div class="arc-line"></div></div>
+      <div class="arc-body">
+        <p class="arc-title">The mission — why you exist</p>
+        <p class="arc-desc">Not "we sell sarees." But "we believe every woman deserves to wear Kerala's finest handloom without travelling to find it."</p>
+        <p class="arc-copy">"Vesthara exists to bring the finest handloom sarees of Kerala to every Indian woman — wherever she lives."</p>
+        <span class="arc-tag wt-g">Brand purpose</span>
+      </div>
+    </div>
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">3</div><div class="arc-line"></div></div>
+      <div class="arc-body">
+        <p class="arc-title">The craft — weaver photos from Thrissur</p>
+        <p class="arc-desc">Use the photos you shot during your Thrissur buying trip. Weavers at their looms. The raw silk. The gold border being woven. These photos are pure gold for trust.</p>
+        <span class="arc-tag wt-b">Authenticity proof</span>
+      </div>
+    </div>
+    <div class="arc-item">
+      <div class="arc-left"><div class="arc-circle">4</div></div>
+      <div class="arc-body">
+        <p class="arc-title">The promise — your guarantee</p>
+        <p class="arc-desc">End with your commitment: quality, returns, WhatsApp support, genuine handloom. This converts readers into buyers.</p>
+        <p class="arc-copy">"Every saree is handpicked by me. If it doesn't meet your expectations, I will make it right. — [Your name]"</p>
+        <span class="arc-tag wt-g">Closes the sale</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7: HEADLESS TECH STACK -->
+<div class="section">
+  <div class="sh"><div class="sn">07</div><div class="st"><p class="stag">Headless Tech Stack</p><p class="stitle">What to build with, and why</p></div></div>
+
+  <div class="card-grid">
+    <div class="card dark">
+      <p class="card-title">Shopify (backend)</p>
+      <p class="card-body">Products, inventory, orders, payments, Razorpay integration, Shiprocket shipping. Never touch this — it just works.</p>
+    </div>
+    <div class="card dark">
+      <p class="card-title">Next.js (frontend)</p>
+      <p class="card-body">React framework for your headless storefront. Blazing fast, SEO-perfect, customisable to any design. Free to deploy on Vercel.</p>
+    </div>
+    <div class="card dark">
+      <p class="card-title">Shopify Storefront API</p>
+      <p class="card-body">Connects your Next.js frontend to Shopify backend. Products, collections, cart, checkout — all via API. GraphQL.</p>
+    </div>
+    <div class="card dark">
+      <p class="card-title">Vercel (hosting)</p>
+      <p class="card-body">Deploy your Next.js site free. Global CDN — your site loads fast in Delhi, Mumbai, and Bangalore equally.</p>
+    </div>
+  </div>
+
+  <div class="label">Free Shopify headless starter — use this</div>
+  <div class="card-grid">
+    <div class="card g">
+      <p class="card-title">Next.js Commerce (Vercel)</p>
+      <p class="card-body">Free open-source headless starter by Vercel built specifically for Shopify. Go to github.com/vercel/commerce — clone, connect your Shopify store, deploy in 1 hour.</p>
+    </div>
+    <div class="card g">
+      <p class="card-title">Hydrogen (Shopify)</p>
+      <p class="card-body">Shopify's own headless React framework. Free, officially supported, best performance. Start at shopify.dev/custom-storefronts/hydrogen.</p>
+    </div>
+    <div class="card a">
+      <p class="card-title">Key Shopify apps to install</p>
+      <p class="card-body">Superlemon (WhatsApp) · Judge.me (reviews) · Klaviyo (email) · Privy (popups) · Shiprocket (shipping) · Razorpay (payments). All free to start.</p>
+    </div>
+    <div class="card a">
+      <p class="card-title">Performance target</p>
+      <p class="card-body">Headless gives you 90+ Google PageSpeed score. Aim for under 2 second load time on mobile 4G in India. Speed = conversion = rankings.</p>
+    </div>
+  </div>
+
+  <div class="priority">
+    <p class="priority-title">Build order — week by week</p>
+    <div class="pi"><p class="pi-n">1️⃣</p><p class="pi-t"><strong>Week 1:</strong> Set up Shopify + add products + connect Razorpay + Shiprocket</p></div>
+    <div class="pi"><p class="pi-n">2️⃣</p><p class="pi-t"><strong>Week 2:</strong> Clone Next.js Commerce → connect to Shopify API → deploy on Vercel → connect domain</p></div>
+    <div class="pi"><p class="pi-n">3️⃣</p><p class="pi-t"><strong>Week 3:</strong> Customise homepage, product pages, about page → add all trust signals → install WhatsApp button</p></div>
+    <div class="pi"><p class="pi-n">4️⃣</p><p class="pi-t"><strong>Week 4:</strong> Add reviews app → set up email capture → test checkout end to end → go live</p></div>
+    <div class="pi" style="border-top:0.5px solid rgba(255,255,255,0.08);padding-top:10px;margin-top:4px">
+      <p class="pi-n">🚀</p>
+      <p class="pi-t"><strong style="color:#fff">Day 30: Vesthara is live.</strong> Story-driven. Trust-first. High-converting. Uniquely yours.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

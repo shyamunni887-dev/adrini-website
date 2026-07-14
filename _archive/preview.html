@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adrini Featured Section</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:'Inter',sans-serif;
+    background:#f7f2ec;
+}
+.featured{
+    max-width:1400px;
+    margin:60px auto;
+    padding:40px;
+}
+.featured-wrapper{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    align-items:center;
+    gap:60px;
+    background:linear-gradient(135deg,#f9f4ee,#efe5d9);
+    border-radius:32px;
+    overflow:hidden;
+    padding:60px;
+}
+.tag{
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:#8b6b4b;
+    font-size:12px;
+    margin-bottom:20px;
+}
+h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:72px;
+    line-height:0.95;
+    color:#3f2d1f;
+    margin-bottom:25px;
+}
+.desc{
+    font-size:18px;
+    line-height:1.8;
+    color:#6b5a4a;
+    max-width:520px;
+}
+.btn{
+    display:inline-block;
+    margin-top:35px;
+    padding:16px 34px;
+    background:#5c3b1f;
+    color:#fff;
+    text-decoration:none;
+    border-radius:50px;
+    letter-spacing:1px;
+}
+.features{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    margin-top:50px;
+    gap:20px;
+}
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:18px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+}
+.card span{
+    font-size:28px;
+}
+.card p{
+    margin-top:12px;
+    font-size:13px;
+    letter-spacing:1px;
+    color:#6b5a4a;
+}
+.image img{
+    width:100%;
+    height:700px;
+    object-fit:cover;
+    border-radius:24px;
+}
+@media(max-width:992px){
+    .featured-wrapper{
+        grid-template-columns:1fr;
+        padding:30px;
+    }
+    h1{font-size:48px}
+    .features{
+        grid-template-columns:repeat(2,1fr);
+    }
+    .image img{
+        height:500px;
+    }
+}
+</style>
+</head>
+<body>
+
+<section class="fade-up featured">
+    <div class="featured-wrapper">
+
+        <div class="content">
+            <div class="tag">Timeless Beauty • Adrini Sarees</div>
+
+            <h1>Grace In<br>Every Drape</h1>
+
+            <p class="desc">
+                Discover handcrafted sarees woven with elegance, tradition and modern sophistication.
+                From luxurious Banarasi silks to everyday cotton classics, find the perfect drape for every occasion.
+            </p>
+
+            <a href="#" class="btn">Shop Collection →</a>
+
+            <div class="features">
+                <div class="card">
+                    <span>✦</span>
+                    <p>PREMIUM FABRICS</p>
+                </div>
+                <div class="card">
+                    <span>❖</span>
+                    <p>ARTISAN CRAFTED</p>
+                </div>
+                <div class="card">
+                    <span>♡</span>
+                    <p>EXCLUSIVE DESIGNS</p>
+                </div>
+                <div class="card">
+                    <span>➜</span>
+                    <p>FAST DELIVERY</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="image">
+            <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=1200&auto=format&fit=crop" alt="Saree Model">
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

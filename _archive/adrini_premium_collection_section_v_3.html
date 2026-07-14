@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adrini Premium Collection Section</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5f0e8;
+      font-family: 'Inter', sans-serif;
+      color: #1f1a17;
+      overflow-x: hidden;
+    }
+
+    .collection-section {
+      width: 100%;
+      min-height: 100vh;
+      padding: 70px 80px;
+      display: grid;
+      grid-template-columns: 48% 52%;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .image-wrapper {
+      position: sticky;
+      top: 40px;
+      height: 88vh;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #ddd;
+      box-shadow:
+        0 10px 40px rgba(0,0,0,0.06),
+        inset 0 0 0 1px rgba(255,255,255,0.2);
+    }
+
+    .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .image-wrapper:hover img {
+      transform: scale(1.04);
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.45), transparent 40%);
+    }
+
+    .floating-badge {
+      position: absolute;
+      left: 28px;
+      bottom: 28px;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 11px;
+      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .content-side {
+      padding-right: 30px;
+    }
+
+    .mini-title {
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #b88942;
+      margin-bottom: 22px;
+    }
+
+    .heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 78px;
+      line-height: 0.92;
+      font-weight: 500;
+      margin-bottom: 26px;
+    }
+
+    .heading span {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .description {
+      max-width: 520px;
+      color: #6e665f;
+      line-height: 1.9;
+      font-size: 15px;
+      margin-bottom: 48px;
+    }
+
+    .collections-list {
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .collection-item {
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 30px 0;
+      cursor: pointer;
+      transition: all 0.4s ease;
+    }
+
+    .collection-item:hover {
+      padding-left: 12px;
+    }
+
+    .collection-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .left-group {
+      display: flex;
+      align-items: baseline;
+      gap: 26px;
+    }
+
+    .number {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #b88942;
+      min-width: 22px;
+    }
+
+    .collection-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .collection-item:hover .collection-name {
+      color: #b88942;
+    }
+
+    .plus {
+      font-size: 22px;
+      color: #a18f7a;
+      transition: transform 0.4s ease;
+    }
+
+    .collection-item.active .plus {
+      transform: rotate(45deg);
+    }
+
+    .expand-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.5s ease;
+      padding-left: 48px;
+    }
+
+    .collection-item.active .expand-content {
+      max-height: 300px;
+      margin-top: 24px;
+    }
+
+    .meta {
+      color: #a39a92;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+    }
+
+    .expand-content p {
+      max-width: 500px;
+      line-height: 1.9;
+      color: #5f5852;
+      margin-bottom: 24px;
+      font-size: 14px;
+    }
+
+    .bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 34px;
+    }
+
+    .shop-btn {
+      text-decoration: none;
+      color: #b88942;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: gap 0.3s ease;
+    }
+
+    .shop-btn:hover {
+      gap: 16px;
+    }
+
+    .explore-btn {
+      margin-top: 42px;
+      width: fit-content;
+      padding: 20px 34px;
+      border: 1px solid rgba(184,137,66,0.35);
+      border-radius: 100px;
+      text-decoration: none;
+      color: #b88942;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.35s ease;
+      background: rgba(255,255,255,0.45);
+      backdrop-filter: blur(10px);
+    }
+
+    .explore-btn:hover {
+      background: #b88942;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    @media(max-width: 1200px) {
+      .heading {
+        font-size: 62px;
+      }
+
+      .collection-name {
+        font-size: 34px;
+      }
+    }
+
+    @media(max-width: 980px) {
+      .collection-section {
+        grid-template-columns: 1fr;
+        padding: 40px 24px;
+        gap: 40px;
+      }
+
+      .image-wrapper {
+        position: relative;
+        height: 72vh;
+      }
+
+      .content-side {
+        padding-right: 0;
+      }
+
+      .heading {
+        font-size: 54px;
+      }
+    }
+
+    @media(max-width: 640px) {
+      .heading {
+        font-size: 44px;
+      }
+
+      .collection-name {
+        font-size: 28px;
+      }
+
+      .left-group {
+        gap: 18px;
+      }
+
+      .expand-content {
+        padding-left: 0;
+      }
+
+      .image-wrapper {
+        height: 58vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="fade-up collection-section">
+
+    <div class="image-wrapper">
+      <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=1600&auto=format&fit=crop" alt="Saree Collection">
+      <div class="image-overlay"></div>
+
+    </div>
+
+    <div class="content-side">
+      <div class="mini-title">Our Collections</div>
+
+      <h1 class="heading">
+        Woven with<br>
+        <span>intention.</span>
+      </h1>
+
+      <p class="description">
+        Rooted in South Indian heritage and reimagined for the modern wardrobe, every Adrini saree carries softness, craftsmanship, and timeless elegance woven into every thread.
+      </p>
+
+      <div class="collections-list">
+
+        <div class="collection-item active">
+          <div class="collection-top">
+            <div class="left-group">
+              <div class="number">01</div>
+              <div class="collection-name">Kalyani Cotton</div>
+            </div>
+            <div class="plus">+</div>
+          </div>
+
+          <div class="expand-content">
+            <div class="meta">Pure cotton · Temple border · Handloom finish</div>
+
+            <p>
+              Inspired by traditional Kerala textures with lightweight comfort and elegant woven detailing for everyday luxury.
+            </p>
+
+            <div class="bottom-row">
+              <div class="price">From ₹899</div>
+              <a href="#" class="shop-btn">Shop Collection →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="collection-item">
+          <div class="collection-top">
+            <div class="left-group">
+              <div class="number">02</div>
+              <div class="collection-name">Mul Cotton</div>
+            </div>
+            <div class="plus">+</div>
+          </div>
+
+          <div class="expand-content">
+            <div class="meta">Breathable · Soft drape · Everyday elegance</div>
+
+            <p>
+              Feather-light mul cotton sarees designed for graceful movement, minimal styling, and all-day comfort.
+            </p>
+
+            <div class="bottom-row">
+              <div class="price">From ₹1199</div>
+              <a href="#" class="shop-btn">Shop Collection →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="collection-item">
+          <div class="collection-top">
+            <div class="left-group">
+              <div class="number">03</div>
+              <div class="collection-name">Khadi Cotton</div>
+            </div>
+            <div class="plus">+</div>
+          </div>
+
+          <div class="expand-content">
+            <div class="meta">Handspun · Textured weave · Artisanal touch</div>
+
+            <p>
+              Rich textures and heritage-inspired patterns crafted for understated sophistication and timeless beauty.
+            </p>
+
+            <div class="bottom-row">
+              <div class="price">From ₹1499</div>
+              <a href="#" class="shop-btn">Shop Collection →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="collection-item">
+          <div class="collection-top">
+            <div class="left-group">
+              <div class="number">04</div>
+              <div class="collection-name">Banarasi</div>
+            </div>
+            <div class="plus">+</div>
+          </div>
+
+          <div class="expand-content">
+            <div class="meta">Zari work · Festive luxury · Rich motifs</div>
+
+            <p>
+              Elegant Banarasi drapes infused with regal borders and detailed craftsmanship for special celebrations.
+            </p>
+
+            <div class="bottom-row">
+              <div class="price">From ₹2499</div>
+              <a href="#" class="shop-btn">Shop Collection →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <a href="#" class="explore-btn">
+        Explore All Collections →
+      </a>
+    </div>
+  </section>
+
+  <script>
+    const items = document.querySelectorAll('.collection-item');
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        items.forEach(other => {
+          if (other !== item) {
+            other.classList.remove('active');
+          }
+        });
+
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

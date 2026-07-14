@@ -1,0 +1,283 @@
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  body,html{font-family:var(--font-sans)}
+  .wrap{background:#0e0e0e;border-radius:14px;overflow:hidden;padding-bottom:1.5rem}
+
+  .tabs{display:flex;gap:4px;padding:1.2rem 1.2rem 0;overflow-x:auto}
+  .tab{font-size:11px;font-weight:500;color:rgba(255,255,255,0.45);padding:7px 16px;cursor:pointer;border:0.5px solid rgba(255,255,255,0.12);border-radius:20px;background:transparent;white-space:nowrap;transition:all 0.2s}
+  .tab:hover{color:rgba(255,255,255,0.75);border-color:rgba(255,255,255,0.25)}
+  .tab.active{color:#fff;border-color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.08)}
+
+  .stage{margin:1rem 1.2rem 1rem;border-radius:12px;overflow:hidden;position:relative;height:480px}
+
+  .panel{position:absolute;inset:0;display:none;opacity:0;transition:opacity 0.4s ease}
+  .panel.active{display:block;opacity:1;animation:fin 0.4s ease forwards}
+  @keyframes fin{from{opacity:0}to{opacity:1}}
+
+  .photo{position:absolute;inset:0;background-size:cover;background-position:center top;transition:transform 8s ease}
+  .panel.active .photo{transform:scale(1.04)}
+
+  .grad{position:absolute;inset:0}
+
+  .content{position:absolute;inset:0;display:flex;padding:2.2rem 2.2rem;align-items:flex-end;justify-content:space-between;gap:2rem}
+
+  .left{max-width:420px;display:flex;flex-direction:column;justify-content:flex-end}
+
+  .big-num{font-family:var(--font-serif);font-size:96px;font-weight:400;color:rgba(255,255,255,0.05);position:absolute;top:1.5rem;left:2rem;line-height:1;pointer-events:none;user-select:none}
+
+  .collection-tag{font-size:9px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .collection-tag::before{content:'';width:22px;height:0.5px;background:rgba(255,255,255,0.35)}
+
+  .headline{font-family:var(--font-serif);font-size:36px;font-weight:400;font-style:italic;color:#fff;line-height:1.15;margin-bottom:14px;letter-spacing:-0.3px}
+
+  .story{font-size:12.5px;color:rgba(255,255,255,0.62);line-height:1.78;margin-bottom:18px;font-weight:400}
+
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:20px}
+  .tag{font-size:10px;color:rgba(255,255,255,0.45);border:0.5px solid rgba(255,255,255,0.16);border-radius:20px;padding:3px 10px}
+
+  .btns{display:flex;gap:8px}
+  .b-w{font-size:12px;font-weight:500;padding:9px 20px;border-radius:20px;background:#fff;color:#111;border:none;cursor:pointer}
+  .b-w:hover{opacity:0.88}
+  .b-o{font-size:12px;padding:9px 20px;border-radius:20px;background:transparent;color:rgba(255,255,255,0.75);border:0.5px solid rgba(255,255,255,0.22);cursor:pointer}
+  .b-o:hover{background:rgba(255,255,255,0.07)}
+
+  .right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;padding-bottom:4px}
+  .badge{font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:4px 12px;border-radius:20px}
+  .badge-g{background:rgba(201,148,58,0.85);color:#1a1208}
+  .badge-n{background:rgba(29,158,117,0.85);color:#fff}
+  .badge-r{background:rgba(200,30,30,0.85);color:#fff}
+  .from-label{font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.1em;margin-top:4px}
+  .price{font-family:var(--font-serif);font-size:36px;font-weight:400;color:#fff;line-height:1}
+  .count{font-size:10px;color:rgba(255,255,255,0.35);margin-top:4px}
+
+  .img-fail{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.3);z-index:0}
+
+  .strip{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin:0 1.2rem}
+  .sc{position:relative;height:90px;border-radius:8px;overflow:hidden;cursor:pointer}
+  .sc-photo{position:absolute;inset:0;background-size:cover;background-position:center}
+  .sc-over{position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:flex-end;padding:8px;transition:background 0.2s}
+  .sc.active .sc-over,.sc:hover .sc-over{background:rgba(0,0,0,0.2)}
+  .sc-name{font-size:11px;font-style:italic;font-family:var(--font-serif);color:#fff;font-weight:400}
+  .sc-line{position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:background 0.2s}
+  .sc.active .sc-line{background:#fff}
+
+  .bottom{padding:1.5rem 1.2rem 0;display:flex;justify-content:center;gap:10px}
+  .cta-a{font-size:12px;font-weight:500;padding:10px 24px;border-radius:20px;background:#fff;color:#111;border:none;cursor:pointer}
+  .cta-a:hover{opacity:0.88}
+  .cta-b{font-size:12px;padding:10px 24px;border-radius:20px;background:transparent;color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);cursor:pointer}
+  .cta-b:hover{background:rgba(255,255,255,0.06)}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Vesthara final collection section with real saree photos — five collections: Kasavu, Silk, Cotton, Bridal, Printed</h2>
+
+<div class="tabs">
+  <button class="tab active" onclick="show(0)">01 · Kasavu</button>
+  <button class="tab" onclick="show(1)">02 · Silk</button>
+  <button class="tab" onclick="show(2)">03 · Cotton</button>
+  <button class="tab" onclick="show(3)">04 · Bridal</button>
+  <button class="tab" onclick="show(4)">05 · Printed</button>
+</div>
+
+<div class="stage">
+
+  <!-- KASAVU -->
+  <div class="panel active" id="p0">
+    <div class="img-fail">Loading photo...</div>
+    <div class="photo" id="i0" style="background:linear-gradient(160deg,#3d2b00,#8B6914,#c9943a)"></div>
+    <div class="grad" style="background:linear-gradient(100deg,rgba(10,8,2,0.88) 0%,rgba(10,8,2,0.55) 48%,rgba(10,8,2,0.18) 100%)"></div>
+    <div class="big-num">01</div>
+    <div class="content">
+      <div class="left">
+        <div class="collection-tag">The Gold Collection</div>
+        <p class="headline">The Gold That<br>Never Fades</p>
+        <p class="story">Before Onam mornings. Before temple bells. There was always a kasavu saree laid out the night before — cream cotton, gold border, the scent of fresh starch. This collection is that memory, rewoven for you.</p>
+        <div class="tags">
+          <span class="tag">Pure cotton</span>
+          <span class="tag">Real zari border</span>
+          <span class="tag">38 styles</span>
+          <span class="tag">Thrissur handloom</span>
+        </div>
+        <div class="btns">
+          <button class="b-w" onclick="sendPrompt('Show me all Kasavu sarees on Vesthara')">Shop Kasavu →</button>
+          <button class="b-o" onclick="sendPrompt('Tell me the craft story behind Kasavu sarees')">The craft</button>
+        </div>
+      </div>
+      <div class="right">
+        <span class="badge badge-g">bestseller</span>
+        <span class="from-label">Starting from</span>
+        <span class="price">₹899</span>
+        <span class="count">38 styles</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SILK -->
+  <div class="panel" id="p1">
+    <div class="img-fail">Loading photo...</div>
+    <div class="photo" id="i1" style="background:linear-gradient(160deg,#0a0015,#2e1065,#6b21a8)"></div>
+    <div class="grad" style="background:linear-gradient(100deg,rgba(5,0,15,0.9) 0%,rgba(5,0,15,0.52) 48%,rgba(5,0,15,0.15) 100%)"></div>
+    <div class="big-num">02</div>
+    <div class="content">
+      <div class="left">
+        <div class="collection-tag">The Silk Collection</div>
+        <p class="headline">Worn by Queens.<br>Made for You.</p>
+        <p class="story">Silk was once reserved for royalty. The shimmer that turns heads across a wedding hall. The weight that drapes unlike anything else alive. Each Vesthara silk saree carries 1,200 years of Indian weaving in its threads — and it is entirely, undeniably yours.</p>
+        <div class="tags">
+          <span class="tag">Pure silk</span>
+          <span class="tag">Silk mark certified</span>
+          <span class="tag">24 styles</span>
+          <span class="tag">Weddings · Celebrations</span>
+        </div>
+        <div class="btns">
+          <button class="b-w" onclick="sendPrompt('Show me all Silk sarees on Vesthara')">Shop Silk →</button>
+          <button class="b-o" onclick="sendPrompt('How to identify pure silk sarees')">Identify pure silk</button>
+        </div>
+      </div>
+      <div class="right">
+        <span class="from-label">Starting from</span>
+        <span class="price">₹2,499</span>
+        <span class="count">24 styles</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COTTON -->
+  <div class="panel" id="p2">
+    <div class="img-fail">Loading photo...</div>
+    <div class="photo" id="i2" style="background:linear-gradient(160deg,#030712,#0c4a6e,#0891b2)"></div>
+    <div class="grad" style="background:linear-gradient(100deg,rgba(3,7,18,0.88) 0%,rgba(3,7,18,0.5) 48%,rgba(3,7,18,0.15) 100%)"></div>
+    <div class="big-num">03</div>
+    <div class="content">
+      <div class="left">
+        <div class="collection-tag">The Cotton Collection</div>
+        <p class="headline">For the Woman Who<br>Lives Every Day Fully</p>
+        <p class="story">She has places to be. People who need her. She doesn't have time to worry about her saree — she needs one that moves with her, breathes with her, stays beautiful through the longest days. Cotton is not the humble choice. It is the wise one.</p>
+        <div class="tags">
+          <span class="tag">100% cotton</span>
+          <span class="tag">Machine washable</span>
+          <span class="tag">52 styles</span>
+          <span class="tag">Office · Daily · Casual</span>
+        </div>
+        <div class="btns">
+          <button class="b-w" onclick="sendPrompt('Show me all Cotton sarees on Vesthara')">Shop Cotton →</button>
+          <button class="b-o" onclick="sendPrompt('Help me find the right everyday cotton saree on Vesthara')">Find yours</button>
+        </div>
+      </div>
+      <div class="right">
+        <span class="badge badge-n">new arrivals</span>
+        <span class="from-label">Starting from</span>
+        <span class="price">₹599</span>
+        <span class="count">52 styles</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRIDAL -->
+  <div class="panel" id="p3">
+    <div class="img-fail">Loading photo...</div>
+    <div class="photo" id="i3" style="background:linear-gradient(160deg,#0a0000,#7f1d1d,#b91c1c)"></div>
+    <div class="grad" style="background:linear-gradient(100deg,rgba(10,0,0,0.92) 0%,rgba(10,0,0,0.55) 48%,rgba(10,0,0,0.15) 100%)"></div>
+    <div class="big-num">04</div>
+    <div class="content">
+      <div class="left">
+        <div class="collection-tag">The Bridal Collection</div>
+        <p class="headline">The Day She Becomes<br>the Story</p>
+        <p class="story">There is one morning she will remember forever. The weight of silk on her shoulders. The gold at her wrists. The face in the mirror she almost doesn't recognise — too beautiful, too much. Our bridal collection is handpicked for that morning. Every piece chosen as if it were for our own.</p>
+        <div class="tags">
+          <span class="tag">Pure silk & brocade</span>
+          <span class="tag">Heavy zari work</span>
+          <span class="tag">18 styles</span>
+          <span class="tag">Free gift wrapping</span>
+        </div>
+        <div class="btns">
+          <button class="b-w" onclick="sendPrompt('Show me all Bridal sarees on Vesthara')">Shop Bridal →</button>
+          <button class="b-o" onclick="sendPrompt('I want a WhatsApp bridal consultation on Vesthara')">WhatsApp consult</button>
+        </div>
+      </div>
+      <div class="right">
+        <span class="badge badge-r">by appointment</span>
+        <span class="from-label">Starting from</span>
+        <span class="price">₹3,999</span>
+        <span class="count">18 curated styles</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINTED -->
+  <div class="panel" id="p4">
+    <div class="img-fail">Loading photo...</div>
+    <div class="photo" id="i4" style="background:linear-gradient(160deg,#0f172a,#134e4a,#0d9488)"></div>
+    <div class="grad" style="background:linear-gradient(100deg,rgba(15,23,42,0.9) 0%,rgba(15,23,42,0.5) 48%,rgba(15,23,42,0.15) 100%)"></div>
+    <div class="big-num">05</div>
+    <div class="content">
+      <div class="left">
+        <div class="collection-tag">The Printed Collection</div>
+        <p class="headline">Ancient Fabric.<br>New Language.</p>
+        <p class="story">She grew up watching her grandmother drape a saree. She loves that story. But she is writing her own. Bold prints. Unexpected colours. Designs that make people stop and ask. This is where Kerala's handloom tradition speaks in a voice the next generation calls their own.</p>
+        <div class="tags">
+          <span class="tag">Cotton & georgette</span>
+          <span class="tag">Digital & block prints</span>
+          <span class="tag">41 styles</span>
+          <span class="tag">Instagram-ready</span>
+        </div>
+        <div class="btns">
+          <button class="b-w" onclick="sendPrompt('Show me all Printed sarees on Vesthara')">Shop Printed →</button>
+          <button class="b-o" onclick="sendPrompt('Show me styling ideas for printed sarees on Vesthara')">Style ideas</button>
+        </div>
+      </div>
+      <div class="right">
+        <span class="badge badge-n">trending</span>
+        <span class="from-label">Starting from</span>
+        <span class="price">₹799</span>
+        <span class="count">41 styles</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="strip" id="strip">
+  <div class="sc active" onclick="show(0)"><div class="sc-photo" id="s0" style="background:linear-gradient(160deg,#3d2b00,#c9943a)"></div><div class="sc-over"><span class="sc-name">Kasavu</span></div><div class="sc-line"></div></div>
+  <div class="sc" onclick="show(1)"><div class="sc-photo" id="s1" style="background:linear-gradient(160deg,#0a0015,#6b21a8)"></div><div class="sc-over"><span class="sc-name">Silk</span></div><div class="sc-line"></div></div>
+  <div class="sc" onclick="show(2)"><div class="sc-photo" id="s2" style="background:linear-gradient(160deg,#030712,#0891b2)"></div><div class="sc-over"><span class="sc-name">Cotton</span></div><div class="sc-line"></div></div>
+  <div class="sc" onclick="show(3)"><div class="sc-photo" id="s3" style="background:linear-gradient(160deg,#0a0000,#b91c1c)"></div><div class="sc-over"><span class="sc-name">Bridal</span></div><div class="sc-line"></div></div>
+  <div class="sc" onclick="show(4)"><div class="sc-photo" id="s4" style="background:linear-gradient(160deg,#0f172a,#0d9488)"></div><div class="sc-over"><span class="sc-name">Printed</span></div><div class="sc-line"></div></div>
+</div>
+
+<div class="bottom">
+  <button class="cta-a" onclick="sendPrompt('Show me all Vesthara saree collections')">View all collections</button>
+  <button class="cta-b" onclick="sendPrompt('Help me choose the right saree for my occasion')">Help me choose ↗</button>
+</div>
+
+</div>
+
+<script>
+const photos = [
+  { main:'https://images.unsplash.com/photo-1610189352649-c31d65c09aa5?w=1400&q=90&fit=crop&crop=top', pos:'center top' },
+  { main:'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=1400&q=90&fit=crop', pos:'center center' },
+  { main:'https://images.unsplash.com/photo-1614252235316-8c857f4f8b27?w=1400&q=90&fit=crop', pos:'center center' },
+  { main:'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1400&q=90&fit=crop&crop=top', pos:'center top' },
+  { main:'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1400&q=90&fit=crop', pos:'center center' }
+];
+
+photos.forEach((p,i) => {
+  const img = new Image();
+  img.onload = () => {
+    const el = document.getElementById('i'+i);
+    const st = document.getElementById('s'+i);
+    el.style.backgroundImage = `url(${p.main})`;
+    el.style.backgroundPosition = p.pos;
+    if(st){ st.style.backgroundImage = `url(${p.main})`; st.style.backgroundPosition = p.pos; }
+  };
+  img.src = p.main;
+});
+
+function show(idx){
+  document.querySelectorAll('.panel').forEach((p,i)=>{ p.classList.toggle('active',i===idx); });
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.sc').forEach((c,i)=>c.classList.toggle('active',i===idx));
+}
+</script>

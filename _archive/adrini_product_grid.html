@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adrini — New Arrivals</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #f8f4ee;
+  font-family: 'DM Sans', sans-serif;
+  color: #1a1208;
+}
+
+/* ── SECTION HEADER ── */
+.section-head {
+  padding: 60px 5vw 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 32px;
+}
+.head-left {}
+.head-tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c9943a;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.head-tag::before {
+  content: '';
+  width: 24px;
+  height: 0.5px;
+  background: #c9943a;
+}
+.head-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 400;
+  color: #1a1208;
+  line-height: 1.1;
+}
+.head-title em {
+  font-style: italic;
+  color: #c9943a;
+}
+.head-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+.head-count {
+  font-size: 11px;
+  color: rgba(26,18,8,0.38);
+  letter-spacing: 0.08em;
+}
+.view-all-btn {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a1208;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 2px;
+  border-bottom: 0.5px solid #c9943a;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar {
+  padding: 0 5vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 28px;
+  border-bottom: 0.5px solid rgba(26,18,8,0.08);
+  padding-bottom: 16px;
+}
+.filter-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pill {
+  font-size: 11px;
+  font-weight: 400;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 0.5px solid rgba(26,18,8,0.14);
+  background: transparent;
+  color: rgba(26,18,8,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.pill:hover {
+  border-color: #1a1208;
+  color: #1a1208;
+}
+.pill.active {
+  background: #1a1208;
+  color: #c9943a;
+  border-color: #1a1208;
+}
+.sort-select {
+  font-size: 11px;
+  color: rgba(26,18,8,0.45);
+  background: transparent;
+  border: 0.5px solid rgba(26,18,8,0.14);
+  border-radius: 20px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  appearance: none;
+  padding-right: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231a1208' stroke-opacity='0.3' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* ── PRODUCT GRID ── */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 0 5vw;
+}
+
+/* ── PRODUCT CARD ── */
+.product-card {
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.product-card:hover .card-img { transform: scale(1.04); }
+.product-card:hover .card-overlay { opacity: 1; }
+.product-card:hover .quick-add { transform: translateY(0); opacity: 1; }
+.product-card:hover .card-actions { opacity: 1; }
+
+/* Image wrapper */
+.card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: #ede8df;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+/* Overlay on hover */
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(26,18,8,0.55) 0%,
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+/* Badges */
+.card-badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 2;
+}
+.badge {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+}
+.badge-new { background: #1a1208; color: #c9943a; }
+.badge-sale { background: #c9943a; color: #1a1208; }
+.badge-low { background: rgba(226,75,74,0.9); color: #fff; }
+
+/* Wishlist */
+.card-wish {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.92);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: all 0.2s;
+  color: rgba(26,18,8,0.45);
+}
+.card-wish:hover, .card-wish.active {
+  background: #fff;
+  color: #c9943a;
+  transform: scale(1.1);
+}
+
+/* Quick add button — slides up on hover */
+.quick-add {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 12px 16px;
+  background: #1a1208;
+  color: #c9943a;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.quick-add span { font-size: 18px; }
+.quick-add:hover { background: #c9943a; color: #1a1208; }
+
+/* WhatsApp quick order */
+.whatsapp-btn {
+  position: absolute;
+  bottom: 48px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  padding: 10px 16px;
+  background: #25D366;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transform: translateY(200%);
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94) 0.05s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.product-card:hover .whatsapp-btn {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Card info */
+.card-info {
+  padding: 14px 12px 16px;
+  background: #fff;
+  border-top: 0.5px solid rgba(26,18,8,0.05);
+}
+.card-collection {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9943a;
+  margin-bottom: 5px;
+}
+.card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1a1208;
+  line-height: 1.25;
+  margin-bottom: 5px;
+}
+.card-fabric {
+  font-size: 10px;
+  color: rgba(26,18,8,0.38);
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-price-wrap {}
+.card-price {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1208;
+}
+.card-price-old {
+  font-size: 12px;
+  color: rgba(26,18,8,0.3);
+  text-decoration: line-through;
+  margin-left: 5px;
+}
+.card-sold {
+  font-size: 10px;
+  color: rgba(26,18,8,0.3);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sold-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #1D9E75;
+  display: inline-block;
+}
+
+/* ── FEATURED CARD (wide) ── */
+.product-card.featured {
+  grid-column: span 2;
+}
+.product-card.featured .card-img-wrap {
+  aspect-ratio: 3/2;
+}
+.product-card.featured .card-name {
+  font-size: 20px;
+}
+
+/* ── LOAD MORE ── */
+.load-more-wrap {
+  padding: 40px 5vw 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.progress-wrap {
+  flex: 1;
+  max-width: 300px;
+}
+.progress-label {
+  font-size: 11px;
+  color: rgba(26,18,8,0.35);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.progress-bar {
+  height: 2px;
+  background: rgba(26,18,8,0.08);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 40%;
+  background: #c9943a;
+  border-radius: 1px;
+}
+.load-btn {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1a1208;
+  background: transparent;
+  border: 0.5px solid rgba(26,18,8,0.25);
+  border-radius: 2px;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.load-btn:hover {
+  background: #1a1208;
+  color: #c9943a;
+  border-color: #1a1208;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-card.featured { grid-column: span 2; }
+}
+@media (max-width: 480px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; padding: 0 2vw; }
+  .section-head { padding: 40px 4vw 0; flex-direction: column; align-items: flex-start; }
+  .filter-bar { padding: 0 4vw; overflow-x: auto; }
+  .load-more-wrap { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- SECTION HEADER -->
+<div class="section-head">
+  <div class="head-left">
+    <p class="head-tag">Fresh in</p>
+    <h2 class="head-title">New <em>Arrivals</em></h2>
+  </div>
+  <div class="head-right">
+    <p class="head-count">Showing 8 of 20 styles</p>
+    <button class="view-all-btn">View all styles →</button>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-pills">
+    <button class="pill active" onclick="setFilter(this)">All</button>
+    <button class="pill" onclick="setFilter(this)">Kalyani Cotton</button>
+    <button class="pill" onclick="setFilter(this)">Mul Cotton</button>
+    <button class="pill" onclick="setFilter(this)">Khadi Cotton</button>
+    <button class="pill" onclick="setFilter(this)">Banarasi</button>
+    <button class="pill" onclick="setFilter(this)">Under ₹999</button>
+  </div>
+  <select class="sort-select">
+    <option>Sort: Newest first</option>
+    <option>Price: Low to high</option>
+    <option>Price: High to low</option>
+    <option>Most popular</option>
+  </select>
+</div>
+
+<!-- PRODUCT GRID -->
+<div class="product-grid">
+
+  <!-- Card 1 — Featured wide -->
+  <div class="product-card featured">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1610189352649-c31d65c09aa5?w=900&q=85&fit=crop&crop=top" alt="Kalyani Cotton Saree — Maroon Block Print" loading="lazy"/>
+      <div class="card-overlay"></div>
+        <span class="badge badge-new">New</span>
+        <span class="badge badge-sale">33% off</span>
+      </div>
+      <button class="card-wish" onclick="toggleWish(this)">♡</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Kalyani Cotton</p>
+      <p class="card-name">Maroon Block Print Saree — Ajrakh Motifs</p>
+      <p class="card-fabric">100% cotton · 6.3m · Rajasthan block print</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap">
+          <span class="card-price">₹699</span>
+          <span class="card-price-old">₹999</span>
+        </div>
+        <div class="card-sold"><span class="sold-dot"></span> 18 sold this week</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="product-card">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&q=85&fit=crop" alt="Black Kalamkari Saree" loading="lazy"/>
+      <div class="card-overlay"></div>
+      <button class="card-wish" onclick="toggleWish(this)">♡</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Mul Cotton</p>
+      <p class="card-name">Black Kalamkari Print Saree</p>
+      <p class="card-fabric">Mul cotton · 6m · Andhra Pradesh</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap"><span class="card-price">₹999</span></div>
+        <div class="card-sold"><span class="sold-dot"></span> 12 sold</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="product-card">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1614252235316-8c857f4f8b27?w=600&q=85&fit=crop" alt="Cream Red Saree" loading="lazy"/>
+      <div class="card-overlay"></div>
+        <span class="badge badge-low">Only 4 left</span>
+      </div>
+      <button class="card-wish active" onclick="toggleWish(this)">♥</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Khadi Cotton</p>
+      <p class="card-name">Cream & Red Block Print Saree</p>
+      <p class="card-fabric">Hand-spun khadi · 6.3m · Gujarat</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap"><span class="card-price">₹899</span></div>
+        <div class="card-sold"><span class="sold-dot"></span> 9 sold</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="product-card">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=85&fit=crop&crop=top" alt="Dark Maroon Saree" loading="lazy"/>
+      <div class="card-overlay"></div>
+      <button class="card-wish" onclick="toggleWish(this)">♡</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Banarasi</p>
+      <p class="card-name">Dark Maroon Banarasi Silk</p>
+      <p class="card-fabric">Banarasi silk · 6m · Varanasi</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap"><span class="card-price">₹899</span></div>
+        <div class="card-sold"><span class="sold-dot"></span> 7 sold</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 5 -->
+  <div class="product-card">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1610189352649-c31d65c09aa5?w=600&q=85&fit=crop&crop=top" alt="Cream Floral Saree" loading="lazy"/>
+      <div class="card-overlay"></div>
+      <button class="card-wish" onclick="toggleWish(this)">♡</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Kalyani Cotton</p>
+      <p class="card-name">Cream Floral Block Print Saree</p>
+      <p class="card-fabric">Pure cotton · 6.3m · Jaipur print</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap">
+          <span class="card-price">₹799</span>
+          <span class="card-price-old">₹999</span>
+        </div>
+        <div class="card-sold"><span class="sold-dot"></span> 21 sold</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 6 -->
+  <div class="product-card">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600&q=85&fit=crop&crop=top" alt="Orange Red Saree" loading="lazy"/>
+      <div class="card-overlay"></div>
+      <button class="card-wish" onclick="toggleWish(this)">♡</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Mul Cotton</p>
+      <p class="card-name">Orange Red Mul Cotton Saree</p>
+      <p class="card-fabric">Mul cotton · 6m · Lightweight</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap"><span class="card-price">₹849</span></div>
+        <div class="card-sold"><span class="sold-dot"></span> 14 sold</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 7 -->
+  <div class="product-card">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1614252235316-8c857f4f8b27?w=600&q=85&fit=crop" alt="Mauve Pink Saree" loading="lazy"/>
+      <div class="card-overlay"></div>
+      <button class="card-wish" onclick="toggleWish(this)">♡</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Kalyani Cotton</p>
+      <p class="card-name">Mauve Pink Print Saree</p>
+      <p class="card-fabric">Pure cotton · 6.3m · Daily wear</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap"><span class="card-price">₹749</span></div>
+        <div class="card-sold"><span class="sold-dot"></span> 11 sold</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 8 -->
+  <div class="product-card">
+    <div class="card-img-wrap">
+      <img class="card-img" src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=85&fit=crop" alt="Teal Blue Saree" loading="lazy"/>
+      <div class="card-overlay"></div>
+      <button class="card-wish" onclick="toggleWish(this)">♡</button>
+      <button class="quick-add">Add to cart <span>+</span></button>
+    </div>
+    <div class="card-info">
+      <p class="card-collection">Khadi Cotton</p>
+      <p class="card-name">Teal Blue Geometric Saree</p>
+      <p class="card-fabric">Hand-spun khadi · 6.3m · Festive</p>
+      <div class="card-bottom">
+        <div class="card-price-wrap"><span class="card-price">₹999</span></div>
+        <div class="card-sold"><span class="sold-dot"></span> 8 sold</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- LOAD MORE -->
+<div class="load-more-wrap">
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Showing 8 of 20 styles</span>
+      <span>40%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+  </div>
+  <button class="load-btn">Load more styles</button>
+</div>
+
+<script>
+function toggleWish(btn) {
+  if (btn.classList.contains('active')) {
+    btn.classList.remove('active');
+    btn.textContent = '♡';
+  } else {
+    btn.classList.add('active');
+    btn.textContent = '♥';
+  }
+}
+function setFilter(btn) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+
+</body>
+</html>

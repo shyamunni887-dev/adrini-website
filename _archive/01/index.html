@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adrini | Handwoven Sarees from Kerala</title>
+    <meta name="description" content="Adrini — Handwoven sarees from Kerala's finest looms. Kasavu, Silk, Cotton, Bridal and Printed collections. Free shipping above ₹999. 7-day returns.">
+    <meta property="og:title" content="Adrini | Handwoven Sarees from Kerala">
+    <meta property="og:description" content="Six yards of ancient craft. Every Adrini saree begins on a handloom in Kollam, Kerala.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/index.css">
+    
+    <!-- Shopify Storefront Web Components -->
+    <script type="module" src="https://cdn.shopify.com/storefront/web-components.js"></script>
+</head>
+<body>
+
+<!-- ══ LOADER ═══════════════════════════════════════════════════════════════ -->
+<div id="loader" class="loader-overlay">
+    <div class="loader-content">
+        <span class="loader-brand">ADRINI</span>
+        <div class="loader-bar"></div>
+    </div>
+</div>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<div class="lm-announcement-bar fade-down">
+    Free Shipping Above ₹999 | COD Available | 7-Day Returns
+</div>
+<header id="main-header" class="lm-nav fade-down">
+    <div class="lm-nav-logo">A<span>D</span>RINI</div>
+    <nav class="lm-nav-links">
+        <a href="#collections" class="lm-nav-link">Collections</a>
+        <a href="#contact" class="lm-nav-link">Contact</a>
+    </nav>
+    <div class="lm-nav-actions">
+        <button id="search-btn" class="lm-nav-btn">Search</button>
+        <button id="cart-btn" class="lm-nav-btn primary">
+            Bag <span class="cart-count">0</span>
+        </button>
+    </div>
+</header>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
+<section id="hero" class="fade-up lm-hero">
+    <div class="lm-hero-bg">
+        <img src="images/01.jpg" alt="Adrini saree editorial" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+        <div style="position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,8,4,.82) 0%,rgba(10,8,4,.55) 55%,rgba(10,8,4,.3) 100%);"></div>
+    </div>
+    <div class="lm-hero-content fade-up">
+        <div class="lm-hero-eyebrow">Handpicked across India</div>
+        <h1 class="lm-hero-title">She who stands<br>tall like a <em>mountain</em></h1>
+        <p class="lm-hero-sub">From India's finest weaving traditions — delivered to your door.</p>
+        <div class="lm-hero-btns">
+            <a href="#shop" class="lm-hbtn-p">Shop collection</a>
+        </div>
+    </div>
+    <div class="lm-hero-right fade-up">
+        <div class="lm-hero-stat">
+            <div class="lm-hero-stat-n">₹599</div>
+            <div class="lm-hero-stat-l">Starting price</div>
+        </div>
+        <div class="lm-hero-divider"></div>
+        <div class="lm-hero-stat">
+            <div class="lm-hero-stat-n">Free</div>
+            <div class="lm-hero-stat-l">Shipping ₹999+</div>
+        </div>
+        <div class="lm-hero-divider"></div>
+        <div class="lm-hero-stat">
+            <div class="lm-hero-stat-n">7 day</div>
+            <div class="lm-hero-stat-l">Easy returns</div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ TRUST BAR ═════════════════════════════════════════════════════════════ -->
+<div class="lm-trust-bar">
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>Free shipping above ₹999</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>7-day returns</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>Curated with care</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>WhatsApp support</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>COD available</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>Secure checkout</div>
+</div>
+
+
+<!-- ══ COLLECTIONS ════════════════════════════════════════════════════════════ -->
+<section id="collections" class="fade-up lm-coll-sec">
+    <div class="lm-coll-header">
+        <div class="lm-coll-eyebrow">Handpicked from India's finest looms</div>
+        <div class="lm-coll-title">Every thread carries a story</div>
+        <div class="lm-coll-sub">Five collections. Five feelings. One craft.</div>
+    </div>
+    <div class="lm-coll-tabs">
+        <button class="lm-coll-tab active" data-idx="0">01 · Kasavu</button>
+        <button class="lm-coll-tab" data-idx="1">02 · Silk</button>
+        <button class="lm-coll-tab" data-idx="2">03 · Cotton</button>
+        <button class="lm-coll-tab" data-idx="3">04 · Bridal</button>
+        <button class="lm-coll-tab" data-idx="4">05 · Printed</button>
+    </div>
+    <div class="lm-coll-panel" id="lm-coll-panel">
+        <div class="lm-coll-panel-bg" id="lm-coll-bg" style="background:radial-gradient(ellipse at 70% 50%,#c9943a 0%,#3d2b00 50%,#0e0c08 100%)"></div>
+        <div class="lm-coll-panel-grad"></div>
+        <div class="lm-coll-panel-price" id="lm-coll-price">From ₹899</div>
+        <div class="lm-coll-panel-content">
+            <div class="lm-coll-panel-num" id="lm-coll-num">01 · The Gold Collection</div>
+            <div class="lm-coll-panel-title" id="lm-coll-title">The Gold That<br>Never Fades</div>
+            <div class="lm-coll-panel-story" id="lm-coll-story">Before Onam mornings. Before temple bells. There was always a kasavu saree laid out the night before — cream cotton, gold border, the scent of fresh starch. This collection is that memory, rewoven for you.</div>
+            <a href="#shop" class="lm-coll-panel-btn" id="lm-coll-btn">Shop Kasavu →</a>
+        </div>
+    </div>
+    <div class="lm-coll-strip">
+        <div class="lm-coll-strip-card active" data-idx="0" style="background:radial-gradient(ellipse at center,#c9943a,#3d2b00)">
+            <div class="lm-coll-strip-over"><span class="lm-coll-strip-name">Kasavu</span></div>
+            <div class="lm-coll-strip-line"></div>
+        </div>
+        <div class="lm-coll-strip-card" data-idx="1" style="background:radial-gradient(ellipse at center,#7c3aed,#0a0015)">
+            <div class="lm-coll-strip-over"><span class="lm-coll-strip-name">Silk</span></div>
+            <div class="lm-coll-strip-line"></div>
+        </div>
+        <div class="lm-coll-strip-card" data-idx="2" style="background:radial-gradient(ellipse at center,#0891b2,#030712)">
+            <div class="lm-coll-strip-over"><span class="lm-coll-strip-name">Cotton</span></div>
+            <div class="lm-coll-strip-line"></div>
+        </div>
+        <div class="lm-coll-strip-card" data-idx="3" style="background:radial-gradient(ellipse at center,#dc2626,#0a0000)">
+            <div class="lm-coll-strip-over"><span class="lm-coll-strip-name">Bridal</span></div>
+            <div class="lm-coll-strip-line"></div>
+        </div>
+        <div class="lm-coll-strip-card" data-idx="4" style="background:radial-gradient(ellipse at center,#0d9488,#0f172a)">
+            <div class="lm-coll-strip-over"><span class="lm-coll-strip-name">Printed</span></div>
+            <div class="lm-coll-strip-line"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ PRODUCTS ═══════════════════════════════════════════════════════════════ -->
+<section id="shop" class="fade-up lm-products-sec">
+    <div class="lm-products-header">
+        <div>
+            <div class="lm-products-eyebrow">Most loved</div>
+            <h2 class="lm-products-title">Bestselling sarees</h2>
+        </div>
+        <a href="#" class="lm-products-link">View all →</a>
+    </div>
+    <shopify-store store-domain="adrini-5666.myshopify.com" public-access-token="5a869208a525680f7f1f91e2d8b20a97" country="IN" language="en">
+    <div id="product-grid" class="lm-products-grid">
+        <shopify-context type="collection" handle="best-selling">
+            <template>
+                <shopify-list-context type="product" query="collection.products" first="8">
+                    <template>
+                        <div class="lm-product-card" shopify-attr--data-id="product.id">
+                            <div class="lm-product-img">
+                                <shopify-media query="product.selectedOrFirstAvailableVariant.image" layout="fullWidth" aspect-ratio="0.75"></shopify-media>
+                            </div>
+                            <div class="lm-product-info">
+                                <div class="lm-product-name"><shopify-data query="product.title"></shopify-data></div>
+                                <div class="lm-product-bottom">
+                                    <div>
+                                        <span class="lm-product-price"><shopify-money format="money" query="product.selectedOrFirstAvailableVariant.price"></shopify-money></span>
+                                    </div>
+                                    <button class="lm-product-cart" onclick="document.getElementById('main-cart').addLine(event).showModal();">Add &#8594;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </shopify-list-context>
+            </template>
+        </shopify-context>
+    </div>
+    
+    <div style="text-align: center; margin-top: 48px;">
+        <a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 12px 36px; border: 1px solid #1a1208; border-radius: 24px; color: #1a1208; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.background='#1a1208'; this.style.color='#c9943a'" onmouseout="this.style.background='transparent'; this.style.color='#1a1208'">
+            View all bestsellers
+        </a>
+    </div>
+</section>
+
+<!-- Shopify Cart Component -->
+<shopify-cart id="main-cart"></shopify-cart>
+</shopify-store>
+
+
+
+<!-- ══ TRUST SIGNALS ══════════════════════════════════════════════════════════ -->
+<section class="fade-up lm-trust-sec">
+    <div class="lm-trust-header">
+        <div class="lm-trust-eyebrow">WHY ADRINI</div>
+        <h2 class="lm-trust-title">Shop With Confidence</h2>
+    </div>
+    <div class="lm-trust-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="lm-trust-card reveal">
+            <span class="lm-trust-icon">↩️</span>
+            <div class="lm-trust-card-title">7-day hassle-free returns</div>
+            <div class="lm-trust-card-body">Not happy? Return it. No questions asked. Full refund to your account within 3 days.</div>
+        </div>
+        <div class="lm-trust-card reveal">
+            <span class="lm-trust-icon">📲</span>
+            <div class="lm-trust-card-title">WhatsApp support</div>
+            <div class="lm-trust-card-body">Real person. Real answers. We reply within 1 hour, Monday–Saturday, 9am–8pm.</div>
+        </div>
+        <div class="lm-trust-card reveal">
+            <span class="lm-trust-icon">📦</span>
+            <div class="lm-trust-card-title">COD available</div>
+            <div class="lm-trust-card-body">Pay when it arrives at your door. No risk, no upfront payment required.</div>
+        </div>
+        <div class="lm-trust-card reveal">
+            <span class="lm-trust-icon">📦</span>
+            <div class="lm-trust-card-title">Secure Packaging</div>
+            <div class="lm-trust-card-body">Carefully packed to arrive in perfect condition.</div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══ WHATSAPP CTA ════════════════════════════════════════════════════════════ -->
+<section id="contact" class="fade-up lm-wa-sec">
+    <div class="lm-wa-left">
+        <div class="lm-wa-title" style="font-size: 14px; font-style: normal; font-family: 'Outfit', sans-serif; letter-spacing: 2px; text-transform: uppercase; color: #c9943a; font-weight: 500; margin-bottom: 12px;">Need Help Choosing?</div>
+        <h2 class="lm-wa-title">Chat with us.</h2>
+        <p class="lm-wa-sub">We reply in minutes. Monday–Saturday, 9am–8pm IST.<br>Order on WhatsApp in 60 seconds — no website needed.</p>
+    </div>
+    <a href="https://wa.me/917356510301" target="_blank" class="lm-wa-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+    </a>
+</section>
+
+<!-- ══ EMAIL CAPTURE ══════════════════════════════════════════════════════════ -->
+<section class="fade-up lm-email-sec">
+    <div class="lm-email-eyebrow">Join the Adrini Community</div>
+    <h2 class="lm-email-title">Enjoy ₹200 Off Your First Adrini Saree</h2>
+    <p class="lm-email-sub">New arrivals, exclusive offers, and saree care tips — straight to your inbox.</p>
+    <form class="lm-email-form" onsubmit="return false">
+        <input class="lm-email-input" placeholder="Your email address" type="email">
+        <button class="lm-email-submit" type="submit">Claim ₹200</button>
+    </form>
+</section>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════════════════════ -->
+<footer class="lm-footer">
+    <div class="lm-footer-top reveal">
+        <div class="lm-footer-brand">
+            <div class="lm-footer-logo" style="letter-spacing: 2px;">ADRINI</div>
+            <p class="lm-footer-tagline">Rooted in heritage, woven for today.</p>
+            <div class="lm-footer-social">
+                <a href="#" class="lm-footer-social-btn" data-label="Instagram">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="#" class="lm-footer-social-btn" data-label="WhatsApp">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+            </div>
+        </div>
+        <div>
+            <div class="lm-footer-col-title">Shop</div>
+            <div class="lm-footer-links">
+                <a href="#" class="lm-footer-link">Kasavu sarees</a>
+                <a href="#" class="lm-footer-link">Silk sarees</a>
+                <a href="#" class="lm-footer-link">Cotton sarees</a>
+                <a href="#" class="lm-footer-link">Bridal sarees</a>
+                <a href="#" class="lm-footer-link">Printed sarees</a>
+            </div>
+        </div>
+        <div>
+            <div class="lm-footer-col-title">Help</div>
+            <div class="lm-footer-links">
+                <a href="about.html" class="lm-footer-link">About Adrini</a>
+                <a href="shipping.html" class="lm-footer-link">Shipping policy</a>
+                <a href="returns.html" class="lm-footer-link">Returns</a>
+                <a href="contact.html" class="lm-footer-link">Contact us</a>
+                <a href="privacy.html" class="lm-footer-link">Privacy policy</a>
+            </div>
+        </div>
+    </div>
+    <div class="lm-footer-bottom">
+        <div class="lm-footer-copy">© 2026 Adrini Sarees. Kollam, Kerala, India. Made with love 🪡</div>
+        <div class="lm-footer-gst">GST: 32XXXXX0000X1ZX</div>
+    </div>
+</footer>
+
+<!-- ══ CART DRAWER ════════════════════════════════════════════════════════════ -->
+<div id="cart-drawer" class="drawer">
+    <div class="drawer-overlay"></div>
+    <div class="drawer-content">
+        <div class="drawer-header">
+            <h3>Shopping Bag</h3>
+            <button class="close-drawer">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-cart-msg">Your bag is empty.</p>
+        </div>
+        <div class="drawer-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cart-total-amount">₹0</span>
+            </div>
+            <button class="lm-checkout-btn">Checkout</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ QUICK VIEW MODAL ═══════════════════════════════════════════════════════ -->
+<div id="quick-view" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <button class="close-modal">&times;</button>
+        <div class="qv-grid">
+            <div class="qv-image"><img id="qv-img" src="" alt=""></div>
+            <div class="qv-details">
+                <span class="qv-brand">ADRINI</span>
+                <h2 id="qv-title"></h2>
+                <p id="qv-price" class="price"></p>
+                <div class="qv-description"><p id="qv-desc"></p></div>
+                <div class="qv-actions">
+                    <button id="qv-atc" class="lm-hbtn-p" style="width:100%;justify-content:center">Add to Bag</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script src="https://unpkg.com/lenis@1.1.2/dist/lenis.min.js"></script>
+    <script src="src/scripts/main.js"></script>
+</body>
+</html>

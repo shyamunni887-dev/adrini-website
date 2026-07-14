@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adrini | Handwoven Sarees from Kerala</title>
+    <meta name="description" content="Adrini — Handwoven sarees from Kerala's finest looms. Kasavu, Silk, Cotton, Bridal and Printed collections. Free shipping on all prepaid orders. 7-day returns.">
+    <meta property="og:title" content="Adrini | Handwoven Sarees from Kerala">
+    <meta property="og:description" content="Six yards of ancient craft. Every Adrini saree begins on a handloom in Kollam, Kerala.">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/styles/index.css?v=47">
+    
+    <!-- Shopify Storefront Web Components -->
+    <script type="module" src="https://cdn.shopify.com/storefront/web-components.js"></script>
+</head>
+<body>
+
+<!-- ══ LOADER ═══════════════════════════════════════════════════════════════ -->
+<div id="loader" class="loader-overlay">
+    <div class="loader-content">
+        <span class="loader-brand">ADRINI</span>
+        <div class="loader-bar"></div>
+    </div>
+</div>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+
+<header id="main-header" class="lm-nav fade-down">
+    <a href="index.html" class="lm-nav-logo" style="text-decoration:none">ADRINI</a>
+    <nav class="lm-nav-links">
+        <a href="#" class="lm-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','kalyani-cotton'), window.location.href='collection.html')">Kalyani Cotton</a>
+        <a href="#" class="lm-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','mul-cotton'), window.location.href='collection.html')">Mul Cotton</a>
+        <a href="#" class="lm-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','kadhi-cotton'), window.location.href='collection.html')">Khadi Cotton</a>
+        <a href="#" class="lm-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','banarasi'), window.location.href='collection.html')">Banarasi</a>
+    </nav>
+    <button id="hamburger-btn" class="lm-hamburger" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    <div class="lm-nav-actions">
+        <button id="search-btn" class="lm-nav-btn-icon" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        <button id="account-btn" class="lm-nav-btn-icon" aria-label="My Account">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </button>
+        <button id="wishlist-btn" class="lm-nav-btn-icon" aria-label="Wishlist" onclick="toggleWishlistDrawer()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <span class="wishlist-count" style="display:none; position:absolute; top:4px; right:2px; background:#c9943a; color:#fff; border-radius:50%; width:16px; height:16px; font-size:9px; font-weight:700; line-height:16px; text-align:center;">0</span>
+        </button>
+        <button id="cart-btn" class="lm-nav-btn-icon" aria-label="Cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <span class="cart-count">0</span>
+        </button>
+    </div>
+</header>
+<!-- ══ MOBILE NAV ═══════════════════════════════════════════════════════════ -->
+<div id="mobile-nav" class="lm-mobile-nav">
+    <div class="lm-mobile-nav-eyebrow">Collections</div>
+    <a href="#" class="lm-mobile-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','kalyani-cotton'), window.location.href='collection.html')">Kalyani Cotton</a>
+    <a href="#" class="lm-mobile-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','mul-cotton'), window.location.href='collection.html')">Mul Cotton</a>
+    <a href="#" class="lm-mobile-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','kadhi-cotton'), window.location.href='collection.html')">Khadi Cotton</a>
+    <a href="#" class="lm-mobile-nav-link" onclick="event.preventDefault(); (sessionStorage.setItem('lm-collection-handle','banarasi'), window.location.href='collection.html')">Banarasi</a>
+    <a href="all-collections.html" class="lm-mobile-nav-link">All Collections</a>
+    <div class="lm-mobile-nav-footer">
+        <a href="index.html">Home</a>
+        <a href="all-collections.html">Shop</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </div>
+</div>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
+<section class="adrini-hero">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <span class="hero-tag">
+      Handpicked Across India
+    </span>
+
+    <h1>
+      She who stands tall
+      <span>like a mountain</span>
+    </h1>
+
+    <p>
+      From India's finest weaving traditions —
+      delivered to your door.
+    </p>
+
+    <a href="all-collections.html" class="hero-btn">
+      Explore Collection
+    </a>
+  </div>
+</section>
+
+<!-- ══ TRUST BAR ═════════════════════════════════════════════════════════════ -->
+<div class="lm-trust-bar">
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>Free shipping on all prepaid orders</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>7-day returns</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>Curated with care</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>WhatsApp support</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>COD available</div>
+    <div class="lm-trust-item"><span class="lm-trust-dot"></span>Secure checkout</div>
+</div>
+
+
+<!-- ══ NEW ARRIVALS ═══════════════════════════════════════════════════════════ -->
+<shopify-store store-domain="adrini-5666.myshopify.com" public-access-token="5a869208a525680f7f1f91e2d8b20a97" country="IN" language="en">
+<section id="new-arrivals" class="lm-products-sec" style="padding-bottom: 0;">
+    <div class="lm-products-header">
+        <div>
+            <div class="lm-products-eyebrow">Fresh in</div>
+            <h2 class="lm-products-title">New Arrivals</h2>
+        </div>
+        <a href="#" class="lm-products-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','new-arrivals'); window.location.href='collection.html'">View all →</a>
+    </div>
+    <div class="lm-products-grid">
+        <shopify-context type="collection" handle="new-arrivals">
+            <template>
+                <shopify-list-context type="product" query="collection.products" first="8">
+                    <template>
+                        <a class="lm-product-card-link" shopify-attr--href="'product.html?handle=' + product.handle">
+                        <div class="lm-product-card" shopify-attr--data-id="product.id">
+                            <div class="lm-product-img" style="position:relative;">
+                                <button class="card-wish-btn" shopify-attr--data-id="product.selectedOrFirstAvailableVariant.id" shopify-attr--data-title="product.title" shopify-attr--data-price="product.selectedOrFirstAvailableVariant.price.amount" shopify-attr--data-img="product.selectedOrFirstAvailableVariant.image.url" shopify-attr--data-handle="product.handle" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)" aria-label="Add to wishlist" style="position:absolute; top:8px; right:8px; z-index:10; background:rgba(255,255,255,0.9); border:none; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#1a1208; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-wish-icon"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                </button>
+                                <shopify-media query="product.selectedOrFirstAvailableVariant.image" layout="fullWidth" aspect-ratio="0.75"></shopify-media>
+                            </div>
+                            <div class="lm-product-info">
+                                <div class="lm-product-name"><shopify-data query="product.title"></shopify-data></div>
+                                <div class="lm-product-bottom">
+                                    <div>
+                                        <span class="lm-product-price"><shopify-money format="money" query="product.selectedOrFirstAvailableVariant.price"></shopify-money></span>
+                                    </div>
+                                    <button class="lm-product-cart" shopify-attr--data-id="product.selectedOrFirstAvailableVariant.id" shopify-attr--data-title="product.title" shopify-attr--data-price="product.selectedOrFirstAvailableVariant.price.amount" shopify-attr--data-img="product.selectedOrFirstAvailableVariant.image.url" shopify-attr--data-handle="product.handle" shopify-attr--data-inventory="product.selectedOrFirstAvailableVariant.quantityAvailable" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add &#8594;</button>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </template>
+                </shopify-list-context>
+            </template>
+        </shopify-context>
+    </div>
+    
+    <div class="lm-view-all-wrapper">
+        <a href="#" class="lm-view-all-btn" onmouseover="this.style.background='#1a1208'; this.style.color='#c9943a'" onmouseout="this.style.background='transparent'; this.style.color='#1a1208'" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','new-arrivals'); window.location.href='collection.html'">
+            View all new arrivals
+        </a>
+    </div>
+</section>
+
+<!-- ══ COLLECTIONS ════════════════════════════════════════════════════════════ -->
+<section id="collections" class="collection-section">
+  <div class="image-wrapper">
+    <div class="sp-imgs">
+      <div class="sp-slide active" style="background-image:url('images/kalyani_cotton_v3.jpg')"></div>
+      <div class="sp-slide" style="background-image:url('images/mul_cotton.jpg')"></div>
+      <div class="sp-slide" style="background-image:url('images/khadi_cotton.jpg')"></div>
+      <div class="sp-slide" style="background-image:url('images/banarasi_silk.jpg')"></div>
+    </div>
+    <div class="image-overlay"></div>
+  </div>
+
+  <div class="content-side">
+    <div class="mini-title">Our Collections</div>
+    <h1 class="heading">
+      Woven with<br>
+      <span>intention.</span>
+    </h1>
+    <p class="description">
+      Rooted in South Indian heritage and reimagined for the modern wardrobe, every Adrini saree carries softness, craftsmanship, and timeless elegance woven into every thread.
+    </p>
+
+    <div class="collections-list">
+      <div class="collection-item active" onclick="openSp(0)">
+        <div class="collection-top">
+          <div class="left-group">
+            <div class="number">01</div>
+            <div class="collection-name">Kalyani Cotton</div>
+          </div>
+          <div class="plus">+</div>
+        </div>
+        <div class="expand-content">
+          <img class="collection-preview" src="images/kalyani_cotton_v3.jpg" alt="Kalyani Cotton">
+          <div class="meta">Pure cotton · Temple border · Handloom finish</div>
+          <p>Inspired by traditional Kerala textures with lightweight comfort and elegant woven detailing for everyday luxury.</p>
+          <div class="bottom-row">
+            <div class="price">From ₹899</div>
+            <button class="shop-btn" onclick="event.stopPropagation(); (sessionStorage.setItem('lm-collection-handle','kalyani-cotton'), window.location.href='collection.html')">Shop Collection →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="collection-item" onclick="openSp(1)">
+        <div class="collection-top">
+          <div class="left-group">
+            <div class="number">02</div>
+            <div class="collection-name">Mul Cotton</div>
+          </div>
+          <div class="plus">+</div>
+        </div>
+        <div class="expand-content">
+          <img class="collection-preview" src="images/mul_cotton.jpg" alt="Mul Cotton">
+          <div class="meta">Breathable · Soft drape · Everyday elegance</div>
+          <p>Feather-light mul cotton sarees designed for graceful movement, minimal styling, and all-day comfort.</p>
+          <div class="bottom-row">
+            <div class="price">From ₹1199</div>
+            <button class="shop-btn" onclick="event.stopPropagation(); (sessionStorage.setItem('lm-collection-handle','mul-cotton'), window.location.href='collection.html')">Shop Collection →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="collection-item" onclick="openSp(2)">
+        <div class="collection-top">
+          <div class="left-group">
+            <div class="number">03</div>
+            <div class="collection-name">Khadi Cotton</div>
+          </div>
+          <div class="plus">+</div>
+        </div>
+        <div class="expand-content">
+          <img class="collection-preview" src="images/khadi_cotton.jpg" alt="Khadi Cotton">
+          <div class="meta">Handspun · Textured weave · Artisanal touch</div>
+          <p>Rich textures and heritage-inspired patterns crafted for understated sophistication and timeless beauty.</p>
+          <div class="bottom-row">
+            <div class="price">From ₹1499</div>
+            <button class="shop-btn" onclick="event.stopPropagation(); (sessionStorage.setItem('lm-collection-handle','kadhi-cotton'), window.location.href='collection.html')">Shop Collection →</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="collection-item" onclick="openSp(3)">
+        <div class="collection-top">
+          <div class="left-group">
+            <div class="number">04</div>
+            <div class="collection-name">Banarasi</div>
+          </div>
+          <div class="plus">+</div>
+        </div>
+        <div class="expand-content">
+          <img class="collection-preview" src="images/banarasi_silk.jpg" alt="Banarasi">
+          <div class="meta">Zari work · Festive luxury · Rich motifs</div>
+          <p>Elegant Banarasi drapes infused with regal borders and detailed craftsmanship for special celebrations.</p>
+          <div class="bottom-row">
+            <div class="price">From ₹2499</div>
+            <button class="shop-btn" onclick="event.stopPropagation(); (sessionStorage.setItem('lm-collection-handle','banarasi'), window.location.href='collection.html')">Shop Collection →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a href="all-collections.html" class="explore-btn">
+      Explore All Collections →
+    </a>
+  </div>
+</section>
+
+
+<!-- ══ BEST SELLING ═══════════════════════════════════════════════════════════ -->
+<section id="shop" class="lm-products-sec">
+    <div class="lm-products-header">
+        <div>
+            <div class="lm-products-eyebrow">Most loved</div>
+            <h2 class="lm-products-title">Bestselling sarees</h2>
+        </div>
+        <a href="#" class="lm-products-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','best-selling'); window.location.href='collection.html'">View all →</a>
+    </div>
+    <div id="product-grid" class="lm-products-grid">
+        <shopify-context type="collection" handle="best-selling">
+            <template>
+                <shopify-list-context type="product" query="collection.products" first="8">
+                    <template>
+                        <a class="lm-product-card-link" shopify-attr--href="'product.html?handle=' + product.handle">
+                        <div class="lm-product-card" shopify-attr--data-id="product.id">
+                            <div class="lm-product-img" style="position:relative;">
+                                <button class="card-wish-btn" shopify-attr--data-id="product.selectedOrFirstAvailableVariant.id" shopify-attr--data-title="product.title" shopify-attr--data-price="product.selectedOrFirstAvailableVariant.price.amount" shopify-attr--data-img="product.selectedOrFirstAvailableVariant.image.url" shopify-attr--data-handle="product.handle" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)" aria-label="Add to wishlist" style="position:absolute; top:8px; right:8px; z-index:10; background:rgba(255,255,255,0.9); border:none; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#1a1208; box-shadow:0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s, background 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="card-wish-icon"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                </button>
+                                <shopify-media query="product.selectedOrFirstAvailableVariant.image" layout="fullWidth" aspect-ratio="0.75"></shopify-media>
+                            </div>
+                            <div class="lm-product-info">
+                                <div class="lm-product-name"><shopify-data query="product.title"></shopify-data></div>
+                                <div class="lm-product-bottom">
+                                    <div>
+                                        <span class="lm-product-price"><shopify-money format="money" query="product.selectedOrFirstAvailableVariant.price"></shopify-money></span>
+                                    </div>
+                                    <button class="lm-product-cart" shopify-attr--data-id="product.selectedOrFirstAvailableVariant.id" shopify-attr--data-title="product.title" shopify-attr--data-price="product.selectedOrFirstAvailableVariant.price.amount" shopify-attr--data-img="product.selectedOrFirstAvailableVariant.image.url" shopify-attr--data-handle="product.handle" shopify-attr--data-inventory="product.selectedOrFirstAvailableVariant.quantityAvailable" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add &#8594;</button>
+                                </div>
+                            </div>
+                        </div>
+                        </a>
+                    </template>
+                </shopify-list-context>
+            </template>
+        </shopify-context>
+    </div>
+    
+    <div style="text-align: center; margin-top: 48px;">
+        <a href="#" style="display: inline-flex; align-items: center; justify-content: center; padding: 12px 36px; border: 1px solid #1a1208; border-radius: 24px; color: #1a1208; font-size: 13px; font-weight: 500; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.background='#1a1208'; this.style.color='#c9943a'" onmouseout="this.style.background='transparent'; this.style.color='#1a1208'" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','best-selling'); window.location.href='collection.html'">
+            View all bestsellers
+        </a>
+    </div>
+</section>
+
+
+
+<!-- ══ FEATURED PRODUCT ═══════════════════════════════════════════════════════ -->
+<section class="lm-featured-sec">
+    <shopify-context type="product" handle="saree-15">
+        <template>
+        <div class="lm-featured-wrapper">
+
+            <!-- Left: Content -->
+            <div>
+                <div class="lm-featured-tag">Timeless Beauty • Adrini Sarees</div>
+
+                <h2 class="lm-featured-name">Grace In<br>Every Drape</h2>
+
+                <p class="lm-featured-desc">
+                    <shopify-data query="product.description"></shopify-data>
+                </p>
+
+                <button class="lm-featured-atc"
+                    shopify-attr--data-id="product.selectedOrFirstAvailableVariant.id"
+                    shopify-attr--data-title="product.title"
+                    shopify-attr--data-price="product.priceRange.minVariantPrice.amount"
+                    shopify-attr--data-img="product.featuredImage.url"
+                    shopify-attr--data-handle="product.handle"
+                    onclick="event.preventDefault(); window.addTemplateToCart(this)">
+                    Shop Collection →
+                </button>
+
+                <div class="lm-featured-cards">
+                    <div class="lm-featured-card">
+                        <span>✦</span>
+                        <p>Premium Fabrics</p>
+                    </div>
+                    <div class="lm-featured-card">
+                        <span>❖</span>
+                        <p>Artisan Crafted</p>
+                    </div>
+                    <div class="lm-featured-card">
+                        <span>♡</span>
+                        <p>Exclusive Designs</p>
+                    </div>
+                    <div class="lm-featured-card">
+                        <span>➜</span>
+                        <p>Fast Delivery</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Product Image -->
+            <div class="lm-featured-img-side">
+                <div class="lm-featured-img-wrap">
+                    <shopify-media query="product.featuredImage" layout="fullWidth" aspect-ratio="0.75"></shopify-media>
+                </div>
+            </div>
+
+        </div>
+        </template>
+    </shopify-context>
+</section>
+<!-- Shopify Cart Component -->
+<shopify-cart id="main-cart"></shopify-cart>
+</shopify-store>
+
+
+
+<!-- ══ TRUST SIGNALS ══════════════════════════════════════════════════════════ -->
+<section class="lm-trust-sec">
+    <div class="lm-trust-header">
+        <div class="lm-trust-eyebrow">Why Adrini</div>
+        <h2 class="lm-trust-title">Every reason to trust us</h2>
+    </div>
+    <div class="lm-trust-grid" style="grid-template-columns:repeat(3,1fr)">
+        <div class="lm-trust-card reveal">
+            <span class="lm-trust-icon">↩️</span>
+            <div class="lm-trust-card-title">7-day hassle-free returns</div>
+            <div class="lm-trust-card-body">Not happy? Return it. No questions asked. Full refund to your account within 3 days.</div>
+            <span class="lm-trust-impact">+25% more buyers</span>
+        </div>
+        <div class="lm-trust-card reveal">
+            <span class="lm-trust-icon">📲</span>
+            <div class="lm-trust-card-title">WhatsApp support</div>
+            <div class="lm-trust-card-body">Real person. Real answers. We reply within 1 hour, Monday–Saturday, 9am–8pm.</div>
+            <span class="lm-trust-impact">+30% conversion</span>
+        </div>
+        <div class="lm-trust-card reveal">
+            <span class="lm-trust-icon">📦</span>
+            <div class="lm-trust-card-title">COD available</div>
+            <div class="lm-trust-card-body">Pay when it arrives at your door. No risk, no upfront payment required.</div>
+            <span class="lm-trust-impact">+35% new buyers</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══ WHATSAPP CTA ════════════════════════════════════════════════════════════ -->
+<section id="contact" class="lm-wa-sec">
+    <div class="lm-wa-left">
+        <h2 class="lm-wa-title">Have a question? Chat with us.</h2>
+        <p class="lm-wa-sub">We reply in minutes. Monday–Saturday, 9am–8pm IST.<br>Order on WhatsApp in 60 seconds — no website needed.</p>
+    </div>
+    <a href="https://wa.me/919999999999" target="_blank" class="lm-wa-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Chat on WhatsApp
+    </a>
+</section>
+
+<!-- ══ EMAIL CAPTURE ══════════════════════════════════════════════════════════ -->
+<section class="lm-email-sec">
+    <div class="lm-email-eyebrow">Join 2,000+ women</div>
+    <h2 class="lm-email-title">Get ₹200 off your first order</h2>
+    <p class="lm-email-sub">New arrivals, exclusive offers, and saree care tips — straight to your inbox.</p>
+    <form class="lm-email-form" onsubmit="return false">
+        <input class="lm-email-input" placeholder="Your email address" type="email">
+        <button class="lm-email-submit" type="submit">Claim ₹200</button>
+    </form>
+</section>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════════════════════ -->
+<footer class="lm-footer">
+    <div class="lm-footer-top">
+        <div class="lm-footer-brand">
+            <div class="lm-footer-logo">L<span>OO</span>MYN</div>
+            <p class="lm-footer-tagline">Handpicked sarees from India's finest weaving traditions. Delivered across India.</p>
+            <div class="lm-footer-social">
+                <div class="lm-footer-social-btn">In</div>
+                <div class="lm-footer-social-btn">Ig</div>
+                <div class="lm-footer-social-btn">Wa</div>
+            </div>
+        </div>
+        <div>
+            <div class="lm-footer-col-title">Shop</div>
+            <div class="lm-footer-links">
+                <a href="#" class="lm-footer-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','kalyani-cotton'); window.location.href='collection.html'">Kalyani Cotton</a>
+                <a href="#" class="lm-footer-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','mul-cotton'); window.location.href='collection.html'">Mul Cotton</a>
+                <a href="#" class="lm-footer-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','kadhi-cotton'); window.location.href='collection.html'">Khadi Cotton</a>
+                <a href="#" class="lm-footer-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','banarasi'); window.location.href='collection.html'">Banarasi</a>
+            </div>
+        </div>
+        <div>
+            <div class="lm-footer-col-title">Help</div>
+            <div class="lm-footer-links">
+                <a href="#" class="lm-footer-link">About Adrini</a>
+                <a href="#" class="lm-footer-link">Shipping policy</a>
+                <a href="#" class="lm-footer-link">Returns</a>
+                <a href="#" class="lm-footer-link">Contact us</a>
+                <a href="#" class="lm-footer-link">Privacy policy</a>
+            </div>
+        </div>
+    </div>
+    <div class="lm-footer-bottom">
+        <div class="lm-footer-copy">© 2026 Adrini Sarees. Kollam, Kerala, India. Made with love 🪡</div>
+        <div class="lm-footer-gst">GST: 32XXXXX0000X1ZX</div>
+    </div>
+</footer>
+
+<!-- ══ CART DRAWER ════════════════════════════════════════════════════════════ -->
+<div id="cart-drawer" class="drawer">
+    <div class="drawer-overlay"></div>
+    <div class="drawer-content">
+        <div class="drawer-header">
+            <h3>Shopping Bag</h3>
+            <button class="close-drawer">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <p class="empty-cart-msg">Your bag is empty.</p>
+        </div>
+        <div id="cart-recommendations" style="display:none; padding:16px 20px; border-top:0.5px solid rgba(26,18,8,0.08); background:#fcfaf5;">
+            <div style="font-size:12px; font-weight:600; color:#1a1208; margin-bottom:12px; text-transform:uppercase; letter-spacing:0.04em;">Recommended for you</div>
+            <div id="cart-rec-items" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+        <div class="drawer-footer">
+            <div class="cart-coupon" style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 0.5px solid rgba(26,18,8,0.08);">
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="coupon-code" placeholder="Discount code" style="flex:1; padding:8px 10px; border:1px solid rgba(26,18,8,0.15); border-radius:6px; font-size:12px; outline:none; text-transform:uppercase; background:#f8f4ec;">
+                    <button onclick="window.applyCoupon && window.applyCoupon()" style="padding:0 14px; background:#1a1208; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:500;">Apply</button>
+                </div>
+                <div id="coupon-msg" style="font-size:11px; margin-top:6px; color:#085041; display:none;"></div>
+            </div>
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cart-total-amount">₹0</span>
+            </div>
+            <button class="lm-checkout-btn">Checkout</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ WISHLIST DRAWER ═══════════════════════════════════════════════════════ -->
+<div id="wishlist-drawer" class="drawer">
+    <div class="drawer-overlay" onclick="toggleWishlistDrawer()"></div>
+    <div class="drawer-content">
+        <div class="drawer-header">
+            <h3>Your Wishlist</h3>
+            <button class="close-drawer" onclick="toggleWishlistDrawer()">&times;</button>
+        </div>
+        <div id="wishlist-items" class="cart-items">
+            <p class="empty-cart-msg">Your wishlist is empty.</p>
+        </div>
+        <div class="drawer-footer" style="display:none;" id="wishlist-footer">
+            <button class="lm-checkout-btn" onclick="addAllWishlistToCart()" style="background:#c9943a; color:#1a1208; border:none; border-radius:4px; padding:12px; width:100%; cursor:pointer; font-weight:600; font-size:12px; letter-spacing:0.05em; text-transform:uppercase;">Add all to cart</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- ══ QUICK VIEW MODAL ═══════════════════════════════════════════════════════ -->
+<div id="quick-view" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <button class="close-modal">&times;</button>
+        <div class="qv-grid">
+            <div class="qv-image"><img id="qv-img" src="" alt=""></div>
+            <div class="qv-details">
+                <span class="qv-brand">ADRINI</span>
+                <h2 id="qv-title"></h2>
+                <p id="qv-price" class="price"></p>
+                <div class="qv-description"><p id="qv-desc"></p></div>
+                <div class="qv-actions">
+                    <button id="qv-atc" class="lm-hbtn-p" style="width:100%;justify-content:center">Add to Bag</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <script src="src/scripts/main.js?v=20"></script>
+</body>
+</html>

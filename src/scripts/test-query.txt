@@ -1,0 +1,5 @@
+query {
+  customer(customerAccessToken: "5a869208a525680f7f1f91e2d8b20a97") {
+    id
+  }
+}

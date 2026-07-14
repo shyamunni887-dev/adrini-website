@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+try {
+  document.querySelector("!invalid");
+} catch (e) {
+  console.log("querySelector error: " + e.message);
+}
+try {
+  btoa("🚀");
+} catch (e) {
+  console.log("btoa error: " + e.message);
+}
+</script>
+</body>
+</html>

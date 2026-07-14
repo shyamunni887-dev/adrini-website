@@ -1,0 +1,484 @@
+
+<style>
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .site{max-width:700px;margin:0 auto;padding:0}
+  .browser-bar{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0;padding:10px 14px;display:flex;align-items:center;gap:8px}
+  .browser-dots{display:flex;gap:5px}
+  .browser-dot{width:9px;height:9px;border-radius:50%;background:var(--color-border-secondary)}
+  .browser-url{flex:1;background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:4px 12px;font-size:11px;font-family:monospace;color:var(--color-text-tertiary);margin:0 8px}
+
+  .section-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-text-tertiary);text-align:center;padding:8px 0 4px;background:var(--color-background-secondary);border-left:0.5px solid var(--color-border-tertiary);border-right:0.5px solid var(--color-border-tertiary)}
+
+  .ws{border-left:0.5px solid var(--color-border-tertiary);border-right:0.5px solid var(--color-border-tertiary)}
+
+  .nav{background:#0e0c08;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+  .nav-logo{font-size:19px;font-weight:500;color:#fff;letter-spacing:3px}
+  .nav-logo span{color:#c9943a}
+  .nav-links{display:flex;gap:20px}
+  .nav-link{font-size:11px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;cursor:pointer}
+  .nav-link:hover{color:#fff}
+  .nav-actions{display:flex;gap:10px;align-items:center}
+  .nav-btn{font-size:11px;padding:6px 16px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.75);cursor:pointer}
+  .nav-btn.primary{background:#c9943a;border-color:#c9943a;color:#0e0c08;font-weight:500}
+
+  .hero{background:#0e0c08;position:relative;overflow:hidden;min-height:340px;display:flex;align-items:center;padding:48px 28px}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(201,148,58,0.12) 0%,transparent 60%)}
+  .hero-content{position:relative;z-index:1;max-width:380px}
+  .hero-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:#c9943a;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .hero-eyebrow::before{content:'';width:20px;height:0.5px;background:#c9943a}
+  .hero-title{font-size:38px;font-weight:500;color:#fff;line-height:1.15;margin-bottom:14px;letter-spacing:-0.5px}
+  .hero-title em{font-style:italic;color:#c9943a}
+  .hero-sub{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;margin-bottom:24px}
+  .hero-btns{display:flex;gap:10px}
+  .hbtn-p{font-size:12px;font-weight:500;padding:10px 22px;border-radius:20px;background:#fff;color:#0e0c08;border:none;cursor:pointer}
+  .hbtn-g{font-size:12px;padding:10px 22px;border-radius:20px;background:transparent;color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);cursor:pointer}
+  .hero-right{position:absolute;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+  .hero-stat{text-align:right}
+  .hero-stat-n{font-size:28px;font-weight:500;color:#c9943a;line-height:1}
+  .hero-stat-l{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:0.08em}
+  .hero-divider{width:0.5px;height:30px;background:rgba(255,255,255,0.08);margin:0 auto}
+
+  .trust-bar{background:#1a1510;padding:10px 28px;display:flex;align-items:center;justify-content:center;gap:24px;overflow-x:auto}
+  .trust-item{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.4);white-space:nowrap}
+  .trust-dot{width:4px;height:4px;border-radius:50%;background:rgba(201,148,58,0.4)}
+
+  .story-sec{background:#f8f4ec;padding:40px 28px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+  .story-img{background:#e8dfc8;border-radius:var(--border-radius-lg);height:180px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+  .story-img-inner{font-size:11px;color:#8a7d6b;text-align:center}
+  .story-loom-lines{position:absolute;inset:0;opacity:0.15}
+  .story-right{}
+  .story-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#c9943a;margin-bottom:10px}
+  .story-title{font-size:22px;font-weight:500;color:#1a1208;line-height:1.3;margin-bottom:10px}
+  .story-body{font-size:12px;color:#8a7d6b;line-height:1.75;margin-bottom:14px}
+  .story-link{font-size:12px;font-weight:500;color:#c9943a;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+
+  .coll-sec{background:#0e0c08;padding:40px 0}
+  .coll-header{text-align:center;padding:0 28px 28px}
+  .coll-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#c9943a;margin-bottom:6px}
+  .coll-title{font-size:24px;font-weight:500;color:#fff;font-style:italic;margin-bottom:4px}
+  .coll-sub{font-size:12px;color:rgba(255,255,255,0.35)}
+  .coll-tabs{display:flex;gap:0;padding:0 28px;border-bottom:0.5px solid rgba(255,255,255,0.08);overflow-x:auto;margin-bottom:0}
+  .coll-tab{font-size:11px;font-weight:500;color:rgba(255,255,255,0.35);padding:8px 14px;border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none}
+  .coll-tab.active{color:#c9943a;border-bottom-color:#c9943a}
+  .coll-panel{position:relative;height:200px;overflow:hidden;display:flex;align-items:flex-end;padding:24px 28px}
+  .coll-panel-bg{position:absolute;inset:0}
+  .coll-panel-grad{position:absolute;inset:0;background:linear-gradient(100deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.4) 60%,transparent 100%)}
+  .coll-panel-content{position:relative;z-index:1;max-width:340px}
+  .coll-panel-num{font-size:9px;letter-spacing:0.2em;color:rgba(255,255,255,0.35);margin-bottom:6px}
+  .coll-panel-title{font-size:22px;font-weight:500;color:#fff;font-style:italic;margin-bottom:6px;line-height:1.2}
+  .coll-panel-story{font-size:11px;color:rgba(255,255,255,0.55);line-height:1.65;margin-bottom:12px}
+  .coll-panel-btn{font-size:11px;font-weight:500;padding:7px 16px;border-radius:20px;background:#fff;color:#0e0c08;border:none;cursor:pointer}
+  .coll-panel-price{position:absolute;top:24px;right:28px;z-index:1;background:rgba(0,0,0,0.5);border:0.5px solid rgba(255,255,255,0.1);border-radius:20px;padding:3px 12px;font-size:11px;color:rgba(255,255,255,0.6)}
+  .coll-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+  .coll-strip-card{height:60px;position:relative;cursor:pointer;overflow:hidden}
+  .coll-strip-over{position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:flex-end;padding:6px;transition:background 0.2s}
+  .coll-strip-card:hover .coll-strip-over,.coll-strip-card.active .coll-strip-over{background:rgba(0,0,0,0.2)}
+  .coll-strip-name{font-size:10px;font-style:italic;color:#fff}
+  .coll-strip-line{position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent}
+  .coll-strip-card.active .coll-strip-line{background:#c9943a}
+
+  .products-sec{background:#f8f4ec;padding:40px 28px}
+  .products-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px}
+  .products-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#c9943a;margin-bottom:4px}
+  .products-title{font-size:20px;font-weight:500;color:#1a1208}
+  .products-link{font-size:12px;color:#c9943a}
+  .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .product-card{background:#fff;border-radius:var(--border-radius-lg);overflow:hidden;border:0.5px solid rgba(26,18,8,0.08)}
+  .product-img{height:130px;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(26,18,8,0.3);position:relative}
+  .product-badge{position:absolute;top:8px;left:8px;font-size:9px;font-weight:500;padding:2px 8px;border-radius:20px}
+  .pb-hot{background:rgba(201,148,58,0.15);color:#8a5a10}
+  .pb-new{background:rgba(29,158,117,0.12);color:#085041}
+  .product-info{padding:12px}
+  .product-name{font-size:12px;font-weight:500;color:#1a1208;margin-bottom:3px}
+  .product-fabric{font-size:10px;color:#8a7d6b;margin-bottom:6px}
+  .product-bottom{display:flex;align-items:center;justify-content:space-between}
+  .product-price{font-size:14px;font-weight:500;color:#1a1208}
+  .product-price-old{font-size:10px;color:#8a7d6b;text-decoration:line-through;margin-left:4px}
+  .product-cart{font-size:10px;font-weight:500;padding:5px 10px;border-radius:20px;background:#1a1208;color:#c9943a;border:none;cursor:pointer}
+  .product-sold{font-size:10px;color:#8a7d6b;margin-top:4px}
+
+  .trust-sec{background:#1a1208;padding:36px 28px}
+  .trust-header{text-align:center;margin-bottom:24px}
+  .trust-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#c9943a;margin-bottom:4px}
+  .trust-title{font-size:20px;font-weight:500;color:#fff}
+  .trust-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .trust-card{background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.08);border-radius:var(--border-radius-lg);padding:16px}
+  .trust-card-icon{font-size:18px;margin-bottom:8px;display:block}
+  .trust-card-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px}
+  .trust-card-body{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.6}
+  .trust-impact{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;background:rgba(29,158,117,0.15);color:#5DCAA5;display:inline-block;margin-top:6px}
+
+  .reviews-sec{background:#f8f4ec;padding:40px 28px}
+  .reviews-header{text-align:center;margin-bottom:24px}
+  .reviews-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#c9943a;margin-bottom:4px}
+  .reviews-title{font-size:20px;font-weight:500;color:#1a1208}
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .review-card{background:#fff;border-radius:var(--border-radius-lg);padding:16px;border:0.5px solid rgba(26,18,8,0.08)}
+  .review-stars{color:#c9943a;font-size:11px;margin-bottom:8px}
+  .review-body{font-size:11px;color:#8a7d6b;line-height:1.7;margin-bottom:10px;font-style:italic}
+  .review-author{display:flex;align-items:center;gap:8px}
+  .review-avatar{width:28px;height:28px;border-radius:50%;background:#e8dfc8;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#8a6820;flex-shrink:0}
+  .review-name{font-size:11px;font-weight:500;color:#1a1208}
+  .review-city{font-size:10px;color:#8a7d6b}
+
+  .insta-sec{background:#fff;padding:36px 28px}
+  .insta-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+  .insta-title{font-size:16px;font-weight:500;color:#1a1208}
+  .insta-handle{font-size:12px;color:#c9943a}
+  .insta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .insta-cell{aspect-ratio:1;border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,0.6);position:relative;overflow:hidden;cursor:pointer}
+  .insta-cell:hover .insta-cell-over{opacity:1}
+  .insta-cell-over{position:absolute;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;border-radius:var(--border-radius-md)}
+
+  .whatsapp-sec{background:#1a1208;padding:36px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+  .wa-left{}
+  .wa-title{font-size:20px;font-weight:500;color:#fff;margin-bottom:6px}
+  .wa-sub{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6}
+  .wa-btn{font-size:13px;font-weight:500;padding:11px 24px;border-radius:20px;background:#25D366;color:#fff;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:8px}
+
+  .email-sec{background:#f8f4ec;padding:36px 28px;text-align:center}
+  .email-eyebrow{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#c9943a;margin-bottom:6px}
+  .email-title{font-size:20px;font-weight:500;color:#1a1208;margin-bottom:6px}
+  .email-sub{font-size:12px;color:#8a7d6b;margin-bottom:20px}
+  .email-form{display:flex;gap:8px;max-width:360px;margin:0 auto}
+  .email-input{flex:1;padding:10px 14px;border:0.5px solid rgba(26,18,8,0.15);border-radius:20px;font-size:12px;background:#fff;color:#1a1208}
+  .email-submit{font-size:12px;font-weight:500;padding:10px 20px;border-radius:20px;background:#1a1208;color:#c9943a;border:none;cursor:pointer}
+
+  .footer{background:#0a0806;padding:36px 28px 20px}
+  .footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:24px;margin-bottom:28px}
+  .footer-brand{}
+  .footer-logo{font-size:18px;font-weight:500;color:#fff;letter-spacing:3px;margin-bottom:8px}
+  .footer-logo span{color:#c9943a}
+  .footer-tagline{font-size:11px;color:rgba(255,255,255,0.3);line-height:1.6;margin-bottom:12px}
+  .footer-social{display:flex;gap:8px}
+  .footer-social-btn{width:28px;height:28px;border-radius:50%;border:0.5px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,0.4);cursor:pointer}
+  .footer-col-title{font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:10px}
+  .footer-links{display:flex;flex-direction:column;gap:6px}
+  .footer-link{font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer}
+  .footer-link:hover{color:#c9943a}
+  .footer-bottom{border-top:0.5px solid rgba(255,255,255,0.05);padding-top:16px;display:flex;justify-content:space-between;align-items:center}
+  .footer-copy{font-size:10px;color:rgba(255,255,255,0.2)}
+  .footer-gst{font-size:10px;color:rgba(255,255,255,0.15);font-family:monospace}
+</style>
+
+<div class="site">
+<h2 class="sr-only">Adrini saree website full layout preview — showing all sections from navigation to footer including hero, collections, products, trust signals, reviews, Instagram feed, WhatsApp CTA, email capture, and footer</h2>
+
+<div class="browser-bar">
+  <div class="browser-dots"><div class="browser-dot" style="background:#FF5F57"></div><div class="browser-dot" style="background:#FEBC2E"></div><div class="browser-dot" style="background:#28C840"></div></div>
+  <div class="browser-url">adrini.in</div>
+</div>
+
+<div class="ws">
+
+<!-- NAV -->
+<div class="section-label">Navigation</div>
+<div class="nav">
+  <div class="nav-logo">A<span>D</span>RINI</div>
+  <div class="nav-links">
+    <span class="nav-link">Collections</span>
+    <span class="nav-link">About</span>
+    <span class="nav-link">Journal</span>
+    <span class="nav-link">Contact</span>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-btn">Search</button>
+    <button class="nav-btn primary">Shop Now</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="section-label">Hero — above the fold</div>
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Handwoven in Kerala</div>
+    <div class="hero-title">She who stands<br>tall like a <em>mountain</em></div>
+    <div class="hero-sub">Six yards of ancient craft. Delivered across India. Every Adrini saree begins on a handloom in Thrissur.</div>
+    <div class="hero-btns">
+      <button class="hbtn-p" onclick="sendPrompt('Show me the Adrini saree collection')">Shop collection</button>
+      <button class="hbtn-g" onclick="sendPrompt('Tell me the story behind Adrini sarees')">Our story</button>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat"><div class="hero-stat-n">₹599</div><div class="hero-stat-l">Starting price</div></div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat"><div class="hero-stat-n">Free</div><div class="hero-stat-l">Shipping ₹999+</div></div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat"><div class="hero-stat-n">7 day</div><div class="hero-stat-l">Easy returns</div></div>
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-dot"></span>Free shipping above ₹999</div>
+  <div class="trust-item"><span class="trust-dot"></span>7-day returns</div>
+  <div class="trust-item"><span class="trust-dot"></span>100% handloom certified</div>
+  <div class="trust-item"><span class="trust-dot"></span>WhatsApp support</div>
+  <div class="trust-item"><span class="trust-dot"></span>COD available</div>
+  <div class="trust-item"><span class="trust-dot"></span>Secure checkout</div>
+</div>
+
+<!-- STORY -->
+<div class="section-label">Brand story</div>
+<div class="story-sec">
+  <div class="story-img">
+    <svg class="story-loom-lines" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="30" x2="200" y2="30" stroke="#8a6820" stroke-width="1"/>
+      <line x1="0" y1="60" x2="200" y2="60" stroke="#8a6820" stroke-width="1"/>
+      <line x1="0" y1="90" x2="200" y2="90" stroke="#8a6820" stroke-width="1"/>
+      <line x1="0" y1="120" x2="200" y2="120" stroke="#8a6820" stroke-width="1"/>
+      <line x1="0" y1="150" x2="200" y2="150" stroke="#8a6820" stroke-width="1"/>
+      <line x1="40" y1="0" x2="40" y2="180" stroke="#8a6820" stroke-width="1"/>
+      <line x1="80" y1="0" x2="80" y2="180" stroke="#8a6820" stroke-width="1"/>
+      <line x1="120" y1="0" x2="120" y2="180" stroke="#8a6820" stroke-width="1"/>
+      <line x1="160" y1="0" x2="160" y2="180" stroke="#8a6820" stroke-width="1"/>
+    </svg>
+    <div class="story-img-inner">Weaver photo<br>from Thrissur</div>
+  </div>
+  <div class="story-right">
+    <div class="story-eyebrow">Our story</div>
+    <div class="story-title">Born in Kollam.<br>Woven in Thrissur.</div>
+    <div class="story-body">Every Adrini saree begins on a handloom in the weaving halls of Thrissur — handpicked by us, shipped to you. We exist to bring Kerala's finest handloom tradition to every Indian woman, wherever she lives.</div>
+    <a class="story-link" onclick="sendPrompt('Tell me the full story behind Adrini sarees')">Read our story →</a>
+  </div>
+</div>
+
+<!-- COLLECTIONS -->
+<div class="section-label">Collections — cinematic storytelling</div>
+<div class="coll-sec">
+  <div class="coll-header">
+    <div class="coll-eyebrow">Handwoven in Kerala</div>
+    <div class="coll-title">Every thread carries a story</div>
+    <div class="coll-sub">Five collections. Five feelings. One craft.</div>
+  </div>
+  <div class="coll-tabs">
+    <button class="coll-tab active">01 · Kasavu</button>
+    <button class="coll-tab">02 · Silk</button>
+    <button class="coll-tab">03 · Cotton</button>
+    <button class="coll-tab">04 · Bridal</button>
+    <button class="coll-tab">05 · Printed</button>
+  </div>
+  <div class="coll-panel">
+    <div class="coll-panel-bg" style="background:radial-gradient(ellipse at 70% 50%,#c9943a 0%,#3d2b00 50%,#0e0c08 100%)"></div>
+    <div class="coll-panel-grad"></div>
+    <div class="coll-panel-price">From ₹899</div>
+    <div class="coll-panel-content">
+      <div class="coll-panel-num">01 · The Gold Collection</div>
+      <div class="coll-panel-title">The Gold That<br>Never Fades</div>
+      <div class="coll-panel-story">Before Onam mornings. Before temple bells. There was always a kasavu saree laid out the night before — cream cotton, gold border, the scent of fresh starch. This collection is that memory, rewoven for you.</div>
+      <button class="coll-panel-btn" onclick="sendPrompt('Show me all Kasavu sarees on Adrini')">Shop Kasavu →</button>
+    </div>
+  </div>
+  <div class="coll-strip">
+    <div class="coll-strip-card active" style="background:radial-gradient(#c9943a,#3d2b00)">
+      <div class="coll-strip-over"><span class="coll-strip-name">Kasavu</span></div>
+      <div class="coll-strip-line"></div>
+    </div>
+    <div class="coll-strip-card" style="background:radial-gradient(#7c3aed,#0a0015)">
+      <div class="coll-strip-over"><span class="coll-strip-name">Silk</span></div>
+      <div class="coll-strip-line"></div>
+    </div>
+    <div class="coll-strip-card" style="background:radial-gradient(#0891b2,#030712)">
+      <div class="coll-strip-over"><span class="coll-strip-name">Cotton</span></div>
+      <div class="coll-strip-line"></div>
+    </div>
+    <div class="coll-strip-card" style="background:radial-gradient(#dc2626,#0a0000)">
+      <div class="coll-strip-over"><span class="coll-strip-name">Bridal</span></div>
+      <div class="coll-strip-line"></div>
+    </div>
+    <div class="coll-strip-card" style="background:radial-gradient(#0d9488,#0f172a)">
+      <div class="coll-strip-over"><span class="coll-strip-name">Printed</span></div>
+      <div class="coll-strip-line"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="section-label">Bestsellers — product grid</div>
+<div class="products-sec">
+  <div class="products-header">
+    <div>
+      <div class="products-eyebrow">Most loved</div>
+      <div class="products-title">Bestselling sarees</div>
+    </div>
+    <span class="products-link">View all →</span>
+  </div>
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-img" style="background:#f0e8d0"><span class="product-badge pb-hot">bestseller</span><span style="font-size:10px;color:#8a7d6b">Kasavu saree<br>photo here</span></div>
+      <div class="product-info">
+        <div class="product-name">Pure Cotton Kasavu</div>
+        <div class="product-fabric">Cotton · 6.3m · Thrissur</div>
+        <div class="product-bottom">
+          <div><span class="product-price">₹999</span><span class="product-price-old">₹1,499</span></div>
+          <button class="product-cart">Add →</button>
+        </div>
+        <div class="product-sold">23 sold this week</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img" style="background:#e8e0f0"><span class="product-badge pb-new">new</span><span style="font-size:10px;color:#8a7d6b">Silk saree<br>photo here</span></div>
+      <div class="product-info">
+        <div class="product-name">Art Silk Kanjivaram</div>
+        <div class="product-fabric">Art Silk · 6m · Premium</div>
+        <div class="product-bottom">
+          <div><span class="product-price">₹2,499</span></div>
+          <button class="product-cart">Add →</button>
+        </div>
+        <div class="product-sold">11 sold this week</div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img" style="background:#e0f0e8"><span class="product-badge pb-hot">popular</span><span style="font-size:10px;color:#8a7d6b">Cotton saree<br>photo here</span></div>
+      <div class="product-info">
+        <div class="product-name">Handloom Cotton</div>
+        <div class="product-fabric">Cotton · 6m · Daily wear</div>
+        <div class="product-bottom">
+          <div><span class="product-price">₹599</span></div>
+          <button class="product-cart">Add →</button>
+        </div>
+        <div class="product-sold">41 sold this week</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="section-label">Trust signals</div>
+<div class="trust-sec">
+  <div class="trust-header">
+    <div class="trust-eyebrow">WHY ADRINI</div>
+    <div class="trust-title">Shop With Confidence</div>
+  </div>
+  <div class="trust-grid">
+    <div class="trust-card">
+      <span class="trust-card-icon">↩️</span>
+      <div class="trust-card-title">7-day hassle-free returns</div>
+      <div class="trust-card-body">Not happy? Return it. No questions asked. Full refund to your account within 3 days.</div>
+    </div>
+    <div class="trust-card">
+      <span class="trust-card-icon">📲</span>
+      <div class="trust-card-title">WhatsApp support</div>
+      <div class="trust-card-body">Real person. Real answers. We reply within 1 hour, Monday–Saturday, 9am–8pm.</div>
+    </div>
+    <div class="trust-card">
+      <span class="trust-card-icon">🧵</span>
+      <div class="trust-card-title">100% handloom certified</div>
+      <div class="trust-card-body">Every saree handpicked from Thrissur wholesale market — Kerala's finest handloom hub.</div>
+    </div>
+    <div class="trust-card">
+      <span class="trust-card-icon">📦</span>
+      <div class="trust-card-title">COD available</div>
+      <div class="trust-card-body">Pay when it arrives at your door. No risk, no upfront payment required.</div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="section-label">Customer reviews</div>
+<div class="reviews-sec">
+  <div class="reviews-header">
+    <div class="reviews-eyebrow">Real women. Real sarees.</div>
+    <div class="reviews-title">What our customers say</div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-body">"The kasavu saree arrived beautifully wrapped. Quality is exactly like what I'd find in Thrissur. Will definitely order again."</div>
+      <div class="review-author"><div class="review-avatar">PR</div><div><div class="review-name">Priya R.</div><div class="review-city">Bangalore</div></div></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-body">"Ordered for Onam. Arrived in 3 days. The gold border is exactly as shown. My family loved it. Adrini is my go-to now."</div>
+      <div class="review-author"><div class="review-avatar">SM</div><div><div class="review-name">Sreeja M.</div><div class="review-city">Chennai</div></div></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <div class="review-body">"WhatsApp support is incredible. They helped me choose the right saree for my daughter's wedding. Very personal service."</div>
+      <div class="review-author"><div class="review-avatar">AL</div><div><div class="review-name">Asha L.</div><div class="review-city">Mumbai</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTAGRAM -->
+<div class="section-label">Instagram feed</div>
+<div class="insta-sec">
+  <div class="insta-header">
+    <div class="insta-title">Wear it. Share it. Tag us.</div>
+    <div class="insta-handle">@adrini.sarees</div>
+  </div>
+  <div class="insta-grid">
+    <div class="insta-cell" style="background:#d4c4a0"><div class="insta-cell-over"><span style="font-size:10px;color:#fff">Shop →</span></div></div>
+    <div class="insta-cell" style="background:#b8a8cc"><div class="insta-cell-over"><span style="font-size:10px;color:#fff">Shop →</span></div></div>
+    <div class="insta-cell" style="background:#a8c4b0"><div class="insta-cell-over"><span style="font-size:10px;color:#fff">Shop →</span></div></div>
+    <div class="insta-cell" style="background:#c4b0a0"><div class="insta-cell-over"><span style="font-size:10px;color:#fff">Shop →</span></div></div>
+  </div>
+</div>
+
+<!-- WHATSAPP -->
+<div class="section-label">WhatsApp CTA</div>
+<div class="whatsapp-sec">
+  <div class="wa-left">
+    <div class="wa-title">Have a question? Chat with us.</div>
+    <div class="wa-sub">We reply in minutes. Monday–Saturday, 9am–8pm IST.<br>Order on WhatsApp in 60 seconds — no website needed.</div>
+  </div>
+  <button class="wa-btn" onclick="sendPrompt('I want to order an Adrini saree on WhatsApp')">
+    <span>Chat on WhatsApp</span>
+  </button>
+</div>
+
+<!-- EMAIL -->
+<div class="section-label">Email capture</div>
+<div class="email-sec">
+  <div class="email-eyebrow">Join the Adrini Community</div>
+  <div class="email-title">Enjoy ₹200 Off Your First Adrini Saree</div>
+  <div class="email-sub">New arrivals, exclusive offers, and saree care tips — straight to your inbox.</div>
+  <div class="email-form">
+    <input class="email-input" placeholder="Your email address" type="email"/>
+    <button class="email-submit">Claim ₹200</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="section-label">Footer</div>
+<div class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">A<span>D</span>RINI</div>
+      <div class="footer-tagline">Handwoven sarees from Kerala's finest looms. Delivered across India with love and care.</div>
+      <div class="footer-social">
+        <div class="footer-social-btn">In</div>
+        <div class="footer-social-btn">Ig</div>
+        <div class="footer-social-btn">Wa</div>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <div class="footer-links">
+        <span class="footer-link">Kasavu sarees</span>
+        <span class="footer-link">Silk sarees</span>
+        <span class="footer-link">Cotton sarees</span>
+        <span class="footer-link">Bridal sarees</span>
+        <span class="footer-link">Printed sarees</span>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Help</div>
+      <div class="footer-links">
+        <span class="footer-link">About Adrini</span>
+        <span class="footer-link">Shipping policy</span>
+        <span class="footer-link">Returns</span>
+        <span class="footer-link">Contact us</span>
+        <span class="footer-link">Privacy policy</span>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Adrini Sarees. Kollam, Kerala, India. Made with love 🪡</div>
+    <div class="footer-gst">GST: 32XXXXX0000X1ZX</div>
+  </div>
+</div>
+
+</div>
+</div>

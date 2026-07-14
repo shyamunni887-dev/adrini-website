@@ -1,0 +1,362 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1208;
+    --gold: #c9943a;
+    --gold-light: #e8c87a;
+    --cream: #faf6ee;
+    --warm: #f0e8d8;
+    --muted: #8a7d6b;
+    --thread: #d4a853;
+  }
+
+  .brand-page { background: var(--cream); font-family: 'DM Sans', sans-serif; color: var(--ink); padding: 0 0 3rem; }
+
+  /* HERO */
+  .hero { background: var(--ink); padding: 3.5rem 2rem 3rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: repeating-linear-gradient(90deg, rgba(201,148,58,0.06) 0px, rgba(201,148,58,0.06) 1px, transparent 1px, transparent 40px), repeating-linear-gradient(0deg, rgba(201,148,58,0.06) 0px, rgba(201,148,58,0.06) 1px, transparent 1px, transparent 40px); }
+  .logo-mark { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; position: relative; z-index: 1; }
+  .logo-threads { display: flex; gap: 3px; align-items: flex-end; height: 28px; margin-bottom: 4px; }
+  .thread { width: 3px; border-radius: 2px; background: var(--gold); animation: weave 2s ease-in-out infinite; }
+  .thread:nth-child(1) { height: 14px; animation-delay: 0s; }
+  .thread:nth-child(2) { height: 22px; animation-delay: 0.1s; }
+  .thread:nth-child(3) { height: 28px; animation-delay: 0.2s; background: var(--gold-light); }
+  .thread:nth-child(4) { height: 22px; animation-delay: 0.3s; }
+  .thread:nth-child(5) { height: 14px; animation-delay: 0.4s; }
+  .thread:nth-child(6) { height: 20px; animation-delay: 0.15s; }
+  .thread:nth-child(7) { height: 26px; animation-delay: 0.25s; background: var(--gold-light); }
+  @keyframes weave { 0%,100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.7); opacity: 0.6; } }
+  .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: #fff; letter-spacing: 0.12em; line-height: 1; }
+  .logo-name span { color: var(--gold); }
+  .logo-sub { font-size: 10px; font-weight: 400; letter-spacing: 0.35em; color: var(--muted); text-transform: uppercase; margin-top: 2px; }
+  .tagline-hero { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 18px; color: rgba(255,255,255,0.5); margin-top: 1.5rem; position: relative; z-index: 1; }
+
+  /* SECTIONS */
+  .section { padding: 2rem 1.5rem; border-bottom: 0.5px solid rgba(26,18,8,0.1); }
+  .sec-label { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .sec-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--ink); margin-bottom: 0.5rem; }
+
+  /* TAGLINES */
+  .tagline-grid { display: grid; gap: 10px; }
+  .tagline-card { background: var(--warm); border-radius: 10px; padding: 1rem 1.25rem; border-left: 3px solid var(--gold); }
+  .tagline-card.primary { background: var(--ink); border-left-color: var(--gold-light); }
+  .tagline-card.primary .tl-text { color: #fff; }
+  .tagline-card.primary .tl-note { color: var(--muted); }
+  .tl-text { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: var(--ink); margin-bottom: 4px; }
+  .tl-note { font-size: 11px; color: #8a7d6b; letter-spacing: 0.05em; }
+
+  /* PALETTE */
+  .palette-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .swatch { border-radius: 10px; overflow: hidden; }
+  .swatch-color { height: 60px; width: 100%; }
+  .swatch-info { padding: 6px 4px; }
+  .swatch-name { font-size: 11px; font-weight: 500; color: var(--ink); display: block; }
+  .swatch-hex { font-size: 10px; color: var(--muted); font-family: monospace; }
+  .palette-usage { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .usage-pill { background: var(--warm); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: var(--muted); }
+  .usage-pill strong { color: var(--ink); font-weight: 500; display: block; margin-bottom: 2px; font-size: 11px; }
+
+  /* LOGO VARIANTS */
+  .logo-variants { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .lv-card { border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .lv-dark { background: var(--ink); }
+  .lv-light { background: var(--warm); border: 0.5px solid rgba(26,18,8,0.12); }
+  .lv-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; }
+  .lv-dark .lv-label { color: var(--muted); }
+  .lv-light .lv-label { color: var(--muted); }
+  .lv-name-dark { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: #fff; letter-spacing: 0.1em; }
+  .lv-name-dark span { color: var(--gold); }
+  .lv-name-light { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--ink); letter-spacing: 0.1em; }
+  .lv-name-light span { color: var(--gold); }
+  .lv-icon-dark { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; color: var(--gold); letter-spacing: 0.05em; }
+  .lv-icon-light { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; color: var(--ink); letter-spacing: 0.05em; }
+
+  /* INSTAGRAM */
+  .insta-mock { background: var(--ink); border-radius: 14px; padding: 1.2rem; }
+  .insta-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .insta-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--ink); font-weight: 500; border: 2px solid var(--gold); flex-shrink: 0; }
+  .insta-handle { font-size: 14px; font-weight: 500; color: #fff; }
+  .insta-bio { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .insta-handles { display: grid; gap: 8px; }
+  .handle-row { background: rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
+  .handle-name { font-size: 13px; color: #fff; font-weight: 400; }
+  .handle-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .badge-best { background: rgba(201,148,58,0.2); color: var(--gold-light); }
+  .badge-good { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+  .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 1rem; border-radius: 8px; overflow: hidden; }
+  .ig-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 13px; text-align: center; padding: 8px; }
+  .ig-1 { background: var(--gold); color: var(--ink); }
+  .ig-2 { background: #2a2015; color: var(--gold-light); }
+  .ig-3 { background: #3a2d1a; color: var(--cream); }
+  .ig-4 { background: var(--warm); color: var(--ink); }
+  .ig-5 { background: var(--ink); color: var(--gold); border: 1px solid rgba(201,148,58,0.3); }
+  .ig-6 { background: #251d0e; color: var(--muted); }
+
+  /* SEO */
+  .seo-grid { display: grid; gap: 10px; }
+  .seo-card { background: var(--warm); border-radius: 10px; padding: 1rem 1.25rem; }
+  .seo-card.highlight { background: var(--ink); }
+  .seo-card.highlight .seo-title { color: var(--gold); }
+  .seo-card.highlight .seo-desc { color: rgba(255,255,255,0.6); }
+  .seo-card.highlight .seo-kw { background: rgba(201,148,58,0.15); color: var(--gold-light); }
+  .seo-num { font-size: 10px; font-weight: 500; color: var(--gold); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .seo-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .seo-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 10px; }
+  .seo-keywords { display: flex; flex-wrap: wrap; gap: 6px; }
+  .seo-kw { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: rgba(26,18,8,0.07); color: var(--muted); }
+
+  /* TYPOGRAPHY */
+  .type-grid { display: grid; gap: 12px; }
+  .type-card { background: var(--warm); border-radius: 10px; padding: 1rem 1.25rem; }
+  .type-role { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .type-sample-serif { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--ink); }
+  .type-sample-sans { font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 400; color: var(--ink); line-height: 1.6; }
+  .type-name { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  .cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 1.5rem 1.5rem 0; }
+  .cta-btn { border-radius: 10px; padding: 14px; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; border: none; font-family: 'DM Sans', sans-serif; }
+  .cta-primary { background: var(--ink); color: var(--gold); }
+  .cta-primary:hover { background: #2a2015; }
+  .cta-secondary { background: var(--warm); color: var(--ink); border: 0.5px solid rgba(26,18,8,0.15); }
+  .cta-secondary:hover { background: #e8ddc8; }
+</style>
+
+<div class="brand-page">
+
+  <div class="hero">
+    <div class="logo-mark">
+      <div class="logo-threads">
+        <div class="thread"></div><div class="thread"></div><div class="thread"></div>
+        <div class="thread"></div><div class="thread"></div><div class="thread"></div>
+        <div class="thread"></div>
+      </div>
+      <div class="logo-name">L<span>oo</span>myn</div>
+      <div class="logo-sub">Handwoven Sarees · Kollam, Kerala</div>
+    </div>
+    <p class="tagline-hero">"Where every thread tells a story"</p>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">01 — Taglines</p>
+    <p class="sec-title">Your brand voice</p>
+    <div class="tagline-grid">
+      <div class="tagline-card primary">
+        <p class="tl-text">Where every thread tells a story.</p>
+        <p class="tl-note">Primary tagline — use on all platforms</p>
+      </div>
+      <div class="tagline-card">
+        <p class="tl-text">Woven with love. Worn with pride.</p>
+        <p class="tl-note">Emotional tagline — packaging & gifting</p>
+      </div>
+      <div class="tagline-card">
+        <p class="tl-text">The art of the loom, reimagined.</p>
+        <p class="tl-note">Heritage tagline — website hero</p>
+      </div>
+      <div class="tagline-card">
+        <p class="tl-text">Six yards of pure Kerala soul.</p>
+        <p class="tl-note">Kerala-specific — for local campaigns</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">02 — Color palette</p>
+    <p class="sec-title">Adrini colours</p>
+    <div class="palette-row">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1a1208;"></div>
+        <div class="swatch-info"><span class="swatch-name">Loom Ink</span><span class="swatch-hex">#1a1208</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#c9943a;"></div>
+        <div class="swatch-info"><span class="swatch-name">Zari Gold</span><span class="swatch-hex">#c9943a</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#e8c87a;"></div>
+        <div class="swatch-info"><span class="swatch-name">Silk Glow</span><span class="swatch-hex">#e8c87a</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#faf6ee;"></div>
+        <div class="swatch-info"><span class="swatch-name">Cream Weave</span><span class="swatch-hex">#faf6ee</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#8a7d6b; border: 0.5px solid rgba(0,0,0,0.06);"></div>
+        <div class="swatch-info"><span class="swatch-name">Thread Mist</span><span class="swatch-hex">#8a7d6b</span></div>
+      </div>
+    </div>
+    <div class="palette-usage">
+      <div class="usage-pill"><strong>Loom Ink</strong>Backgrounds, headlines, packaging</div>
+      <div class="usage-pill"><strong>Zari Gold</strong>Logo, accents, CTA buttons</div>
+      <div class="usage-pill"><strong>Silk Glow</strong>Highlights, hover states</div>
+      <div class="usage-pill"><strong>Cream Weave</strong>Page backgrounds, cards</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">03 — Logo variants</p>
+    <p class="sec-title">Use across platforms</p>
+    <div class="logo-variants">
+      <div class="lv-card lv-dark">
+        <p class="lv-label">Dark version</p>
+        <p class="lv-name-dark">L<span>oo</span>myn</p>
+      </div>
+      <div class="lv-card lv-light">
+        <p class="lv-label">Light version</p>
+        <p class="lv-name-light">L<span>oo</span>myn</p>
+      </div>
+      <div class="lv-card lv-dark">
+        <p class="lv-label">Icon mark</p>
+        <p class="lv-icon-dark">Ly</p>
+      </div>
+      <div class="lv-card lv-light">
+        <p class="lv-label">Stamp version</p>
+        <p class="lv-icon-light">Ly</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">04 — Typography</p>
+    <p class="sec-title">Brand fonts</p>
+    <div class="type-grid">
+      <div class="type-card">
+        <p class="type-role">Display / Headlines</p>
+        <p class="type-sample-serif">Cormorant Garamond</p>
+        <p class="type-name">Use for logo, taglines, product names, campaign headlines</p>
+      </div>
+      <div class="type-card">
+        <p class="type-role">Body / UI</p>
+        <p class="type-sample-sans">DM Sans — clean, modern, highly readable across all screen sizes and ages.</p>
+        <p class="type-name">Use for descriptions, prices, navigation, captions</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">05 — Instagram presence</p>
+    <p class="sec-title">Social media handles</p>
+    <div class="insta-mock">
+      <div class="insta-profile">
+        <div class="insta-avatar">Ly</div>
+        <div>
+          <p class="insta-handle">@adrini.sarees</p>
+          <p class="insta-bio">Handwoven sarees from Kerala · Where every thread tells a story</p>
+        </div>
+      </div>
+      <div class="insta-handles">
+        <div class="handle-row">
+          <span class="handle-name">@adrini.sarees</span>
+          <span class="handle-badge badge-best">Best pick</span>
+        </div>
+        <div class="handle-row">
+          <span class="handle-name">@adrini.in</span>
+          <span class="handle-badge badge-good">Clean</span>
+        </div>
+        <div class="handle-row">
+          <span class="handle-name">@adrinikollam</span>
+          <span class="handle-badge badge-good">Local SEO</span>
+        </div>
+        <div class="handle-row">
+          <span class="handle-name">@adrini_official</span>
+          <span class="handle-badge badge-good">Professional</span>
+        </div>
+      </div>
+      <div class="insta-grid">
+        <div class="ig-cell ig-1">New collection</div>
+        <div class="ig-cell ig-2">Kerala silk</div>
+        <div class="ig-cell ig-3">Bridal edit</div>
+        <div class="ig-cell ig-4">Behind the loom</div>
+        <div class="ig-cell ig-5">Onam special</div>
+        <div class="ig-cell ig-6">Daily drape</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="sec-label">06 — SEO strategy</p>
+    <p class="sec-title">Rank on Google</p>
+    <div class="seo-grid">
+      <div class="seo-card highlight">
+        <p class="seo-num">Primary keyword</p>
+        <p class="seo-title">Own "Adrini Sarees" first</p>
+        <p class="seo-desc">Make your brand name the #1 Google result within 3 months by consistent posting, a Google Business listing, and using "Adrini" in every page title.</p>
+        <div class="seo-keywords">
+          <span class="seo-kw">adrini sarees</span>
+          <span class="seo-kw">adrini kollam</span>
+          <span class="seo-kw">adrini.in</span>
+        </div>
+      </div>
+      <div class="seo-card">
+        <p class="seo-num">Local SEO — Kerala</p>
+        <p class="seo-title">Dominate Kollam saree searches</p>
+        <p class="seo-desc">Register on Google Business Profile as "Adrini Sarees — Kollam". Target location keywords to appear when people in Kollam search for sarees.</p>
+        <div class="seo-keywords">
+          <span class="seo-kw">sarees in kollam</span>
+          <span class="seo-kw">kerala handloom sarees</span>
+          <span class="seo-kw">kasavu sarees kollam</span>
+          <span class="seo-kw">silk sarees near me</span>
+        </div>
+      </div>
+      <div class="seo-card">
+        <p class="seo-num">High-intent keywords</p>
+        <p class="seo-title">Capture buyers, not browsers</p>
+        <p class="seo-desc">These keywords signal someone is ready to buy. Use them in product titles, Instagram captions, and website meta descriptions.</p>
+        <div class="seo-keywords">
+          <span class="seo-kw">buy kerala saree online</span>
+          <span class="seo-kw">onam saree 2026</span>
+          <span class="seo-kw">wedding saree kollam</span>
+          <span class="seo-kw">handloom saree price</span>
+          <span class="seo-kw">pure silk saree kerala</span>
+        </div>
+      </div>
+      <div class="seo-card">
+        <p class="seo-num">Instagram SEO</p>
+        <p class="seo-title">Hashtag strategy</p>
+        <p class="seo-desc">Use this mix on every post — 5 brand hashtags, 5 niche hashtags, 5 local hashtags. Rotate to avoid shadowbanning.</p>
+        <div class="seo-keywords">
+          <span class="seo-kw">#adrini</span>
+          <span class="seo-kw">#adrinisarees</span>
+          <span class="seo-kw">#keralahandloom</span>
+          <span class="seo-kw">#kollamsarees</span>
+          <span class="seo-kw">#kasavusaree</span>
+          <span class="seo-kw">#keralasaree</span>
+          <span class="seo-kw">#handloomlove</span>
+          <span class="seo-kw">#sareesofinstagram</span>
+        </div>
+      </div>
+      <div class="seo-card">
+        <p class="seo-num">Content calendar</p>
+        <p class="seo-title">Post topics that rank</p>
+        <p class="seo-desc">Post these content types weekly to build organic reach on both Google and Instagram consistently.</p>
+        <div class="seo-keywords">
+          <span class="seo-kw">New arrival reels</span>
+          <span class="seo-kw">Draping tutorials</span>
+          <span class="seo-kw">Behind the loom</span>
+          <span class="seo-kw">Festival edits</span>
+          <span class="seo-kw">Customer photos</span>
+          <span class="seo-kw">Saree care tips</span>
+        </div>
+      </div>
+      <div class="seo-card">
+        <p class="seo-num">Website domain</p>
+        <p class="seo-title">Secure your domain now</p>
+        <p class="seo-desc">Register these domains before anyone else does. Use adrini.in as primary — the .in extension ranks better in Indian Google searches.</p>
+        <div class="seo-keywords">
+          <span class="seo-kw">adrini.in ✓ Best</span>
+          <span class="seo-kw">adrini.com</span>
+          <span class="seo-kw">adrinisarees.in</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-row">
+    <button class="cta-btn cta-primary" onclick="sendPrompt('Design a logo SVG for Adrini sarees brand using Cormorant Garamond font with loom thread illustration')">Design logo SVG ↗</button>
+    <button class="cta-btn cta-secondary" onclick="sendPrompt('Create a Adrini sarees Instagram bio, highlight covers plan and first 9 post ideas')">Instagram plan ↗</button>
+  </div>
+
+</div>

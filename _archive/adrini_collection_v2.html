@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adrini — Collections</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0a0806;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── TOP HEADER ── */
+.header {
+  padding: 6rem 6vw 4rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.header-left {}
+.h-tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #c9943a;
+  margin-bottom: 14px;
+}
+.h-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 6vw, 80px);
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.05;
+  letter-spacing: -1px;
+}
+.h-title em {
+  font-style: italic;
+  color: #c9943a;
+}
+.header-right {
+  max-width: 300px;
+  text-align: right;
+}
+.h-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.38);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.h-count {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+
+/* ── HORIZONTAL SCROLL CONTAINER ── */
+.scroll-outer {
+  position: relative;
+  overflow: hidden;
+}
+.scroll-track {
+  display: flex;
+  gap: 3px;
+  cursor: grab;
+  user-select: none;
+  padding: 0 6vw;
+  transition: none;
+}
+.scroll-track:active { cursor: grabbing; }
+
+/* ── COLLECTION CARD ── */
+.col-card {
+  position: relative;
+  flex-shrink: 0;
+  width: clamp(280px, 30vw, 420px);
+  height: clamp(480px, 70vh, 680px);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: width 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.col-card.expanded {
+  width: clamp(480px, 50vw, 680px);
+}
+
+/* Photo background */
+.card-photo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+.col-card:hover .card-photo,
+.col-card.expanded .card-photo {
+  transform: scale(1.05);
+}
+
+/* Dark overlays */
+.card-grad-bottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(10,8,6,0.96) 0%,
+    rgba(10,8,6,0.6) 40%,
+    rgba(10,8,6,0.1) 70%,
+    transparent 100%
+  );
+}
+.card-grad-side {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(10,8,6,0.5) 0%,
+    transparent 100%
+  );
+}
+
+/* Number watermark */
+.card-watermark {
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 160px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Top badge */
+.card-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 2px;
+  z-index: 3;
+}
+.badge-gold { background: #c9943a; color: #0a0806; }
+.badge-teal { background: #1D9E75; color: #fff; }
+.badge-white { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.75); border: 0.5px solid rgba(255,255,255,0.15); }
+
+/* Content area */
+.card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem 1.8rem;
+  z-index: 2;
+}
+
+/* Collection label */
+.card-label {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #c9943a;
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s ease 0.1s;
+}
+.col-card.expanded .card-label,
+.col-card:hover .card-label {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Title */
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 400;
+  font-style: italic;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+/* Fabric name — always visible */
+.card-fabric {
+  font-size: 11px;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.08em;
+  margin-bottom: 0;
+  transition: margin 0.4s ease;
+}
+.col-card.expanded .card-fabric,
+.col-card:hover .card-fabric {
+  margin-bottom: 14px;
+}
+
+/* Story — hidden until expanded */
+.card-story {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.75;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.4s ease 0.1s;
+  margin-bottom: 0;
+}
+.col-card.expanded .card-story,
+.col-card:hover .card-story {
+  max-height: 120px;
+  opacity: 1;
+  margin-bottom: 16px;
+}
+
+/* Meta row */
+.card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+.card-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #fff;
+}
+.card-price-from {
+  font-size: 9px;
+  color: rgba(255,255,255,0.3);
+  display: block;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1px;
+}
+.card-shop {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.35s ease 0.15s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0;
+}
+.col-card.expanded .card-shop,
+.col-card:hover .card-shop {
+  opacity: 1;
+  transform: translateX(0);
+  color: #c9943a;
+}
+.shop-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 0.5px solid rgba(201,148,58,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.col-card:hover .shop-arrow,
+.col-card.expanded .shop-arrow {
+  background: #c9943a;
+  border-color: #c9943a;
+  color: #0a0806;
+}
+
+/* ── PHOTO BACKGROUNDS ── */
+.ph-kalyani {
+  background-color: #2a1e08;
+  background-image:
+    linear-gradient(160deg, rgba(201,148,58,0.25) 0%, transparent 50%),
+    url('https://images.unsplash.com/photo-1610189352649-c31d65c09aa5?w=900&q=85&fit=crop&crop=top');
+  background-size: cover;
+  background-position: center top;
+}
+.ph-mul {
+  background-color: #0d1020;
+  background-image:
+    linear-gradient(160deg, rgba(100,60,180,0.3) 0%, transparent 50%),
+    url('https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=900&q=85&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+.ph-khadi {
+  background-color: #0a1810;
+  background-image:
+    linear-gradient(160deg, rgba(20,100,60,0.3) 0%, transparent 50%),
+    url('https://images.unsplash.com/photo-1614252235316-8c857f4f8b27?w=900&q=85&fit=crop');
+  background-size: cover;
+  background-position: center;
+}
+.ph-banarasi {
+  background-color: #180808;
+  background-image:
+    linear-gradient(160deg, rgba(180,30,30,0.3) 0%, transparent 50%),
+    url('https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=900&q=85&fit=crop&crop=top');
+  background-size: cover;
+  background-position: center top;
+}
+
+/* ── BOTTOM STRIP ── */
+.bottom-strip {
+  padding: 3rem 6vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  border-top: 0.5px solid rgba(255,255,255,0.05);
+  margin-top: 3px;
+}
+.strip-left {
+  display: flex;
+  gap: 2rem;
+}
+.strip-stat {}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: #c9943a;
+  line-height: 1;
+}
+.stat-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+.strip-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.strip-hint {
+  font-size: 11px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.08em;
+}
+.strip-dots {
+  display: flex;
+  gap: 5px;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.dot.active { background: #c9943a; }
+
+/* ── DRAG HINT ── */
+.drag-hint {
+  text-align: center;
+  padding: 0.8rem 0 0;
+  font-size: 10px;
+  color: rgba(255,255,255,0.15);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* ── VERTICAL DIVIDER LINES ── */
+.col-card::after {
+  content: '';
+  position: absolute;
+  top: 20%;
+  bottom: 20%;
+  right: 0;
+  width: 0.5px;
+  background: rgba(255,255,255,0.06);
+  z-index: 2;
+}
+.col-card:last-child::after { display: none; }
+
+@media (max-width: 768px) {
+  .header { flex-direction: column; align-items: flex-start; }
+  .header-right { text-align: left; }
+  .scroll-track { padding: 0 1.5rem; }
+  .col-card { width: clamp(240px, 75vw, 320px); height: 420px; }
+  .col-card.expanded { width: clamp(280px, 80vw, 360px); }
+  .bottom-strip { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <p class="h-tag">Adrini Collections 2026</p>
+    <h2 class="h-title">Wear the<br><em>story</em></h2>
+  </div>
+  <div class="header-right">
+    <p class="h-desc">Four collections handpicked from India's finest weaving traditions. Each one a different feeling. All of them, unmistakably Adrini.</p>
+    <p class="h-count">94 styles · Pan-India delivery</p>
+  </div>
+</div>
+
+<!-- DRAG HINT -->
+<p class="drag-hint">← Drag to explore →</p>
+
+<!-- SCROLL TRACK -->
+<div class="scroll-outer">
+  <div class="scroll-track" id="track">
+
+    <!-- 01 KALYANI COTTON -->
+    <div class="col-card expanded" onclick="expand(this, 0)">
+      <div class="card-photo ph-kalyani"></div>
+      <div class="card-grad-bottom"></div>
+      <div class="card-grad-side"></div>
+      <div class="card-watermark">01</div>
+      <span class="card-badge badge-gold">Bestseller</span>
+      <div class="card-content">
+        <p class="card-label">01 · Kalyani Cotton</p>
+        <h3 class="card-title">The Gold That<br>Never Fades</h3>
+        <p class="card-fabric">Pure cotton · Zari border · Thrissur looms</p>
+        <p class="card-story">Before Onam mornings. Before temple bells. There was always a kasavu saree laid out the night before — cream cotton, gold border, the scent of fresh starch. This collection is that memory, rewoven for you.</p>
+        <div class="card-meta">
+          <div>
+            <span class="card-price-from">From</span>
+            <span class="card-price">₹899</span>
+          </div>
+          <button class="card-shop">Shop <span class="shop-arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 MUL COTTON -->
+    <div class="col-card" onclick="expand(this, 1)">
+      <div class="card-photo ph-mul"></div>
+      <div class="card-grad-bottom"></div>
+      <div class="card-grad-side"></div>
+      <div class="card-watermark">02</div>
+      <span class="card-badge badge-teal">New arrivals</span>
+      <div class="card-content">
+        <p class="card-label">02 · Mul Cotton</p>
+        <h3 class="card-title">Light as Air.<br>Rich as Silk.</h3>
+        <p class="card-fabric">Mul cotton · Soft drape · All-day wear</p>
+        <p class="card-story">Mul cotton — the whisper-light fabric that drapes like a dream. For the woman who wants silk's elegance in cotton's comfort. Woven thin enough to feel the breeze through it.</p>
+        <div class="card-meta">
+          <div>
+            <span class="card-price-from">From</span>
+            <span class="card-price">₹799</span>
+          </div>
+          <button class="card-shop">Shop <span class="shop-arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 KHADI COTTON -->
+    <div class="col-card" onclick="expand(this, 2)">
+      <div class="card-photo ph-khadi"></div>
+      <div class="card-grad-bottom"></div>
+      <div class="card-grad-side"></div>
+      <div class="card-watermark">03</div>
+      <span class="card-badge badge-white">Hand-spun</span>
+      <div class="card-content">
+        <p class="card-label">03 · Khadi Cotton</p>
+        <h3 class="card-title">Woven from<br>the Earth Itself</h3>
+        <p class="card-fabric">Hand-spun khadi · Natural texture · Artisan woven</p>
+        <p class="card-story">Khadi is India's oldest fabric — spun by hand, woven with purpose. Rough yet refined. Every Adrini khadi saree carries the spirit of the artisan who made it. Wear it with the pride it deserves.</p>
+        <div class="card-meta">
+          <div>
+            <span class="card-price-from">From</span>
+            <span class="card-price">₹1,299</span>
+          </div>
+          <button class="card-shop">Shop <span class="shop-arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 BANARASI -->
+    <div class="col-card" onclick="expand(this, 3)">
+      <div class="card-photo ph-banarasi"></div>
+      <div class="card-grad-bottom"></div>
+      <div class="card-grad-side"></div>
+      <div class="card-watermark">04</div>
+      <span class="card-badge badge-gold">Premium</span>
+      <div class="card-content">
+        <p class="card-label">04 · Banarasi</p>
+        <h3 class="card-title">Where Every<br>Thread is Gold</h3>
+        <p class="card-fabric">Banarasi silk · Zari weave · Varanasi</p>
+        <p class="card-story">Banarasi is not just a saree — it is a ceremony. The city of Varanasi has been weaving these golden threads for 600 years. Each piece chosen for its weight, its sheen, and the story it tells without words.</p>
+        <div class="card-meta">
+          <div>
+            <span class="card-price-from">From</span>
+            <span class="card-price">₹2,499</span>
+          </div>
+          <button class="card-shop">Shop <span class="shop-arrow">→</span></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOTTOM STRIP -->
+<div class="bottom-strip">
+  <div class="strip-left">
+    <div class="strip-stat">
+      <div class="stat-num">94</div>
+      <div class="stat-label">Total styles</div>
+    </div>
+    <div class="strip-stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Collections</div>
+    </div>
+    <div class="strip-stat">
+      <div class="stat-num">₹799</div>
+      <div class="stat-label">Starts from</div>
+    </div>
+  </div>
+  <div class="strip-right">
+    <span class="strip-hint">Collection</span>
+    <div class="strip-dots">
+      <div class="dot active" onclick="goTo(0)"></div>
+      <div class="dot" onclick="goTo(1)"></div>
+      <div class="dot" onclick="goTo(2)"></div>
+      <div class="dot" onclick="goTo(3)"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let active = 0;
+
+  function expand(card, idx) {
+    document.querySelectorAll('.col-card').forEach((c, i) => {
+      c.classList.toggle('expanded', i === idx);
+    });
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+    active = idx;
+
+    // scroll card into view smoothly
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  function goTo(idx) {
+    const cards = document.querySelectorAll('.col-card');
+    expand(cards[idx], idx);
+  }
+
+  // Drag to scroll
+  const track = document.getElementById('track');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  track.addEventListener('mousedown', e => {
+    isDown = true;
+    track.style.cursor = 'grabbing';
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.parentElement.scrollLeft;
+  });
+  document.addEventListener('mouseup', () => {
+    isDown = false;
+    track.style.cursor = 'grab';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 1.2;
+    track.parentElement.scrollLeft = scrollLeft - walk;
+  });
+
+  // Touch scroll
+  track.addEventListener('touchstart', e => {
+    startX = e.touches[0].pageX;
+    scrollLeft = track.parentElement.scrollLeft;
+  });
+  track.addEventListener('touchmove', e => {
+    const x = e.touches[0].pageX;
+    const walk = (x - startX) * 1.2;
+    track.parentElement.scrollLeft = scrollLeft - walk;
+  });
+</script>
+
+</body>
+</html>

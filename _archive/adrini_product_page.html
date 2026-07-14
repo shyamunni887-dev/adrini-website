@@ -1,0 +1,309 @@
+
+<style>
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .pg{background:#f8f4ec;font-family:var(--font-sans)}
+
+  .nav{background:#0e0c08;padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+  .nav-logo{font-size:17px;font-weight:500;color:#fff;letter-spacing:3px}
+  .nav-logo span{color:#c9943a}
+  .nav-links{display:flex;gap:18px}
+  .nav-lnk{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:0.06em;cursor:pointer}
+  .nav-right{display:flex;gap:8px;align-items:center}
+  .nav-icon{width:30px;height:30px;border-radius:50%;border:0.5px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;cursor:pointer}
+
+  .breadcrumb{padding:12px 24px;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-tertiary);background:#f8f4ec;border-bottom:0.5px solid rgba(26,18,8,0.06)}
+  .bc-sep{color:var(--color-border-secondary)}
+  .bc-cur{color:#c9943a;font-weight:500}
+
+  .product-main{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#f8f4ec}
+
+  .gallery{padding:24px 20px 24px 24px}
+  .main-img{background:#e8dfc8;border-radius:var(--border-radius-lg);height:320px;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:10px;overflow:hidden;cursor:pointer}
+  .main-img-placeholder{text-align:center}
+  .main-img-text{font-size:12px;color:#8a7d6b;display:block;margin-top:6px}
+  .img-badge{position:absolute;top:12px;left:12px;font-size:10px;font-weight:500;padding:3px 10px;border-radius:20px;background:rgba(201,148,58,0.15);color:#8a5a10}
+  .img-heart{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .thumb-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .thumb{border-radius:var(--border-radius-md);height:60px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#8a7d6b;cursor:pointer;border:0.5px solid transparent}
+  .thumb.active{border-color:#c9943a}
+  .thumb:nth-child(1){background:#e0d4b8}
+  .thumb:nth-child(2){background:#d4c8a0}
+  .thumb:nth-child(3){background:#e8d8c0}
+  .thumb:nth-child(4){background:#d8ccb0}
+
+  .product-info{padding:24px 24px 24px 20px;display:flex;flex-direction:column;gap:0}
+  .pi-breadcrumb{font-size:10px;color:#8a7d6b;margin-bottom:8px;letter-spacing:0.05em}
+  .pi-name{font-size:22px;font-weight:500;color:#1a1208;line-height:1.25;margin-bottom:6px}
+  .pi-origin{font-size:11px;color:#8a7d6b;margin-bottom:12px;display:flex;align-items:center;gap:5px}
+  .origin-dot{width:4px;height:4px;border-radius:50%;background:#c9943a}
+
+  .pi-price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+  .pi-price{font-size:28px;font-weight:500;color:#1a1208}
+  .pi-price-old{font-size:14px;color:#8a7d6b;text-decoration:line-through}
+  .pi-discount{font-size:11px;font-weight:500;padding:3px 8px;border-radius:20px;background:#E1F5EE;color:#085041}
+  .pi-sold{font-size:11px;color:#8a7d6b;margin-bottom:14px}
+  .pi-sold span{color:#c9943a;font-weight:500}
+
+  .pi-divider{height:0.5px;background:rgba(26,18,8,0.08);margin:14px 0}
+
+  .pi-label{font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#8a7d6b;margin-bottom:8px}
+  .color-row{display:flex;gap:8px;margin-bottom:14px}
+  .color-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;border:2px solid transparent}
+  .color-swatch.active{border-color:#1a1208}
+  .color-swatch:nth-child(1){background:#f5e9cc}
+  .color-swatch:nth-child(2){background:#c8d8c0}
+  .color-swatch:nth-child(3){background:#d0c0d8}
+  .color-swatch:nth-child(4){background:#f0c8b0}
+
+  .qty-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .qty-ctrl{display:flex;align-items:center;gap:0;border:0.5px solid rgba(26,18,8,0.15);border-radius:20px;overflow:hidden}
+  .qty-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:#fff;border:none;font-size:16px;color:#1a1208;cursor:pointer;font-weight:500}
+  .qty-num{width:36px;text-align:center;font-size:13px;font-weight:500;color:#1a1208;border-left:0.5px solid rgba(26,18,8,0.1);border-right:0.5px solid rgba(26,18,8,0.1);height:32px;display:flex;align-items:center;justify-content:center}
+  .qty-label{font-size:11px;color:#8a7d6b}
+
+  .btn-atc{width:100%;padding:13px;border-radius:20px;background:#1a1208;color:#c9943a;font-size:13px;font-weight:500;border:none;cursor:pointer;margin-bottom:8px;letter-spacing:0.05em}
+  .btn-atc:hover{background:#2d2010}
+  .btn-wa{width:100%;padding:12px;border-radius:20px;background:#25D366;color:#fff;font-size:13px;font-weight:500;border:none;cursor:pointer;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px}
+
+  .trust-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .tp{font-size:10px;color:#8a7d6b;border:0.5px solid rgba(26,18,8,0.1);border-radius:20px;padding:4px 10px;display:flex;align-items:center;gap:4px;background:#fff}
+
+  .delivery-box{background:#fff;border-radius:var(--border-radius-md);padding:10px 14px;border:0.5px solid rgba(26,18,8,0.08);margin-bottom:14px}
+  .db-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#1a1208;margin-bottom:4px}
+  .db-row:last-child{margin-bottom:0}
+  .db-label{color:#8a7d6b;font-size:11px}
+
+  .accordion{border:0.5px solid rgba(26,18,8,0.08);border-radius:var(--border-radius-md);overflow:hidden;background:#fff}
+  .acc-item{border-bottom:0.5px solid rgba(26,18,8,0.06)}
+  .acc-item:last-child{border-bottom:none}
+  .acc-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:12px;font-weight:500;color:#1a1208}
+  .acc-arrow{font-size:11px;color:#8a7d6b}
+  .acc-body{padding:0 14px 12px;font-size:11px;color:#8a7d6b;line-height:1.7;display:none}
+  .acc-body.open{display:block}
+
+  .related-sec{background:#fff;padding:28px 24px;border-top:0.5px solid rgba(26,18,8,0.06)}
+  .related-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .related-title{font-size:16px;font-weight:500;color:#1a1208}
+  .related-link{font-size:11px;color:#c9943a;cursor:pointer}
+  .related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .rel-card{background:#f8f4ec;border-radius:var(--border-radius-md);overflow:hidden;cursor:pointer}
+  .rel-img{height:100px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#8a7d6b}
+  .rel-img:nth-child(1){background:#e8d8c0}
+  .rel-info{padding:8px 10px}
+  .rel-name{font-size:11px;font-weight:500;color:#1a1208;margin-bottom:2px}
+  .rel-price{font-size:11px;color:#8a7d6b}
+  .rel-price span{color:#1a1208;font-weight:500}
+
+  .sticky-bar{background:#1a1208;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .sb-name{font-size:13px;font-weight:500;color:#fff}
+  .sb-price{font-size:16px;font-weight:500;color:#c9943a}
+  .sb-actions{display:flex;gap:8px}
+  .sb-atc{font-size:12px;font-weight:500;padding:8px 20px;border-radius:20px;background:#c9943a;color:#1a1208;border:none;cursor:pointer}
+  .sb-wa{font-size:12px;font-weight:500;padding:8px 20px;border-radius:20px;background:transparent;color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);cursor:pointer}
+</style>
+
+<div class="pg">
+<h2 class="sr-only">Adrini product page mockup — showing navigation, breadcrumb, photo gallery, product info with price, colour options, quantity selector, add to cart, WhatsApp order button, delivery info, accordion details, related products, and sticky bottom bar</h2>
+
+<div class="nav">
+  <div class="nav-logo">A<span>D</span>RINI</div>
+  <div class="nav-links">
+    <span class="nav-lnk">Collections</span>
+    <span class="nav-lnk">About</span>
+    <span class="nav-lnk">Contact</span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-icon"><i class="ti ti-search" style="font-size:14px;color:rgba(255,255,255,0.5)" aria-hidden="true"></i></div>
+    <div class="nav-icon"><i class="ti ti-heart" style="font-size:14px;color:rgba(255,255,255,0.5)" aria-hidden="true"></i></div>
+    <div class="nav-icon" style="background:rgba(201,148,58,0.15);border-color:rgba(201,148,58,0.3)"><i class="ti ti-shopping-cart" style="font-size:14px;color:#c9943a" aria-hidden="true"></i></div>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <span>Home</span>
+  <span class="bc-sep">/</span>
+  <span>Kasavu sarees</span>
+  <span class="bc-sep">/</span>
+  <span class="bc-cur">Pure cotton kasavu — cream & gold</span>
+</div>
+
+<div class="product-main">
+
+  <div class="gallery">
+    <div class="main-img">
+      <span class="img-badge">bestseller</span>
+      <div class="img-heart"><i class="ti ti-heart" style="font-size:14px;color:#8a7d6b" aria-hidden="true"></i></div>
+      <div class="main-img-placeholder">
+        <i class="ti ti-photo" style="font-size:48px;color:#c9943a;opacity:0.3" aria-hidden="true"></i>
+        <span class="main-img-text">Your product photo here<br>Recommended: 1200×1600px</span>
+      </div>
+    </div>
+    <div class="thumb-row">
+      <div class="thumb active"><span>Main</span></div>
+      <div class="thumb"><span>Border</span></div>
+      <div class="thumb"><span>Pallu</span></div>
+      <div class="thumb"><span>Detail</span></div>
+    </div>
+  </div>
+
+  <div class="product-info">
+    <div class="pi-breadcrumb">Kasavu sarees</div>
+    <div class="pi-name">Pure Cotton Kasavu Saree — Cream & Gold Zari Border</div>
+    <div class="pi-origin">
+      <span class="origin-dot"></span>
+      <span>Handcrafted in Kerala</span>
+      <span class="origin-dot"></span>
+      <span>Pure cotton</span>
+      <span class="origin-dot"></span>
+      <span>6.3 metres</span>
+    </div>
+
+    <div class="pi-price-row">
+      <span class="pi-price">₹999</span>
+      <span class="pi-price-old">₹1,499</span>
+      <span class="pi-discount">33% off</span>
+    </div>
+    <div class="pi-sold"><span>23 people</span> bought this in the last 7 days</div>
+
+    <div class="pi-divider"></div>
+
+    <div class="pi-label">Colour</div>
+    <div class="color-row">
+      <div class="color-swatch active" title="Cream & gold"></div>
+      <div class="color-swatch" title="Sage & gold"></div>
+      <div class="color-swatch" title="Lilac & gold"></div>
+      <div class="color-swatch" title="Peach & gold"></div>
+    </div>
+
+    <div class="pi-label">Quantity</div>
+    <div class="qty-row">
+      <div class="qty-ctrl">
+        <button class="qty-btn" onclick="var n=document.getElementById('qty');n.textContent=Math.max(1,parseInt(n.textContent)-1)">−</button>
+        <div class="qty-num" id="qty">1</div>
+        <button class="qty-btn" onclick="var n=document.getElementById('qty');n.textContent=parseInt(n.textContent)+1">+</button>
+      </div>
+      <span class="qty-label">In stock — ships in 1–2 days</span>
+    </div>
+
+    <button class="btn-atc" onclick="sendPrompt('I want to add the Pure Cotton Kasavu Saree to my Adrini cart')">
+      <i class="ti ti-shopping-cart" style="font-size:15px;vertical-align:-2px;margin-right:6px" aria-hidden="true"></i>
+      Add to cart
+    </button>
+    <button class="btn-wa" onclick="sendPrompt('I want to order the Adrini kasavu saree on WhatsApp')">
+      <i class="ti ti-brand-whatsapp" style="font-size:15px" aria-hidden="true"></i>
+      Order on WhatsApp
+    </button>
+
+    <div class="trust-pills">
+      <div class="tp"><i class="ti ti-truck" style="font-size:13px;color:#c9943a" aria-hidden="true"></i> Free shipping above ₹999</div>
+      <div class="tp"><i class="ti ti-refresh" style="font-size:13px;color:#c9943a" aria-hidden="true"></i> 7-day returns</div>
+      <div class="tp"><i class="ti ti-cash" style="font-size:13px;color:#c9943a" aria-hidden="true"></i> COD available</div>
+      <div class="tp"><i class="ti ti-lock" style="font-size:13px;color:#c9943a" aria-hidden="true"></i> Secure checkout</div>
+    </div>
+
+    <div class="delivery-box">
+      <div class="db-row">
+        <i class="ti ti-map-pin" style="font-size:14px;color:#c9943a" aria-hidden="true"></i>
+        <span>Enter your pincode to see delivery date</span>
+        <input type="text" placeholder="Pincode" style="margin-left:auto;width:90px;padding:4px 8px;font-size:11px;border:0.5px solid rgba(26,18,8,0.15);border-radius:var(--border-radius-md);background:#f8f4ec"/>
+      </div>
+      <div class="db-row" style="margin-top:6px">
+        <i class="ti ti-package" style="font-size:14px;color:#1D9E75" aria-hidden="true"></i>
+        <span style="color:#085041;font-size:11px">Estimated delivery: <strong>3–5 working days</strong> across India</span>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-header" onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';this.querySelector('.acc-arrow').textContent=b.style.display==='block'?'−':'+'">
+          <span>Fabric & weave details</span>
+          <span class="acc-arrow">+</span>
+        </div>
+        <div class="acc-body">
+          Fabric: 100% pure cotton · Weave: Traditional Kerala handloom · Length: 6.3 metres including blouse piece · Border: Real zari gold thread · Blouse piece: 0.8 metres included · Weight: approx. 450g
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';this.querySelector('.acc-arrow').textContent=b.style.display==='block'?'−':'+'">
+          <span>Care instructions</span>
+          <span class="acc-arrow">+</span>
+        </div>
+        <div class="acc-body">
+          First wash: dry clean recommended · Regular care: gentle hand wash in cold water · Do not wring — gently squeeze out water · Dry in shade, not direct sunlight · Store folded with a muslin cloth to protect the zari border · Iron on medium heat, reverse side only
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';this.querySelector('.acc-arrow').textContent=b.style.display==='block'?'−':'+'">
+          <span>Shipping & returns</span>
+          <span class="acc-arrow">+</span>
+        </div>
+        <div class="acc-body">
+          Ships within 1–2 working days · Free shipping on orders above ₹999 · Delivery in 3–5 working days pan-India · 7-day easy returns for unworn sarees with tags intact · Refund processed within 3 working days of receiving return
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="var b=this.nextElementSibling;b.style.display=b.style.display==='block'?'none':'block';this.querySelector('.acc-arrow').textContent=b.style.display==='block'?'−':'+'">
+          <span>Why this saree</span>
+          <span class="acc-arrow">+</span>
+        </div>
+        <div class="acc-body">
+          This kasavu saree is handpicked by us for its even gold border, uniform weave, and pure cotton quality. Perfect for Onam, Vishu, temple visits, and everyday elegance. The crisp cotton fabric is breathable and comfortable for all-day wear — especially in Kerala's climate.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="related-sec">
+  <div class="related-header">
+    <div class="related-title">You may also like</div>
+    <span class="related-link" onclick="sendPrompt('Show me all Kasavu sarees on Adrini')">View all →</span>
+  </div>
+  <div class="related-grid">
+    <div class="rel-card" onclick="sendPrompt('Show me the Kasavu silk cotton saree on Adrini')">
+      <div class="rel-img" style="background:#ddd4b8"><i class="ti ti-photo" style="font-size:24px;color:#c9943a;opacity:0.3" aria-hidden="true"></i></div>
+      <div class="rel-info">
+        <div class="rel-name">Kasavu silk cotton</div>
+        <div class="rel-price"><span>₹1,499</span></div>
+      </div>
+    </div>
+    <div class="rel-card" onclick="sendPrompt('Show me the cotton handloom saree on Adrini')">
+      <div class="rel-img" style="background:#c8d4c0"><i class="ti ti-photo" style="font-size:24px;color:#c9943a;opacity:0.3" aria-hidden="true"></i></div>
+      <div class="rel-info">
+        <div class="rel-name">Cotton handloom</div>
+        <div class="rel-price"><span>₹699</span></div>
+      </div>
+    </div>
+    <div class="rel-card" onclick="sendPrompt('Show me the printed cotton saree on Adrini')">
+      <div class="rel-img" style="background:#d4c4c0"><i class="ti ti-photo" style="font-size:24px;color:#c9943a;opacity:0.3" aria-hidden="true"></i></div>
+      <div class="rel-info">
+        <div class="rel-name">Printed cotton</div>
+        <div class="rel-price"><span>₹849</span></div>
+      </div>
+    </div>
+    <div class="rel-card" onclick="sendPrompt('Show me the art silk saree on Adrini')">
+      <div class="rel-img" style="background:#c8c0d4"><i class="ti ti-photo" style="font-size:24px;color:#c9943a;opacity:0.3" aria-hidden="true"></i></div>
+      <div class="rel-info">
+        <div class="rel-name">Art silk saree</div>
+        <div class="rel-price"><span>₹2,299</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-bar">
+  <div>
+    <div class="sb-name">Pure Cotton Kasavu — Cream & Gold</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="sb-price">₹999</span>
+      <span style="font-size:11px;color:rgba(255,255,255,0.3);text-decoration:line-through">₹1,499</span>
+    </div>
+  </div>
+  <div class="sb-actions">
+    <button class="sb-wa" onclick="sendPrompt('Order Adrini kasavu saree on WhatsApp')">WhatsApp</button>
+    <button class="sb-atc" onclick="sendPrompt('Add Adrini kasavu saree to cart')">Add to cart</button>
+  </div>
+</div>
+
+</div>

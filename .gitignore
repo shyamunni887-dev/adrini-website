@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build outputs
+/products/
+/collections/
+sitemap.xml
+.netlify/
+
+# OS files
+.DS_Store
