@@ -531,52 +531,56 @@
                 reqBody = { query: QUERY, variables: { handle } };
             }
 
-            // Fetch with retry for intermittent network issues or HTML responses (e.g. captive portals)
-            let res;
-            let data;
-            let retries = 2;
-            let lastErr;
-            while (retries >= 0) {
-                try {
-                    res = await fetch(
-                        `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`,
-                        {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
-                            },
-                            body: JSON.stringify(reqBody)
-                        }
-                    );
-                    
-                    // Attempt to parse JSON immediately. If it's HTML, this will throw and trigger a retry.
-                    data = await res.json();
-                    
-                    // If we got here and data.errors doesn't exist, it's a success
-                    if (!data.errors) {
-                        break; 
-                    }
-                } catch (err) {
-                    lastErr = err;
-                    if (retries === 0) throw err;
-                }
-                retries--;
-                if (retries >= 0) await new Promise(r => setTimeout(r, 500)); // wait 500ms before retry
-            }
-            
-            
             let collection;
-            if (isAll || isNewArrivals || isBestSelling) {
-                if (data?.data?.products) {
-                    collection = {
-                        title: isAll ? 'All Products' : (isNewArrivals ? 'New Arrivals' : 'Best Sellers'),
-                        descriptionHtml: '',
-                        products: data.data.products
-                    };
-                }
+            
+            if (window.__INITIAL_STATE__ && window.__INITIAL_STATE__.collection) {
+                collection = window.__INITIAL_STATE__.collection;
             } else {
-                collection = data?.data?.collection;
+                // Fetch with retry for intermittent network issues or HTML responses (e.g. captive portals)
+                let res;
+                let data;
+                let retries = 2;
+                let lastErr;
+                while (retries >= 0) {
+                    try {
+                        res = await fetch(
+                            `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`,
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
+                                },
+                                body: JSON.stringify(reqBody)
+                            }
+                        );
+                        
+                        // Attempt to parse JSON immediately. If it's HTML, this will throw and trigger a retry.
+                        data = await res.json();
+                        
+                        // If we got here and data.errors doesn't exist, it's a success
+                        if (!data.errors) {
+                            break; 
+                        }
+                    } catch (err) {
+                        lastErr = err;
+                        if (retries === 0) throw err;
+                    }
+                    retries--;
+                    if (retries >= 0) await new Promise(r => setTimeout(r, 500)); // wait 500ms before retry
+                }
+                
+                if (isAll || isNewArrivals || isBestSelling) {
+                    if (data?.data?.products) {
+                        collection = {
+                            title: isAll ? 'All Products' : (isNewArrivals ? 'New Arrivals' : 'Best Sellers'),
+                            descriptionHtml: '',
+                            products: data.data.products
+                        };
+                    }
+                } else {
+                    collection = data?.data?.collection;
+                }
             }
             
             if (!collection) {
@@ -707,7 +711,12 @@
 
     };
 
-    window.addEventListener('DOMContentLoaded', window.loadCollection);
+    // If SSR data is present, hydrate immediately. Otherwise wait for DOMContentLoaded.
+    if (window.__INITIAL_STATE__) {
+        window.loadCollection(window.__INITIAL_STATE__.collection.handle);
+    } else {
+        window.addEventListener('DOMContentLoaded', window.loadCollection);
+    }
 </script>
 </body>
 </html>
