@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&family=Cormorant+Garamond:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/styles/index.css?v=154">
+    <style>
+        /* PREMIUM FILTER BAR */
+        .lm-coll-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            margin-bottom: 32px;
+            border-top: 1px solid rgba(26,18,8,0.08);
+            border-bottom: 1px solid rgba(26,18,8,0.08);
+        }
+        .lm-coll-filters {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .lm-coll-select {
+            appearance: none;
+            -webkit-appearance: none;
+            background: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2212%22%20height%3D%228%22%20viewBox%3D%220%200%2012%208%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M1%201.5L6%206.5L11%201.5%22%20stroke%3D%22%231A1208%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E") no-repeat right 16px center;
+            background-color: transparent;
+            border: 1px solid rgba(26,18,8,0.15);
+            border-radius: 24px;
+            padding: 10px 40px 10px 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a1208;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .lm-coll-select:hover {
+            border-color: #1a1208;
+            background-color: #fcfaf5;
+        }
+        .lm-coll-select:focus {
+            outline: none;
+            border-color: #c9943a;
+            box-shadow: 0 0 0 3px rgba(201,148,58,0.1);
+        }
+        @media (max-width: 768px) {
+            .lm-coll-toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                border-top: none;
+            }
+            .lm-coll-filters {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 8px;
+                scrollbar-width: none; /* Firefox */
+            }
+            .lm-coll-filters::-webkit-scrollbar {
+                display: none; /* Chrome/Safari */
+            }
+            .lm-coll-select {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+        }
+    </style>
+
+    <!-- Shopify Storefront Web Components -->
+    <script type="module" src="https://cdn.shopify.com/storefront/web-components.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HSK91WTB0L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HSK91WTB0L');
+</script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1591320945778010');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1591320945778010&ev=PageView&noscript=1"
+    / loading="lazy"></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <title>banarasi | ADRINI</title>
+    <meta name="description" content="Explore the banarasi collection at ADRINI. Discover premium sarees crafted for every occasion.">
+    <link rel="canonical" href="https://adrini.com/collections/banarasi">
+    <meta property="og:title" content="banarasi | ADRINI">
+    <meta property="og:description" content="Explore the banarasi collection at ADRINI. Discover premium sarees crafted for every occasion.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://adrini.com/collections/banarasi">
+    <meta property="og:image" content="https://adrini.com/images/desktop_hero.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="banarasi | ADRINI">
+    <meta name="twitter:description" content="Explore the banarasi collection at ADRINI. Discover premium sarees crafted for every occasion.">
+    <meta name="twitter:image" content="https://adrini.com/images/desktop_hero.webp">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "name": "banarasi",
+      "description": "Explore the banarasi collection at ADRINI. Discover premium sarees crafted for every occasion.",
+      "url": "https://adrini.com/collections/banarasi",
+      "image": "https://adrini.com/images/desktop_hero.webp"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://adrini.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Collections",
+          "item": "https://adrini.com/all-collections.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "banarasi",
+          "item": "https://adrini.com/collections/banarasi"
+        }
+      ]
+    }
+  ]
+}
+    </script>
+    
+</head>
+<body class="pg" style="background: #f8f4ec; margin: 0;">
+
+
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+
+<header id="main-header" class="lm-nav fade-down">
+    <div class="lm-trust-strip">
+        <span>FREE SHIPPING & ₹99 OFF ON PREPAID ORDERS</span>
+        <span class="lm-trust-dot">•</span>
+        <span>HANDCRAFTED ACROSS INDIA</span>
+        <span class="lm-trust-dot">•</span>
+        <span>EASY RETURNS</span>
+    </div>
+    <div class="lm-nav-inner">
+        <!-- Left: Hamburger + Search -->
+        <div class="lm-nav-left">
+            <button id="hamburger-btn" class="lm-hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="lm-search-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" placeholder="Search collections..." id="search-input" autocomplete="off">
+            </div>
+        </div>
+
+        <!-- Centre: Logo -->
+        <a href="/" class="lm-nav-logo">
+            <h1>ADRINI</h1>
+            <span>Timeless Indian Elegance</span>
+        </a>
+
+        <!-- Right: Icons -->
+        <div class="lm-nav-actions">
+            <button id="mobile-search-btn" class="lm-nav-btn-icon lm-mobile-search-btn" aria-label="Search" onclick="window.openSearch && window.openSearch();">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button id="account-btn" class="lm-nav-btn-icon" aria-label="My Account">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <button id="wishlist-btn" class="lm-nav-btn-icon" aria-label="Wishlist" onclick="window.toggleWishlistDrawer && window.toggleWishlistDrawer()">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                <span class="wishlist-count">0</span>
+            </button>
+            <button id="cart-btn" class="lm-nav-btn-icon" aria-label="Cart">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                <span class="cart-count">0</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom navbar strip -->
+    <nav class="lm-nav-links" aria-label="Collections">
+        <div class="lm-nav-dropdown">
+            <a href="/all-collections.html" class="lm-nav-link">Collections ▾</a>
+            <div class="lm-nav-dropdown-content" id="header-collections-dropdown">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+        <a href="#" class="lm-nav-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','new-arrivals'); window.location.href='collection.html'">New Arrivals</a>
+        <a href="#" class="lm-nav-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','best-selling'); window.location.href='collection.html'">Best Sellers</a>
+        <a href="#" class="lm-nav-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','all'); window.location.href='collection.html'">All Products</a>
+    </nav>
+</header>
+
+<!-- ══ MOBILE NAV ════════════════════════════════════════════════════ -->
+<div id="mobile-nav" class="lm-mobile-nav" data-lenis-prevent>
+    <div class="lm-mobile-accordion" id="mobile-collections-accordion">
+        <button class="lm-mobile-accordion-btn" onclick="this.parentElement.classList.toggle('active')">
+            Collections
+            <svg class="lm-accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="lm-mobile-accordion-content">
+            <div class="lm-mobile-accordion-inner" id="mobile-collections-list">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <div class="lm-mobile-nav-eyebrow" style="margin-top: 16px;">SHOP</div>
+    <a href="#" class="lm-mobile-nav-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','new-arrivals'); window.location.href='collection.html'">New Arrivals <span class="lm-nav-dot">•</span></a>
+    <a href="#" class="lm-mobile-nav-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','best-selling'); window.location.href='collection.html'">Best Sellers <span class="lm-nav-dot">•</span></a>
+    <a href="#" class="lm-mobile-nav-link" onclick="event.preventDefault(); sessionStorage.setItem('lm-collection-handle','all'); window.location.href='collection.html'">All Products</a>
+    <a href="/all-collections.html" class="lm-mobile-nav-link">All Collections</a>
+
+    <hr class="lm-mobile-nav-divider">
+
+    <div class="lm-mobile-nav-eyebrow">YOUR ADRINI</div>
+    <div class="lm-mobile-nav-utility-grid">
+        <a href="#" class="lm-mobile-nav-utility" onclick="toggleMobileWishlist(event)" aria-label="Wishlist">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lm-nav-icon"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            Wishlist
+        </a>
+        <a href="#" class="lm-mobile-nav-utility" aria-label="Track Order">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lm-nav-icon"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            Track Order
+        </a>
+        <a href="#" class="lm-mobile-nav-utility" aria-label="My Orders">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lm-nav-icon"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            My Orders
+        </a>
+        <a href="#" class="lm-mobile-nav-utility" id="mobile-nav-account" aria-label="My Account">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lm-nav-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            My Account
+        </a>
+    </div>
+
+    <hr class="lm-mobile-nav-divider">
+
+    <div class="lm-mobile-nav-eyebrow">BRAND</div>
+    <div class="lm-mobile-nav-utility-grid" style="grid-template-columns: 1fr 1fr;">
+        <a href="our-story.html" class="lm-mobile-nav-utility">Our Story</a>
+        <a href="contact.html" class="lm-mobile-nav-utility">Contact Us</a>
+    </div>
+
+    <div class="lm-mobile-nav-premium-footer">
+        <div class="lm-mn-logo">ADRINI</div>
+        <div class="lm-mn-tagline">Timeless Indian Elegance</div>
+        <div class="lm-mn-subtagline">Handcrafted Sarees Curated Across India</div>
+    </div>
+</div>
+
+
+
+<main>
+<div class="lm-products-sec" style="min-height: 70vh;">
+  <div class="lm-coll-header" style="text-align:center; margin-bottom: 40px;">
+    <div class="lm-pp-breadcrumb" style="justify-content:center; margin-bottom:12px; opacity:1;">
+      <a href="/" style="text-decoration:none;color:inherit">Home</a>
+      <span class="lm-pp-bc-sep">/</span>
+      <span class="lm-pp-bc-cat">Collections</span>
+      <span class="lm-pp-bc-sep">/</span>
+      <span class="lm-pp-bc-cur" id="coll-bc">...</span>
+    </div>
+    <h1 id="coll-title" style="font-family:'Playfair Display', serif; font-size:36px; font-weight:400; color:#1a1208; margin-bottom:16px;">Loading Collection...</h1>
+    <p id="coll-desc" style="font-size:14px; color:#8a7d6b; max-width:600px; margin:0 auto; line-height:1.6; display:none;"></p>
+  </div>
+  <div id="coll-toolbar-wrapper" style="padding: 0 5vw; max-width: 1400px; margin-left: auto; margin-right: auto;">
+    <div id="coll-toolbar" class="lm-coll-toolbar" style="display:none;">
+      <div id="coll-count" style="font-size: 13px; color: #8a7d6b; font-family: 'Inter', sans-serif; font-weight:500;"></div>
+      <div class="lm-coll-filters">
+      <select id="coll-filter-price" onchange="window.applyCollFilters()" class="lm-coll-select">
+        <option value="all">All Prices</option>
+        <option value="under-999">Under ₹999</option>
+        <option value="1000-1499">₹1000 - ₹1499</option>
+        <option value="1500-2499">₹1500 - ₹2499</option>
+        <option value="2500-plus">₹2500+</option>
+      </select>
+      <select id="coll-sort" onchange="window.applyCollFilters()" class="lm-coll-select">
+        <option value="recommended">Recommended</option>
+        <option value="newest">Newest First</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="best-selling">Best Selling</option>
+      </select>
+    </div>
+  </div>
+  </div>
+
+  <div id="coll-grid" class="product-grid">
+    <!-- Products will be loaded here -->
+  </div>
+  
+  <div id="coll-loading" style="text-align:center; padding:60px 0; color:#8a7d6b; font-size:14px;">
+    Loading beautifully woven products...
+  </div>
+</div>
+
+</main>
+<!-- ══ FOOTER ═════════════════════════════════════════════════════════════════ -->
+<footer class="lm-footer">
+    <div style="text-align: center; color: rgba(255,255,255,0.3); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 32px; font-family: 'Inter', sans-serif;">Handcrafted sarees delivered across India</div>
+    <div class="lm-footer-top reveal">
+        <div class="lm-footer-brand">
+            <div class="lm-footer-logo" style="letter-spacing: 2px;">ADRINI</div>
+            <p class="lm-footer-tagline">Rooted in heritage, woven for today.</p>
+            <div class="lm-footer-social">
+                <a href="https://www.instagram.com/adrini.official/" class="lm-footer-social-btn" data-label="Instagram" target="_blank" aria-label="Instagram">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://wa.me/917356510301" target="_blank" class="lm-footer-social-btn" data-label="WhatsApp" aria-label="WhatsApp">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </a>
+            </div>
+        </div>
+        <div>
+            <div class="lm-footer-col-title">Shop</div>
+            <div class="lm-footer-links" id="footer-collections-list">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+        <div>
+            <div class="lm-footer-col-title">Help</div>
+            <div class="lm-footer-links">
+                <a href="privacy.html" class="lm-footer-link">Privacy Policy</a>
+                <a href="returns.html" class="lm-footer-link">Returns & Exchanges</a>
+                <a href="shipping.html" class="lm-footer-link">Shipping Info</a>
+            </div>
+        </div>
+        <div>
+            <div class="lm-footer-col-title">About Adrini</div>
+            <div class="lm-footer-links">
+                <a href="our-story.html" class="lm-footer-link">Our Story</a>
+                <a href="why-adrini.html" class="lm-footer-link">Why Adrini</a>
+                <a href="contact.html" class="lm-footer-link">Contact Us</a>
+            </div>
+        </div>
+    </div>
+    <div class="lm-footer-bottom">
+        <div class="lm-footer-copy">© 2026 Adrini. Kollam, Kerala, India. Made with love 🪡</div>
+        <div class="lm-footer-copy" style="margin-top: 4px; font-weight: 500;">Registered Legal Entity: Adrini</div>
+        <div class="lm-footer-gst">GSTIN: 32XXXXX0000X1ZX</div>
+    </div>
+</footer>
+
+<!-- ══ CART DRAWER ════════════════════════════════════════════════════════════ -->
+<div id="cart-drawer" class="drawer">
+    <div class="drawer-overlay"></div>
+    <div class="drawer-content">
+        <div class="drawer-header">
+            <h3>Shopping Bag</h3>
+            <button class="close-drawer">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items" data-lenis-prevent>
+            <p class="empty-cart-msg">Your bag is empty.</p>
+        </div>
+        <div id="cart-recommendations" style="display:none; padding:16px 20px; border-top:0.5px solid rgba(26,18,8,0.08); background:#fcfaf5;">
+            <div style="font-size:12px; font-weight:600; color:#1a1208; margin-bottom:12px; text-transform:uppercase; letter-spacing:0.04em;">Recommended for you</div>
+            <div id="cart-rec-items" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+        <div class="drawer-footer">
+            <div class="cart-coupon" style="margin-bottom: 14px; padding-bottom: 14px; border-bottom: 0.5px solid rgba(26,18,8,0.08);">
+                <div style="display:flex; gap:8px;">
+                    <input type="text" id="coupon-code" placeholder="Discount code" style="flex:1; padding:8px 10px; border:1px solid rgba(26,18,8,0.15); border-radius:6px; font-size:12px; outline:none; text-transform:uppercase; background:#f8f4ec;">
+                    <button onclick="window.applyCoupon()" style="padding:0 14px; background:#1a1208; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:12px; font-weight:500;">Apply</button>
+                </div>
+                <div id="coupon-msg" style="font-size:11px; margin-top:6px; color:#085041; display:none;"></div>
+            </div>
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cart-total-amount">₹0</span>
+            </div>
+            <button class="lm-checkout-btn">Checkout</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ WISHLIST DRAWER ═══════════════════════════════════════════════════════ -->
+<div id="wishlist-drawer" class="drawer">
+    <div class="drawer-overlay" onclick="toggleWishlistDrawer()"></div>
+    <div class="drawer-content">
+        <div class="drawer-header">
+            <h3>Your Wishlist</h3>
+            <button class="close-drawer" onclick="toggleWishlistDrawer()">&times;</button>
+        </div>
+        <div id="wishlist-items" class="cart-items" data-lenis-prevent>
+            <p class="empty-cart-msg">Your wishlist is empty.</p>
+        </div>
+        <div class="drawer-footer" style="display:none;" id="wishlist-footer">
+            <button class="lm-checkout-btn" onclick="addAllWishlistToCart()" style="background:#c9943a; color:#1a1208; border:none; border-radius:4px; padding:12px; width:100%; cursor:pointer; font-weight:600; font-size:12px; letter-spacing:0.05em; text-transform:uppercase;">Add all to cart</button>
+        </div>
+    </div>
+</div>
+
+    <script src="https://unpkg.com/lenis@1.1.2/dist/lenis.min.js"></script>
+    <script src="/src/scripts/main.js?v=178"></script>
+<script>
+    const SHOPIFY_DOMAIN = 'adrini-5666.myshopify.com';
+    const ACCESS_TOKEN   = '5a869208a525680f7f1f91e2d8b20a97';
+
+    const QUERY = `
+    query CollectionByHandle($handle: String!) {
+        collection(handle: $handle) {
+            title
+            descriptionHtml
+            products(first: 50) {
+                edges {
+                    node {
+                        id
+                        handle
+                        title
+                        description
+                        productType
+                        tags
+                        availableForSale
+                        images(first: 2) { edges { node { url(transform: {maxWidth: 800}) altText } } }
+                        priceRange { minVariantPrice { amount currencyCode } }
+                        variants(first: 1) {
+                            edges {
+                                node {
+                                    id
+                                    quantityAvailable
+                                    compareAtPrice { amount currencyCode }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }`;
+
+    const QUERY_ALL = `
+    query AllProducts {
+        products(first: 60) {
+            edges {
+                node {
+                    id
+                    handle
+                    title
+                    description
+                    productType
+                    tags
+                    availableForSale
+                    images(first: 2) { edges { node { url(transform: {maxWidth: 800}) altText } } }
+                    priceRange { minVariantPrice { amount currencyCode } }
+                    variants(first: 1) {
+                        edges {
+                            node {
+                                id
+                                quantityAvailable
+                                compareAtPrice { amount currencyCode }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }`;
+
+    const QUERY_NEW_ARRIVALS = `
+    query NewArrivalsProducts {
+        products(first: 60, sortKey: CREATED_AT, reverse: true, query: "available_for_sale:true") {
+            edges {
+                node {
+                    id
+                    handle
+                    title
+                    description
+                    productType
+                    tags
+                    availableForSale
+                    images(first: 2) { edges { node { url(transform: {maxWidth: 800}) altText } } }
+                    priceRange { minVariantPrice { amount currencyCode } }
+                    variants(first: 1) {
+                        edges {
+                            node {
+                                id
+                                quantityAvailable
+                                compareAtPrice { amount currencyCode }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }`;
+
+    const QUERY_BEST_SELLING = `
+    query BestSellingProducts {
+        products(first: 60, sortKey: BEST_SELLING, query: "available_for_sale:true") {
+            edges {
+                node {
+                    id
+                    handle
+                    title
+                    description
+                    productType
+                    tags
+                    availableForSale
+                    images(first: 2) { edges { node { url(transform: {maxWidth: 800}) altText } } }
+                    priceRange { minVariantPrice { amount currencyCode } }
+                    variants(first: 1) {
+                        edges {
+                            node {
+                                id
+                                quantityAvailable
+                                compareAtPrice { amount currencyCode }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }`;
+
+    window.loadCollection = async function() {
+        // Try query string first, then hash fallback, then sessionStorage fallback
+        let handle = new URLSearchParams(window.location.search).get('handle')
+                  || (window.location.hash.startsWith('#') ? window.location.hash.slice(1) : null)
+                  || sessionStorage.getItem('lm-collection-handle');
+        
+        // Clear sessionStorage after reading so it doesn't accidentally load on direct visits later
+        sessionStorage.removeItem('lm-collection-handle');
+        
+        if (!handle) {
+            document.getElementById('coll-title').textContent = 'Collection Not Found (No Handle Provided)';
+            document.getElementById('coll-loading').style.display = 'none';
+            return;
+        }
+
+        // Make URL shareable and reloadable
+        if (new URLSearchParams(window.location.search).get('handle') !== handle) {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('handle', handle);
+            window.history.replaceState({}, '', newUrl);
+        }
+
+        try {
+            const isAll = handle === 'all';
+            const isNewArrivals = handle === 'new-arrivals';
+            const isBestSelling = handle === 'best-selling';
+            
+            let reqBody;
+            if (isAll) {
+                reqBody = { query: QUERY_ALL };
+            } else if (isNewArrivals) {
+                reqBody = { query: QUERY_NEW_ARRIVALS };
+            } else if (isBestSelling) {
+                reqBody = { query: QUERY_BEST_SELLING };
+            } else {
+                reqBody = { query: QUERY, variables: { handle } };
+            }
+
+            // Fetch with retry for intermittent network issues or HTML responses (e.g. captive portals)
+            let res;
+            let data;
+            let retries = 2;
+            let lastErr;
+            while (retries >= 0) {
+                try {
+                    res = await fetch(
+                        `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`,
+                        {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
+                            },
+                            body: JSON.stringify(reqBody)
+                        }
+                    );
+                    
+                    // Attempt to parse JSON immediately. If it's HTML, this will throw and trigger a retry.
+                    data = await res.json();
+                    
+                    // If we got here and data.errors doesn't exist, it's a success
+                    if (!data.errors) {
+                        break; 
+                    }
+                } catch (err) {
+                    lastErr = err;
+                    if (retries === 0) throw err;
+                }
+                retries--;
+                if (retries >= 0) await new Promise(r => setTimeout(r, 500)); // wait 500ms before retry
+            }
+            
+            
+            let collection;
+            if (isAll || isNewArrivals || isBestSelling) {
+                if (data?.data?.products) {
+                    collection = {
+                        title: isAll ? 'All Products' : (isNewArrivals ? 'New Arrivals' : 'Best Sellers'),
+                        descriptionHtml: '',
+                        products: data.data.products
+                    };
+                }
+            } else {
+                collection = data?.data?.collection;
+            }
+            
+            if (!collection) {
+                document.getElementById('coll-title').textContent = 'Collection Not Found (' + handle + ')';
+                document.getElementById('coll-loading').style.display = 'none';
+                return;
+            }
+
+            // Update UI
+            document.title = collection.title + ' | Adrini';
+            document.getElementById('coll-title').textContent = collection.title;
+            document.getElementById('coll-bc').textContent = collection.title;
+            
+            if (collection.descriptionHtml) {
+                const descEl = document.getElementById('coll-desc');
+                descEl.innerHTML = collection.descriptionHtml;
+                descEl.style.display = 'block';
+            }
+
+            // Save products globally
+            window.__collProducts = collection.products.edges.map(e => e.node);
+            
+
+
+            document.getElementById('coll-loading').style.display = 'none';
+            document.getElementById('coll-toolbar').style.display = 'flex';
+            
+            window.applyCollFilters();
+        } catch (err) {
+            console.error('Failed to load collection:', err);
+            document.getElementById('coll-title').textContent = 'Error Loading Collection: ' + (err.message || err) + ' | Stack: ' + (err.stack || 'no stack');
+            document.getElementById('coll-loading').style.display = 'none';
+            document.querySelector('.lm-coll-header').style.opacity = '1';
+        }
+    };
+
+    window.applyCollFilters = function() {
+        if (!window.__collProducts) return;
+        
+        const priceVal = document.getElementById('coll-filter-price')?.value || 'all';
+        const sortVal = document.getElementById('coll-sort')?.value || 'recommended';
+        
+        let filtered = window.__collProducts.filter(p => {
+            
+            // Price Filter
+            if (priceVal !== 'all') {
+                const price = parseFloat(p.priceRange.minVariantPrice.amount);
+                if (priceVal === 'under-999' && price >= 999) return false;
+                if (priceVal === '1000-1499' && (price < 1000 || price > 1499)) return false;
+                if (priceVal === '1500-2499' && (price < 1500 || price > 2499)) return false;
+                if (priceVal === '2500-plus' && price < 2500) return false;
+            }
+            
+            return true;
+        });
+        
+        filtered.sort((a, b) => {
+            const aPrice = parseFloat(a.priceRange.minVariantPrice.amount);
+            const bPrice = parseFloat(b.priceRange.minVariantPrice.amount);
+            const aInventory = a.variants.edges[0]?.node?.quantityAvailable ?? 10;
+            const bInventory = b.variants.edges[0]?.node?.quantityAvailable ?? 10;
+            const aAvail = aInventory > 0;
+            const bAvail = bInventory > 0;
+            
+            if (sortVal === 'price-asc') {
+                return aPrice - bPrice;
+            } else if (sortVal === 'price-desc') {
+                return bPrice - aPrice;
+            } else {
+                // Default: Recommended / Newest / Best Selling (Available first, Sold out last)
+                return (aAvail === bAvail) ? 0 : aAvail ? -1 : 1;
+            }
+        });
+        
+        window.renderCollProducts(filtered);
+    };
+
+    window.renderCollProducts = function(products) {
+        const grid = document.getElementById('coll-grid');
+        const countEl = document.getElementById('coll-count');
+        
+        if (countEl) countEl.textContent = `${products.length} product${products.length !== 1 ? 's' : ''}`;
+        
+        if (products.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1 / -1; text-align:center; color:#8a7d6b; padding:40px 0;">No products match your filters.</div>';
+            return;
+        }
+
+        let html = '';
+        products.forEach(p => {
+            const imgUrl = p.images.edges[0]?.node?.url || '';
+            const imgAlt = p.images.edges[0]?.node?.altText || p.title;
+            const price = parseFloat(p.priceRange.minVariantPrice.amount);
+            const variantId = p.variants.edges[0]?.node?.id || '';
+            const oldPriceNode = p.variants.edges[0]?.node?.compareAtPrice;
+            const oldPrice = oldPriceNode ? parseFloat(oldPriceNode.amount) : null;
+            const inventory = p.variants.edges[0]?.node?.quantityAvailable ?? 10;
+            
+            html += `
+            <div class="product-card" onclick="window.location.href='/products/${p.handle}'" data-id="${variantId}" data-handle="${p.handle}" data-title="${p.title.replace(/"/g, '&quot;')}" data-price="${price}" data-inventory="${inventory}" data-type="${p.productType || 'Saree'}" data-tags="${(p.tags || []).join(',').replace(/"/g, '&quot;')}">
+                <div class="card-img-wrap">
+                    <img src="${imgUrl}" alt="${imgAlt}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    <div class="card-overlay"></div>
+
+                    <button class="card-wish" data-id="${variantId}" data-title="${p.title.replace(/"/g, '&quot;')}" data-price="${price}" data-img="${imgUrl}" data-handle="${p.handle}" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)">♡</button>
+                    <button class="quick-add" data-id="${variantId}" data-title="${p.title.replace(/"/g, '&quot;')}" data-price="${price}" data-img="${imgUrl}" data-handle="${p.handle}" data-inventory="${inventory}" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add to cart <span>+</span></button>
+                </div>
+                <div class="card-info">
+                    <p class="card-name">${p.title}</p>
+                    <div class="card-tags"></div>
+                    <p class="card-fabric">${p.productType || 'Saree'}</p>
+                    <div class="card-bottom">
+                        <div class="card-price-wrap">
+                            <span class="card-price">₹${price.toLocaleString('en-IN')}</span>
+                            ${(oldPrice && oldPrice > price) ? `<span class="card-price-old" style="text-decoration: line-through; margin-left:5px; font-size:12px; color:rgba(26,18,8,0.4);">₹${oldPrice.toLocaleString('en-IN')}</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        grid.innerHTML = html;
+        
+        // Initialize wishlist state for the newly added buttons
+        if (typeof window.updateWishlistUI === 'function') {
+            window.updateWishlistUI(true);
+        }
+
+    };
+
+    window.addEventListener('DOMContentLoaded', window.loadCollection);
+</script>
+</body>
+</html>

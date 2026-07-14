@@ -4,9 +4,6 @@ node_modules/
 .pnp.js
 
 # Build outputs
-/products/
-/collections/
-sitemap.xml
 .netlify/
 
 # OS files
