@@ -513,24 +513,19 @@
         }
 
         try {
-            let product;
-            if (window.__INITIAL_STATE__ && window.__INITIAL_STATE__.product) {
-                product = window.__INITIAL_STATE__.product;
-            } else {
-                const res = await fetch(
-                    `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`,
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
-                        },
-                        body: JSON.stringify({ query: QUERY, variables: { handle } })
-                    }
-                );
-                const data = await res.json();
-                product = data?.data?.product;
-            }
+            const res = await fetch(
+                `https://${SHOPIFY_DOMAIN}/api/2024-01/graphql.json`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
+                    },
+                    body: JSON.stringify({ query: QUERY, variables: { handle } })
+                }
+            );
+            const data = await res.json();
+            const product = data?.data?.product;
             if (!product) { console.warn('Product not found:', handle); return; }
 
             // ── Store product state for cart ─────────────────────────────────
@@ -998,12 +993,8 @@
             document.querySelector('.lm-pp-product-main').style.opacity = '1';
         }
     };
-    // If SSR data is present, hydrate immediately. Otherwise, fetch.
-    if (window.__INITIAL_STATE__) {
-        window.loadProduct(window.__INITIAL_STATE__.product.handle);
-    } else {
-        window.loadProduct();
-    }
+
+    window.loadProduct();
 </script>
 
 <script>
