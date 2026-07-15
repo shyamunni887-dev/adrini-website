@@ -182,7 +182,12 @@ async function build() {
     html = html.replace(/href="index\.html"/g, 'href="/"');
 
     fs.writeFileSync(path.join(dir, 'index.html'), html);
-    sitemapUrls.push(`<url><loc>${canonical}</loc><changefreq>weekly</changefreq></url>`);
+    let sitemapEntry = `<url><loc>${canonical}</loc><changefreq>weekly</changefreq>`;
+    if (imgUrl) {
+      sitemapEntry += `<image:image><image:loc>${imgUrl.split('?')[0]}</image:loc><image:title>${cleanTitle}</image:title></image:image>`;
+    }
+    sitemapEntry += `</url>`;
+    sitemapUrls.push(sitemapEntry);
   }
 
   console.log('Generating collection pages...');
@@ -254,12 +259,17 @@ async function build() {
     html = html.replace(/href="index\.html"/g, 'href="/"');
 
     fs.writeFileSync(path.join(dir, 'index.html'), html);
-    sitemapUrls.push(`<url><loc>${canonical}</loc><changefreq>weekly</changefreq></url>`);
+    let sitemapEntry = `<url><loc>${canonical}</loc><changefreq>weekly</changefreq>`;
+    if (imgUrl) {
+      sitemapEntry += `<image:image><image:loc>${imgUrl.split('?')[0]}</image:loc><image:title>${collection.title}</image:title></image:image>`;
+    }
+    sitemapEntry += `</url>`;
+    sitemapUrls.push(sitemapEntry);
   }
 
   console.log('Generating sitemap.xml...');
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   ${sitemapUrls.join('\n  ')}
 </urlset>`;
   fs.writeFileSync('sitemap.xml', sitemapXml);
