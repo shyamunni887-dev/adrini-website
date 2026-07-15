@@ -107,8 +107,8 @@ async function build() {
     const price = product.variants.edges[0]?.node?.price?.amount || '0';
     const availability = product.variants.edges[0]?.node?.availableForSale ? 'InStock' : 'OutOfStock';
 
-    const cleanTitle = title.replace(/"/g, '&quot;');
-    const cleanDesc = truncateString(description.replace(/"/g, '&quot;'), 160);
+    const cleanTitle = title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cleanDesc = truncateString(description.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'), 160);
 
     const jsonLd = {
       "@context": "https://schema.org",
@@ -200,8 +200,8 @@ async function build() {
     const canonical = `${SITE_URL}/collections/${collection.handle}`;
     const imgUrl = collection.image?.url || `${SITE_URL}/images/desktop_hero.webp`;
 
-    const cleanTitle = title.replace(/"/g, '&quot;');
-    const cleanDesc = truncateString(description.replace(/"/g, '&quot;'), 160);
+    const cleanTitle = title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cleanDesc = truncateString(description.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'), 160);
 
     const jsonLd = {
       "@context": "https://schema.org",
