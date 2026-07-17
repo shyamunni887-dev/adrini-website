@@ -1046,6 +1046,7 @@
                     recentlyViewed.unshift(currentData);
                     recentlyViewed = recentlyViewed.slice(0, 10);
                     localStorage.setItem('lm-recently-viewed', JSON.stringify(recentlyViewed));
+                    if (typeof window.syncDataToBackend === 'function') window.syncDataToBackend();
                 }
             } catch (e) {
                 console.error("Recently viewed error:", e);
