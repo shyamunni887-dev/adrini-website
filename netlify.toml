@@ -35,3 +35,19 @@
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/collections/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/products/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Standalone root image asset
+[[headers]]
+  for = "/hero_btn_overlay.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
