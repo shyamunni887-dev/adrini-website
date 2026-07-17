@@ -41,10 +41,12 @@
     src="https://www.facebook.com/tr?id=1591320945778010&ev=PageView&noscript=1"
     / loading="lazy"></noscript>
     <!-- End Meta Pixel Code -->
+<style>.lm-search-backdrop,.lm-search-dropdown,.lm-account-backdrop,.lm-account-panel{opacity:0;visibility:hidden}.lm-account-panel{transform:translateX(100%)}.lm-search-dropdown{transform:translateX(-50%) translateY(-24px) scale(.95)}</style>
 
     <title>Black Mul Cotton Saree with Multicolor Striped Pallu &amp; Tassels – Premium Soft Cotton Saree for Women | ADRINI</title>
     <meta name="description" content="Shop Black Mul Cotton Saree with Multicolor Striped Pallu &amp; Tassels – Premium Soft Cotton Saree for Women at ADRINI. Premium quality sarees with secure paym...">
     <link rel="canonical" href="https://adrini.com/products/black-mul-cotton-saree-multicolor-striped-pallu">
+    <link rel="preload" as="image" href="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific_img1-same-setting-low-ang_hEdQjldvqL_1200x.png?v=1783360102&width=800" imagesrcset="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific_img1-same-setting-low-ang_hEdQjldvqL_1200x.png?v=1783360102&width=400 400w, https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific_img1-same-setting-low-ang_hEdQjldvqL_1200x.png?v=1783360102&width=600 600w, https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific_img1-same-setting-low-ang_hEdQjldvqL_1200x.png?v=1783360102&width=800 800w, https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific_img1-same-setting-low-ang_hEdQjldvqL_1200x.png?v=1783360102&width=1200 1200w" imagesizes="(max-width: 768px) 100vw, 50vw" fetchpriority="high">
     <meta property="og:title" content="Black Mul Cotton Saree with Multicolor Striped Pallu &amp; Tassels – Premium Soft Cotton Saree for Women | ADRINI">
     <meta property="og:description" content="Shop Black Mul Cotton Saree with Multicolor Striped Pallu &amp; Tassels – Premium Soft Cotton Saree for Women at ADRINI. Premium quality sarees with secure paym...">
     <meta property="og:type" content="product">
@@ -528,7 +530,7 @@
 </div>
 
 <script defer src="https://unpkg.com/lenis@1.1.2/dist/lenis.min.js"></script>
-    <script defer src="/src/scripts/main.js?v=178"></script>
+    <script defer src="/src/scripts/main.js?v=179"></script>
 <script>
     const SHOPIFY_DOMAIN = 'adrini-5666.myshopify.com';
     const ACCESS_TOKEN   = '5a869208a525680f7f1f91e2d8b20a97';
@@ -1013,10 +1015,10 @@
                         html += `
                         <div class="product-card" onclick="window.location.href='/products/${p.handle}'" data-id="${p.variantId}" data-handle="${p.handle}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-inventory="${p.inventory}" data-type="${p.productType}" data-tags="${(p.tags || []).join(',').replace(/"/g, '&quot;')}">
                             <div class="card-img-wrap">
-                                <img src="${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=600" srcset="${getSrcset(imgUrl)}" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 25vw" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+                                <img src="${p.image}${p.image.includes('?') ? '&' : '?'}width=600" srcset="${getSrcset(p.image)}" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 25vw" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
                                 <div class="card-overlay"></div>
-                                <button class="card-wish" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${imgUrl}" data-handle="${p.handle}" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)">♡</button>
-                                <button class="quick-add" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${imgUrl}" data-handle="${p.handle}" data-inventory="${p.inventory}" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add to cart <span>+</span></button>
+                                <button class="card-wish" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${p.image}" data-handle="${p.handle}" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)">♡</button>
+                                <button class="quick-add" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${p.image}" data-handle="${p.handle}" data-inventory="${p.inventory}" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add to cart <span>+</span></button>
                             </div>
                             <div class="card-info">
                                 <div class="card-collection">ADRINI SIGNATURE</div>

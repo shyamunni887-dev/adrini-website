@@ -5,10 +5,15 @@
   "main": "build.js",
   "type": "module",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js && npm run minify",
+    "minify": "clean-css-cli src/styles/index.css -o src/styles/index.css && terser src/scripts/main.js -o src/scripts/main.js -c -m"
   },
   "dependencies": {
     "critical": "^8.0.0",
     "sharp": "^0.35.3"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.49.0"
   }
 }

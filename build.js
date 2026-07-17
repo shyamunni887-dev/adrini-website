@@ -151,10 +151,14 @@ async function build() {
     html = html.replace(/<link rel="canonical".*?>/s, '');
     
     // Inject new SEO block
+    const imgUrlParams = imgUrl ? (imgUrl.includes('?') ? '&width=800' : '?width=800') : '';
+    const imgSrcset = imgUrl ? `${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=400 400w, ${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=600 600w, ${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=800 800w, ${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=1200 1200w` : '';
+    const preloadTag = imgUrl ? `\n    <link rel="preload" as="image" href="${imgUrl}${imgUrlParams}" imagesrcset="${imgSrcset}" imagesizes="(max-width: 768px) 100vw, 50vw" fetchpriority="high">` : '';
+
     const seoBlock = `
     <title>${cleanTitle}</title>
     <meta name="description" content="${cleanDesc}">
-    <link rel="canonical" href="${canonical}">
+    <link rel="canonical" href="${canonical}">${preloadTag}
     <meta property="og:title" content="${cleanTitle}">
     <meta property="og:description" content="${cleanDesc}">
     <meta property="og:type" content="product">
@@ -232,10 +236,14 @@ async function build() {
     html = html.replace(/<link rel="canonical".*?>/s, '');
     
     // Inject new SEO block
+    const imgUrlParams = imgUrl ? (imgUrl.includes('?') ? '&width=800' : '?width=800') : '';
+    const imgSrcset = imgUrl ? `${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=400 400w, ${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=600 600w, ${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=800 800w, ${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=1200 1200w` : '';
+    const preloadTag = imgUrl ? `\n    <link rel="preload" as="image" href="${imgUrl}${imgUrlParams}" imagesrcset="${imgSrcset}" imagesizes="100vw" fetchpriority="high">` : '';
+
     const seoBlock = `
     <title>${cleanTitle}</title>
     <meta name="description" content="${cleanDesc}">
-    <link rel="canonical" href="${canonical}">
+    <link rel="canonical" href="${canonical}">${preloadTag}
     <meta property="og:title" content="${cleanTitle}">
     <meta property="og:description" content="${cleanDesc}">
     <meta property="og:type" content="website">

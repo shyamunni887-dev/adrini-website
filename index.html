@@ -59,10 +59,9 @@
 
     <!-- Preloads & Connections -->
             <link rel="preconnect" href="https://cdn.shopify.com">
-    
     <!-- Preload Hero Image (AVIF & WebP) -->
-    <link rel="preload" as="image" href="images/mobile_hero.avif" media="(max-width: 768px)" type="image/avif">
-    <link rel="preload" as="image" href="images/desktop_hero.avif" media="(min-width: 769px)" type="image/avif">
+    <link rel="preload" as="image" imagesrcset="images/mobile_hero.avif" media="(max-width: 768px)" fetchpriority="high">
+    <link rel="preload" as="image" imagesrcset="images/desktop_hero.avif" media="(min-width: 769px)" fetchpriority="high">
 
     <!-- Preload critical fonts -->
     <link rel="preload" href="/fonts/font-78.woff2" as="font" type="font/woff2" crossorigin>
@@ -95,6 +94,7 @@
     /></noscript>
     <!-- End Meta Pixel Code -->
     <!-- Analytics deferred to body -->
+<style>.lm-search-backdrop,.lm-search-dropdown,.lm-account-backdrop,.lm-account-panel{opacity:0;visibility:hidden}.lm-account-panel{transform:translateX(100%)}.lm-search-dropdown{transform:translateX(-50%) translateY(-24px) scale(.95)}</style>
 </head>
 <body style="background: #f8f4ec; margin: 0;">
 
@@ -719,7 +719,7 @@
 
 
     <script defer src="https://unpkg.com/lenis@1.1.2/dist/lenis.min.js"></script>
-    <script defer src="src/scripts/main.js?v=178"></script>
+    <script defer src="src/scripts/main.js?v=179"></script>
     
     <script>
         // Global helper for Shopify responsive images
