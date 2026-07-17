@@ -490,8 +490,14 @@
                     }
                 }
             }
-        }
     }`;
+
+    // Global helper for Shopify responsive images
+    const getSrcset = (url) => {
+        if (!url) return '';
+        const char = url.includes('?') ? '&' : '?';
+        return `${url}${char}width=400 400w, ${url}${char}width=600 600w, ${url}${char}width=800 800w, ${url}${char}width=1200 1200w`;
+    };
 
     window.loadCollection = async function() {
         // Try query string first, then hash fallback, then sessionStorage fallback
@@ -678,7 +684,7 @@
             html += `
             <div class="product-card" onclick="window.location.href='/products/${p.handle}'" data-id="${variantId}" data-handle="${p.handle}" data-title="${p.title.replace(/"/g, '&quot;')}" data-price="${price}" data-inventory="${inventory}" data-type="${p.productType || 'Saree'}" data-tags="${(p.tags || []).join(',').replace(/"/g, '&quot;')}">
                 <div class="card-img-wrap">
-                    <img src="${imgUrl}" alt="${imgAlt}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" loading="lazy">
+                    <img src="${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=600" srcset="${getSrcset(imgUrl)}" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw" alt="${imgAlt}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" loading="lazy">
                     <div class="card-overlay"></div>
 
                     <button class="card-wish" data-id="${variantId}" data-title="${p.title.replace(/"/g, '&quot;')}" data-price="${price}" data-img="${imgUrl}" data-handle="${p.handle}" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)">♡</button>

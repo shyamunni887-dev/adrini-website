@@ -46,17 +46,17 @@
     / loading="lazy"></noscript>
     <!-- End Meta Pixel Code -->
 
-    <title>Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border | ADRINI</title>
-    <meta name="description" content="Shop Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across India...">
+    <title>Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI</title>
+    <meta name="description" content="Shop Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across I...">
     <link rel="canonical" href="https://adrini.com/products/premium-golden-tissue-checks-saree-cream-gold">
-    <meta property="og:title" content="Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border | ADRINI">
-    <meta property="og:description" content="Shop Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across India...">
+    <meta property="og:title" content="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI">
+    <meta property="og:description" content="Shop Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across I...">
     <meta property="og:type" content="product">
     <meta property="og:url" content="https://adrini.com/products/premium-golden-tissue-checks-saree-cream-gold">
     <meta property="og:image" content="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-editorial-pose-1-threequarter-back-angle-shot__17743_1200x.png?v=1783066828">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border | ADRINI">
-    <meta name="twitter:description" content="Shop Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across India...">
+    <meta name="twitter:title" content="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI">
+    <meta name="twitter:description" content="Shop Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across I...">
     <meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-editorial-pose-1-threequarter-back-angle-shot__17743_1200x.png?v=1783066828">
     <script type="application/ld+json">
 {
@@ -66,7 +66,7 @@
       "@type": "Product",
       "name": "Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border",
       "image": "https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-editorial-pose-1-threequarter-back-angle-shot__17743_1200x.png?v=1783066828",
-      "description": "Shop Premium Golden Tissue Checks Saree – Cream & Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across India...",
+      "description": "Shop Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border at ADRINI. Premium quality sarees with secure payments, fast delivery across I...",
       "sku": "premium-golden-tissue-checks-saree-cream-gold",
       "brand": {
         "@type": "Brand",
@@ -565,6 +565,13 @@
         }
     }`;
 
+    // Global helper for Shopify responsive images
+    const getSrcset = (url) => {
+        if (!url) return '';
+        const char = url.includes('?') ? '&' : '?';
+        return `${url}${char}width=400 400w, ${url}${char}width=600 600w, ${url}${char}width=800 800w, ${url}${char}width=1200 1200w`;
+    };
+
     window.loadProduct = async function(overrideHandle) {
         let handle = overrideHandle || new URLSearchParams(window.location.search).get('handle');
         if (!handle && window.location.pathname.startsWith('/products/')) {
@@ -831,7 +838,9 @@
                 mainImgWrappers.forEach((wrapper, i) => {
                     const img = wrapper.querySelector('img');
                     if (img && images[i]) {
-                        img.src = images[i].url;
+                        img.src = `${images[i].url}${images[i].url.includes('?') ? '&' : '?'}width=800`;
+                        img.srcset = getSrcset(images[i].url);
+                        img.sizes = "(max-width: 768px) 100vw, 50vw";
                         img.alt = images[i].altText || product.title;
                         img.style.filter = '';
                         img.style.transform = '';
@@ -845,7 +854,7 @@
                 thumbWrappers.forEach((wrapper, i) => {
                     const img = wrapper.querySelector('img');
                     if (img && images[i]) {
-                        img.src = images[i].url;
+                        img.src = `${images[i].url}${images[i].url.includes('?') ? '&' : '?'}width=200`;
                         img.alt = images[i].altText || product.title;
                         img.style.filter = '';
                         img.style.transform = '';
@@ -1008,10 +1017,10 @@
                         html += `
                         <div class="product-card" onclick="window.location.href='/products/${p.handle}'" data-id="${p.variantId}" data-handle="${p.handle}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-inventory="${p.inventory}" data-type="${p.productType}" data-tags="${(p.tags || []).join(',').replace(/"/g, '&quot;')}">
                             <div class="card-img-wrap">
-                                <img src="${p.image}" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+                                <img src="${imgUrl}${imgUrl.includes('?') ? '&' : '?'}width=600" srcset="${getSrcset(imgUrl)}" sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 25vw" alt="${(p.title || '').replace(/"/g, '&quot;')}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
                                 <div class="card-overlay"></div>
-                                <button class="card-wish" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${p.image}" data-handle="${p.handle}" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)">♡</button>
-                                <button class="quick-add" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${p.image}" data-handle="${p.handle}" data-inventory="${p.inventory}" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add to cart <span>+</span></button>
+                                <button class="card-wish" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${imgUrl}" data-handle="${p.handle}" onclick="event.preventDefault(); event.stopPropagation(); window.toggleCardWishlist(this)">♡</button>
+                                <button class="quick-add" data-id="${p.variantId}" data-title="${(p.title || '').replace(/"/g, '&quot;')}" data-price="${p.price}" data-img="${imgUrl}" data-handle="${p.handle}" data-inventory="${p.inventory}" onclick="event.preventDefault(); event.stopPropagation(); window.addTemplateToCart(this)">Add to cart <span>+</span></button>
                             </div>
                             <div class="card-info">
                                 <div class="card-collection">ADRINI SIGNATURE</div>
