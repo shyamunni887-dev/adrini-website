@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.js && npm run minify",
-    "minify": "clean-css-cli src/styles/index.css -o src/styles/index.css && terser src/scripts/main.js -o src/scripts/main.js -c -m"
+    "minify": "cleancss src/styles/index.css -o src/styles/index.css && terser src/scripts/main.js -o src/scripts/main.js -c -m"
   },
   "dependencies": {
     "critical": "^8.0.0",
