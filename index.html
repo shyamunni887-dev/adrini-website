@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script>
+        const handleParam = new URLSearchParams(window.location.search).get('handle');
+        if (handleParam) {
+            window.location.replace('/products/' + handleParam);
+        }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADRINI | Premium Sarees Online in India</title>
     <meta name="description" content="Discover premium sarees at ADRINI. Shop elegant silk, cotton, Banarasi and Kerala sarees with secure payments, fast delivery and free shipping on prepaid orders.">
