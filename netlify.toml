@@ -51,3 +51,9 @@
   for = "/hero_btn_overlay.jpg"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[redirects]]
+  from = "/api/analytics/*"
+  to = "https://monorail-edge.shopifysvc.com/:splat"
+  status = 200
+  force = true

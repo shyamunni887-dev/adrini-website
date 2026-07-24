@@ -119,7 +119,7 @@ class ShopifyAnalytics {
 
     sendBatchEvents(events) {
         try {
-            const batch = {
+            let payload = {
                 events: events.map(e => ({
                     schema_id: e.schemaId,
                     payload: e.payload,
@@ -130,10 +130,14 @@ class ShopifyAnalytics {
                 }
             };
 
-            fetch('https://monorail-edge.shopifysvc.com/unstable/produce_batch', {
+            const endpoint = window.location.hostname === 'localhost' 
+                ? 'https://monorail-edge.shopifysvc.com/unstable/produce_batch'
+                : '/api/analytics/unstable/produce_batch';
+
+            fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain' },
-                body: JSON.stringify(batch),
+                body: JSON.stringify(payload),
                 keepalive: true
             }).then(async r => {
                 if (!r.ok && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
