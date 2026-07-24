@@ -23,16 +23,10 @@ function setCookie(name, value, expireTimeMs) {
     document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/;Secure;SameSite=Lax";
 }
 
-const MONORAIL_SCHEMAS = {
-    PAGE_VIEW: 'trekkie_storefront_page_view/1.2',
-    PRODUCT_VIEW: 'trekkie_storefront_product_view/1.2',
-    COLLECTION_VIEW: 'trekkie_storefront_collection_view/1.2',
-    SEARCH: 'trekkie_storefront_search_submitted/1.2',
-    ADD_TO_CART: 'trekkie_storefront_cart_add/1.2',
-    REMOVE_FROM_CART: 'trekkie_storefront_cart_remove/1.2',
-    CART_VIEW: 'trekkie_storefront_cart_view/1.2',
-    CHECKOUT_STARTED: 'trekkie_storefront_checkout_started/1.2'
-};
+const SHOP_ID = 76900401325;
+const APP_CLIENT_ID = '12875497473'; // Headless App Client ID
+const TREKKIE_SCHEMA = 'trekkie_storefront_page_view/1.4';
+const CUSTOM_SCHEMA = 'custom_storefront_customer_tracking/1.2';
 
 class ShopifyAnalytics {
     constructor() {
@@ -45,17 +39,14 @@ class ShopifyAnalytics {
         let y = getCookie(this.yCookieName);
         if (!y) {
             y = generateUUID();
-            // _shopify_y expires in 1 year
             setCookie(this.yCookieName, y, 1000 * 60 * 60 * 24 * 365);
         }
         
         let s = getCookie(this.sCookieName);
         if (!s) {
             s = generateUUID();
-            // _shopify_s expires in 30 minutes
             setCookie(this.sCookieName, s, 1000 * 60 * 30);
         } else {
-            // Refresh _shopify_s
             setCookie(this.sCookieName, s, 1000 * 60 * 30);
         }
 
@@ -71,42 +62,82 @@ class ShopifyAnalytics {
         };
     }
 
-    getBasePayload() {
-        this.ensureCookies();
+    getTrekkiePayload(pageType) {
         return {
-            shopId: 76900401325,
+            appClientId: APP_CLIENT_ID,
+            isMerchantRequest: false,
+            hydrogenSubchannelId: '0',
+            isPersistentCookie: true,
             uniqToken: this.y,
             visitToken: this.s,
-            url: window.location.href,
-            path: window.location.pathname,
-            referrer: document.referrer,
             microSessionId: generateUUID(),
             microSessionCount: 1,
-            navigationType: 'navigate',
-            navigationApi: 'browser'
+            url: window.location.href,
+            path: window.location.pathname,
+            search: window.location.search,
+            referrer: document.referrer,
+            title: document.title,
+            shopId: SHOP_ID,
+            currency: 'INR',
+            contentLanguage: 'en',
+            pageType: pageType || 'index',
+            customerId: 0,
+            resourceType: undefined,
+            resourceId: 0
         };
     }
 
-    sendMonorailEvent(schemaId, payloadData = {}) {
+    getCustomPayload(eventName, additionalData = {}) {
+        return {
+            event_name: eventName,
+            canonical_url: window.location.href,
+            customer_id: 0,
+            source: 'headless',
+            asset_version_id: '1.0.0',
+            hydrogenSubchannelId: '0',
+            is_persistent_cookie: true,
+            deprecated_visit_token: this.s,
+            unique_token: this.y,
+            event_time: Date.now(),
+            event_id: generateUUID(),
+            event_source_url: window.location.href,
+            referrer: document.referrer,
+            user_agent: navigator.userAgent,
+            navigation_type: 'navigate',
+            navigation_api: 'PerformanceNavigationTiming',
+            shop_id: SHOP_ID,
+            currency: 'INR',
+            ccpa_enforced: false,
+            gdpr_enforced: false,
+            gdpr_enforced_as_string: 'false',
+            analytics_allowed: true,
+            marketing_allowed: true,
+            sale_of_data_allowed: true,
+            ...additionalData
+        };
+    }
+
+    sendBatchEvents(events) {
         try {
-            const payload = { ...this.getBasePayload(), ...payloadData };
-            const event = {
-                schema_id: schemaId,
-                payload: payload,
+            const batch = {
+                events: events.map(e => ({
+                    schema_id: e.schemaId,
+                    payload: e.payload,
+                    metadata: { event_created_at_ms: Date.now() }
+                })),
                 metadata: {
-                    event_created_at_ms: Date.now(),
                     event_sent_at_ms: Date.now()
                 }
             };
 
-            fetch('https://monorail-edge.shopifysvc.com/v1/produce', {
+            fetch('https://monorail-edge.shopifysvc.com/unstable/produce_batch', {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain' },
-                body: JSON.stringify(event),
+                body: JSON.stringify(batch),
                 keepalive: true
             }).then(async r => {
                 if (!r.ok && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
-                    console.warn(`[Shopify Analytics] Schema Validation Error for ${schemaId}:`, r.status, await r.text().catch(()=>''));
+                    console.warn(`[Shopify Analytics] Batch Error:`, r.status, await r.text().catch(()=>''));
                 }
             }).catch(() => {});
         } catch (e) {
@@ -115,88 +146,130 @@ class ShopifyAnalytics {
     }
 
     trackPageView() {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.PAGE_VIEW);
+        this.ensureCookies();
+        this.sendBatchEvents([
+            {
+                schemaId: TREKKIE_SCHEMA,
+                payload: this.getTrekkiePayload('index')
+            },
+            {
+                schemaId: CUSTOM_SCHEMA,
+                payload: this.getCustomPayload('page_rendered')
+            }
+        ]);
     }
 
     trackProductView(product) {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.PRODUCT_VIEW, {
-            product: {
-                id: product.id || '',
-                title: product.title || '',
-                price: parseFloat(product.price) || 0
+        this.ensureCookies();
+        
+        let products = [
+            JSON.stringify({
+                product_gid: `gid://shopify/Product/${product.id || 0}`,
+                name: product.title || '',
+                price: parseFloat(product.price) || 0,
+                quantity: 1
+            })
+        ];
+
+        this.sendBatchEvents([
+            {
+                schemaId: CUSTOM_SCHEMA,
+                payload: this.getCustomPayload('product_page_rendered', {
+                    products: products,
+                    total_value: parseFloat(product.price) || 0
+                })
             }
-        });
+        ]);
     }
 
     trackCollectionView(collection) {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.COLLECTION_VIEW, {
-            collection: {
-                id: collection.id || '',
-                title: collection.title || ''
+        this.ensureCookies();
+        this.sendBatchEvents([
+            {
+                schemaId: CUSTOM_SCHEMA,
+                payload: this.getCustomPayload('collection_page_rendered', {
+                    collection_name: collection.title || '',
+                    collection_id: parseInt(collection.id || 0)
+                })
             }
-        });
+        ]);
     }
 
     trackSearch(query) {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.SEARCH, {
-            search_query: query
-        });
+        this.ensureCookies();
+        this.sendBatchEvents([
+            {
+                schemaId: CUSTOM_SCHEMA,
+                payload: this.getCustomPayload('search_submitted', {
+                    search_string: query
+                })
+            }
+        ]);
+    }
+
+    getCartToken() {
+        let t = getCookie('_shopify_cart_token');
+        if (!t) {
+            t = generateUUID();
+            setCookie('_shopify_cart_token', t, 1000 * 60 * 60 * 24 * 7); // 7 days
+        }
+        return t;
     }
 
     trackAddToCart(product, quantity = 1) {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.ADD_TO_CART, {
-            cart_line: {
-                product: {
-                    id: product.id || '',
-                    title: product.title || '',
-                    price: parseFloat(product.price) || 0
-                },
+        this.ensureCookies();
+        
+        let products = [
+            JSON.stringify({
+                product_gid: `gid://shopify/Product/${product.id || 0}`,
+                name: product.title || '',
+                price: parseFloat(product.price) || 0,
                 quantity: quantity
+            })
+        ];
+
+        this.sendBatchEvents([
+            {
+                schemaId: CUSTOM_SCHEMA,
+                payload: this.getCustomPayload('product_added_to_cart', {
+                    products: products,
+                    total_value: (parseFloat(product.price) || 0) * quantity,
+                    cart_token: this.getCartToken()
+                })
             }
-        });
+        ]);
     }
 
     trackRemoveFromCart(product, quantity = 1) {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.REMOVE_FROM_CART, {
-            cart_line: {
-                product: {
-                    id: product.id || '',
-                    title: product.title || '',
-                    price: parseFloat(product.price) || 0
-                },
-                quantity: quantity
-            }
-        });
+        // Fallback for missing custom events
     }
 
     trackCartView(cartItems) {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.CART_VIEW, {
-            cart: {
-                lines: cartItems.map(item => ({
-                    product: {
-                        id: item.id || '',
-                        title: item.title || '',
-                        price: parseFloat(item.price) || 0
-                    },
-                    quantity: item.qty || 1
-                }))
-            }
-        });
+        // Fallback
     }
 
     trackCheckoutStarted(cartItems) {
-        this.sendMonorailEvent(MONORAIL_SCHEMAS.CHECKOUT_STARTED, {
-            cart: {
-                lines: cartItems.map(item => ({
-                    product: {
-                        id: item.id || '',
-                        title: item.title || '',
-                        price: parseFloat(item.price) || 0
-                    },
-                    quantity: item.qty || 1
-                }))
+        this.ensureCookies();
+        
+        let products = cartItems.map(item => JSON.stringify({
+            product_gid: `gid://shopify/Product/${item.id || 0}`,
+            name: item.title || '',
+            price: parseFloat(item.price) || 0,
+            quantity: item.qty || 1
+        }));
+        
+        let total = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0) * (item.qty || 1), 0);
+
+        this.sendBatchEvents([
+            {
+                schemaId: CUSTOM_SCHEMA,
+                payload: this.getCustomPayload('checkout_started', {
+                    products: products,
+                    total_value: total,
+                    cart_token: this.getCartToken()
+                })
             }
-        });
+        ]);
     }
 }
 
