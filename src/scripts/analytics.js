@@ -74,6 +74,7 @@ class ShopifyAnalytics {
     getBasePayload() {
         this.ensureCookies();
         return {
+            shopId: 76900401325,
             uniqToken: this.y,
             visitToken: this.s,
             url: window.location.href,
