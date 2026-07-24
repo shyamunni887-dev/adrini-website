@@ -466,6 +466,7 @@
 </div>
 
 <script defer src="https://unpkg.com/lenis@1.1.2/dist/lenis.min.js"></script>
+    <script src="src/scripts/analytics.js"></script>
     <script defer src="src/scripts/main.js?v=179"></script>
 <script>
     const SHOPIFY_DOMAIN = 'adrini-5666.myshopify.com';
@@ -523,7 +524,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
+                        'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN, ...(window.ShopifyAnalytics ? window.ShopifyAnalytics.getHeaders() : {})
                     },
                     body: JSON.stringify({ query: QUERY, variables: { handle } })
                 }
@@ -821,7 +822,7 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
+                                'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN, ...(window.ShopifyAnalytics ? window.ShopifyAnalytics.getHeaders() : {})
                             },
                             body: JSON.stringify({
                                 query: `query getSimilar($query: String!) {
@@ -846,7 +847,7 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN
+                                'X-Shopify-Storefront-Access-Token': ACCESS_TOKEN, ...(window.ShopifyAnalytics ? window.ShopifyAnalytics.getHeaders() : {})
                             },
                             body: JSON.stringify({
                                 query: `query getSimilarCol($handle: String!) {
