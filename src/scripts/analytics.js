@@ -245,7 +245,31 @@ class ShopifyAnalytics {
     }
 
     trackCartView(cartItems) {
-        // Fallback
+        this.ensureCookies();
+        
+        let products = cartItems.map(item => JSON.stringify({
+            product_gid: `gid://shopify/Product/${item.id || 0}`,
+            name: item.title || '',
+            price: parseFloat(item.price) || 0,
+            quantity: item.qty || 1
+        }));
+        
+        let total = cartItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0) * (item.qty || 1), 0);
+
+        this.sendBatchEvents([
+            {
+                schemaId: TREKKIE_SCHEMA,
+                payload: this.getTrekkiePayload('cart')
+            },
+            {
+                schemaId: CUSTOM_SCHEMA,
+                payload: this.getCustomPayload('cart_viewed', {
+                    products: products,
+                    total_value: total,
+                    cart_token: this.getCartToken()
+                })
+            }
+        ]);
     }
 
     trackCheckoutStarted(cartItems) {
