@@ -245,23 +245,23 @@
       <div class="lm-pp-main-images">
         <div class="lm-pp-main-img" id="img-0">
           <span class="lm-pp-img-badge" style="display:none;"></span>
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 1" loading="lazy">
+          <img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-editorial-pose-1-threequarter-back-angle-shot__17743_1200x.png?v=1783066828" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 1" loading="lazy">
         </div>
         <div class="lm-pp-main-img" id="img-1">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 2" style="filter: sepia(0.2) hue-rotate(-10deg);" loading="lazy">
+          <img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-editorial-pose-2-lowangle-upward-shot-from-gr__17742_1200x.png?v=1783066831" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 2" style="filter: sepia(0.2) hue-rotate(-10deg);" loading="lazy">
         </div>
         <div class="lm-pp-main-img" id="img-2">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 3" style="filter: hue-rotate(20deg);" loading="lazy">
+          <img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-high-fashion-editorial-pose-threequarter-rear__17739_1200x.png?v=1783066834" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 3" style="filter: hue-rotate(20deg);" loading="lazy">
         </div>
         <div class="lm-pp-main-img" id="img-3">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 4" loading="lazy">
+          <img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-high-fashion-editorial-pose-sharp-diagonal-co__17741_1200x.png?v=1783066836" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 4" loading="lazy">
         </div>
       </div>
       <div class="lm-pp-thumb-row">
-        <div class="lm-pp-thumb active"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 1" loading="lazy"></div>
-        <div class="lm-pp-thumb"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 2" style="filter: sepia(0.2) hue-rotate(-10deg);" loading="lazy"></div>
-        <div class="lm-pp-thumb"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 3" style="filter: hue-rotate(20deg);" loading="lazy"></div>
-        <div class="lm-pp-thumb"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Kasavu Saree View 4" loading="lazy"></div>
+        <div class="lm-pp-thumb active"><img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-editorial-pose-1-threequarter-back-angle-shot__17743_1200x.png?v=1783066828" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 1" loading="lazy"></div>
+        <div class="lm-pp-thumb"><img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-editorial-pose-2-lowangle-upward-shot-from-gr__17742_1200x.png?v=1783066831" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 2" style="filter: sepia(0.2) hue-rotate(-10deg);" loading="lazy"></div>
+        <div class="lm-pp-thumb"><img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-high-fashion-editorial-pose-threequarter-rear__17739_1200x.png?v=1783066834" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 3" style="filter: hue-rotate(20deg);" loading="lazy"></div>
+        <div class="lm-pp-thumb"><img src="https://cdn.shopify.com/s/files/1/0769/0040/1325/files/magnific__img1-high-fashion-editorial-pose-sharp-diagonal-co__17741_1200x.png?v=1783066836" alt="Premium Golden Tissue Checks Saree – Cream &amp; Gold with Broad Zari Border | ADRINI - View 4" loading="lazy"></div>
       </div>
     </div>
   </div>
@@ -574,7 +574,7 @@
     window.loadProduct = async function(overrideHandle) {
         let handle = overrideHandle || new URLSearchParams(window.location.search).get('handle');
         if (!handle && window.location.pathname.startsWith('/products/')) {
-            handle = window.location.pathname.split('/products/')[1].replace(/\/$/, '');
+            handle = window.location.pathname.split('/products/')[1].split('/')[0].replace(/\.html$/, '');
         }
         
         if (!handle) {

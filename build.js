@@ -15,7 +15,7 @@ const FETCH_PRODUCTS_QUERY = `
           handle
           descriptionHtml
           seo { title description }
-          images(first: 1) { edges { node { url(transform: {maxWidth: 1200}) } } }
+          images(first: 4) { edges { node { url(transform: {maxWidth: 1200}) } } }
           variants(first: 1) {
             edges {
               node {
@@ -172,6 +172,22 @@ async function build() {
     `;
 
     html = html.replace('</head>', `${seoBlock}\n</head>`);
+
+    // Replace Base64 GIF placeholders in static HTML with real Shopify image URLs for Google Images SEO
+    const imgEdges = product.images.edges || [];
+    const mainImgUrls = [
+      imgEdges[0]?.node?.url || imgUrl,
+      imgEdges[1]?.node?.url || imgEdges[0]?.node?.url || imgUrl,
+      imgEdges[2]?.node?.url || imgEdges[0]?.node?.url || imgUrl,
+      imgEdges[3]?.node?.url || imgEdges[0]?.node?.url || imgUrl
+    ];
+    let gifIndex = 0;
+    html = html.replace(/src="data:image\/gif;base64,R0lGODlhAQABAIAAAAAAAP\/\/\/yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"/g, () => {
+      const url = mainImgUrls[gifIndex % 4];
+      gifIndex++;
+      return `src="${url}"`;
+    });
+    html = html.replace(/alt="Kasavu Saree View (\d+)"/g, `alt="${cleanTitle} - View $1"`);
 
     // Ensure assets load correctly from subdirectory (../)
     // The current html links like href="src/styles/..." and src="src/scripts/..."

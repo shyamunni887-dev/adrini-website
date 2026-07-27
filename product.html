@@ -510,7 +510,7 @@
     window.loadProduct = async function(overrideHandle) {
         let handle = overrideHandle || new URLSearchParams(window.location.search).get('handle');
         if (!handle && window.location.pathname.startsWith('/products/')) {
-            handle = window.location.pathname.split('/products/')[1].replace(/\/$/, '');
+            handle = window.location.pathname.split('/products/')[1].split('/')[0].replace(/\.html$/, '');
         }
         
         if (!handle) {

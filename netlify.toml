@@ -53,6 +53,16 @@
     Cache-Control = "public, max-age=31536000, immutable"
 
 [[redirects]]
+  from = "/products/*"
+  to = "/product.html"
+  status = 200
+
+[[redirects]]
+  from = "/collections/*"
+  to = "/collection.html"
+  status = 200
+
+[[redirects]]
   from = "/api/analytics/*"
   to = "https://monorail-edge.shopifysvc.com/:splat"
   status = 200

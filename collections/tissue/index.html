@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     
@@ -556,6 +557,10 @@
         let handle = new URLSearchParams(window.location.search).get('handle')
                   || (window.location.hash.startsWith('#') ? window.location.hash.slice(1) : null)
                   || sessionStorage.getItem('lm-collection-handle');
+        
+        if (!handle && window.location.pathname.startsWith('/collections/')) {
+            handle = window.location.pathname.split('/collections/')[1].split('/')[0].replace(/\.html$/, '');
+        }
         
         // Clear sessionStorage after reading so it doesn't accidentally load on direct visits later
         sessionStorage.removeItem('lm-collection-handle');

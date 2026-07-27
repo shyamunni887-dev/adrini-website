@@ -19,6 +19,8 @@ const server = http.createServer((req, res) => {
     // Netlify Rewrite Rule
     if (urlPath.startsWith('/products/')) {
         urlPath = '/product.html';
+    } else if (urlPath.startsWith('/collections/')) {
+        urlPath = '/collection.html';
     } else if (urlPath === '/') {
         urlPath = '/index.html';
     }
