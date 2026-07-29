@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
@@ -14,6 +15,29 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+    if (req.url.startsWith('/shopify-api/')) {
+        const targetPath = req.url.replace('/shopify-api/', '/');
+        const options = {
+            hostname: 'adrini-5666.myshopify.com',
+            port: 443,
+            path: targetPath,
+            method: req.method,
+            headers: {
+                ...req.headers,
+                host: 'adrini-5666.myshopify.com',
+                origin: 'https://adrini-5666.myshopify.com'
+            }
+        };
+
+        const proxyReq = https.request(options, (proxyRes) => {
+            res.writeHead(proxyRes.statusCode, proxyRes.headers);
+            proxyRes.pipe(res, { end: true });
+        });
+
+        req.pipe(proxyReq, { end: true });
+        return;
+    }
+
     let urlPath = req.url.split('?')[0];
     
     // Netlify Rewrite Rule

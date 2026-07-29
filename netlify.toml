@@ -67,3 +67,9 @@
   to = "https://monorail-edge.shopifysvc.com/:splat"
   status = 200
   force = true
+
+[[redirects]]
+  from = "/shopify-api/*"
+  to = "https://adrini-5666.myshopify.com/:splat"
+  status = 200
+  force = true
