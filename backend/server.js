@@ -17,12 +17,30 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
     else console.log('Connected to SQLite database.');
 });
 
-db.run(`CREATE TABLE IF NOT EXISTS users (
-    customer_id TEXT PRIMARY KEY,
-    email TEXT,
-    cart_json TEXT,
-    wishlist_json TEXT
-)`);
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+        customer_id TEXT PRIMARY KEY,
+        email TEXT,
+        cart_json TEXT,
+        wishlist_json TEXT
+    )`);
+
+    db.run(`CREATE TABLE IF NOT EXISTS product_reviews (
+        id TEXT PRIMARY KEY,
+        product_id TEXT NOT NULL,
+        rating INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        body TEXT NOT NULL,
+        author TEXT NOT NULL,
+        email TEXT,
+        photo TEXT,
+        variant TEXT,
+        verified INTEGER DEFAULT 1,
+        created_at TEXT NOT NULL
+    )`);
+
+    db.run(`CREATE INDEX IF NOT EXISTS idx_reviews_product_id ON product_reviews(product_id)`);
+});
 
 // Middleware to verify Shopify token
 async function verifyShopifyToken(req, res, next) {
@@ -103,7 +121,130 @@ app.post('/api/sync', verifyShopifyToken, (req, res) => {
     });
 });
 
-const PORT = 3000;
+// =============================================================
+// REVIEWS API (Local Development & Testing)
+// =============================================================
+
+// GET /api/reviews?productId=<id>
+app.get('/api/reviews', (req, res) => {
+    const productId = req.query.productId || req.query.product_id;
+    if (!productId) {
+        return res.status(400).json({ error: 'Missing productId query parameter' });
+    }
+
+    // STRICT PRIVACY: email is NOT selected
+    const sql = `
+        SELECT id, product_id, rating, title, body, author, photo, variant, verified, created_at
+        FROM product_reviews
+        WHERE product_id = ?
+        ORDER BY created_at DESC
+    `;
+
+    db.all(sql, [String(productId)], (err, rows) => {
+        if (err) {
+            console.error('Error fetching reviews:', err);
+            return res.status(500).json({ error: 'Database error fetching reviews' });
+        }
+
+        const reviews = (rows || []).map(r => ({
+            id: r.id,
+            productId: String(r.product_id),
+            product_id: String(r.product_id),
+            rating: Number(r.rating || 5),
+            title: r.title || '',
+            body: r.body || '',
+            author: r.author || 'Verified Customer',
+            photo: r.photo || null,
+            variant: r.variant || null,
+            verified: Boolean(r.verified),
+            date: r.created_at,
+            timestamp: r.created_at ? new Date(r.created_at).getTime() : Date.now()
+        }));
+
+        res.json(reviews);
+    });
+});
+
+// POST /api/reviews
+app.post('/api/reviews', (req, res) => {
+    const payload = req.body || {};
+    const productId = payload.productId || payload.product_id;
+    const rating = Number(payload.rating);
+    const title = typeof payload.title === 'string' ? payload.title.replace(/<[^>]*>?/gm, '').trim() : '';
+    const body = typeof payload.body === 'string' ? payload.body.replace(/<[^>]*>?/gm, '').trim() : '';
+    const author = typeof payload.author === 'string' ? payload.author.replace(/<[^>]*>?/gm, '').trim() : '';
+    const email = typeof payload.email === 'string' ? payload.email.trim() : '';
+    const variant = typeof payload.variant === 'string' ? payload.variant.replace(/<[^>]*>?/gm, '').trim() : '';
+    const photo = typeof payload.photo === 'string' && payload.photo.startsWith('data:image/') ? payload.photo : null;
+
+    if (!productId) {
+        return res.status(400).json({ error: 'productId is required' });
+    }
+    if (!rating || isNaN(rating) || rating < 1 || rating > 5) {
+        return res.status(400).json({ error: 'Rating must be an integer between 1 and 5' });
+    }
+    if (!title || title.length < 2) {
+        return res.status(400).json({ error: 'Title must be at least 2 characters' });
+    }
+    if (!body || body.length < 5) {
+        return res.status(400).json({ error: 'Review details must be at least 5 characters' });
+    }
+    if (!author || author.length < 2) {
+        return res.status(400).json({ error: 'Author name must be at least 2 characters' });
+    }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: 'Invalid email address format' });
+    }
+
+    const reviewId = `rev_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    const now = new Date().toISOString();
+
+    const insertSql = `
+        INSERT INTO product_reviews (id, product_id, rating, title, body, author, email, photo, variant, verified, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.run(insertSql, [
+        reviewId,
+        String(productId),
+        Math.round(rating),
+        title,
+        body,
+        author,
+        email || null,
+        photo,
+        variant || null,
+        1,
+        now
+    ], function(err) {
+        if (err) {
+            console.error('Error saving review:', err);
+            return res.status(500).json({ error: 'Database error saving review' });
+        }
+
+        const publicReview = {
+            id: reviewId,
+            productId: String(productId),
+            product_id: String(productId),
+            rating: Math.round(rating),
+            title: title,
+            body: body,
+            author: author,
+            photo: photo,
+            variant: variant || null,
+            verified: true,
+            date: now,
+            timestamp: new Date(now).getTime()
+        };
+
+        res.status(201).json({
+            success: true,
+            review: publicReview
+        });
+    });
+});
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Backend server running on http://localhost:${PORT}`);
 });
