@@ -24,7 +24,7 @@
       <h2 class="adrini-reviews-title">{{ section.settings.heading | default: 'Customer Reviews' }}</h2>
     </div>
 
-    <!-- Official Judge.me Product Reviews Widget Container (Revamp) -->
+    <!-- Official Judge.me Product Reviews Widget Container -->
     {% if current_product != blank %}
       <div
         id="judgeme_product_reviews"
@@ -40,6 +40,10 @@
         data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
       >
         {{ current_product.metafields.judgeme.widget }}
+        <div class="adrini-reviews-loading" id="adrini-reviews-loading-{{ section.id }}">
+          <span class="adrini-spin-dot"></span>
+          <span class="adrini-loading-text">Loading reviews...</span>
+        </div>
       </div>
     {% endif %}
   </div>
@@ -50,6 +54,73 @@
   window.jdgm.isVersion3 = true;
 </script>
 <link rel="stylesheet" href="https://cdnwidget.judge.me/widget_v3/form.css" media="all">
+
+<script>
+/* ============================================================
+   ADRINI Judge.me Initialization Observer & Lifecycle Handler
+   Guarantees Judge.me Revamp/Classic mounts without blank space
+   ============================================================ */
+(function() {
+  var sectionId = '{{ section.id }}';
+  var container = document.getElementById('judgeme_product_reviews');
+  if (!container) return;
+
+  var loader = document.getElementById('adrini-reviews-loading-' + sectionId);
+
+  function isMounted() {
+    var hasRevamp = container.querySelector('.jm-review-widget');
+    var hasClassic = container.querySelector('.jdgm-rev-widg');
+    if (hasRevamp || hasClassic) {
+      if (loader && loader.parentNode) loader.remove();
+      return true;
+    }
+    return false;
+  }
+
+  // Check immediately
+  if (isMounted()) return;
+
+  // MutationObserver to clean loading state as soon as Judge.me injects elements
+  if (window.MutationObserver) {
+    var observer = new MutationObserver(function(mutations, obs) {
+      if (isMounted()) {
+        obs.disconnect();
+      }
+    });
+    observer.observe(container, { childList: true, subtree: true });
+  }
+
+  // Ensure Revamp entry point module is loaded if header script didn't trigger
+  function ensureWidgetInit() {
+    if (isMounted()) return;
+
+    var baseUrl = (window.jdgm && window.jdgm.CDN_BASE_URL) || 
+      'https://cdn.shopify.com/extensions/01a0674f-e340-7c39-856d-a810d6687196/judgeme-739/assets/';
+    var scriptSrc = baseUrl + 'review_widget.js';
+
+    if (!document.querySelector('script[src="' + scriptSrc + '"]')) {
+      var script = document.createElement('script');
+      script.type = 'module';
+      script.src = scriptSrc;
+      document.head.appendChild(script);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureWidgetInit);
+  } else {
+    ensureWidgetInit();
+  }
+
+  // Diagnostic fallback after timeout if Judge.me cannot load
+  setTimeout(function() {
+    if (!isMounted() && loader) {
+      loader.innerHTML = '<p class="adrini-empty-notice">Be the first to write a review.</p>' +
+        '<button type="button" class="jm-button jm-button--primary" onclick="window.jdgm && window.jdgm.openWriteReviewModal && window.jdgm.openWriteReviewModal() || (window.location.hash=\'#judgeme\')">WRITE A REVIEW</button>';
+    }
+  }, 4000);
+})();
+</script>
 
 <style>
 /* ============================================================
@@ -95,7 +166,7 @@
 /* Header */
 .adrini-reviews-section .adrini-reviews-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .adrini-reviews-section .adrini-reviews-eyebrow {
@@ -118,12 +189,41 @@
   line-height: 1.2;
 }
 
-/* Prevent duplicate titles from Judge.me internal templates */
+/* Prevent duplicate titles inside the widget */
 .adrini-reviews-section .jdgm-rev-widg__title,
-.adrini-reviews-section .jm-review-widget__title,
-.adrini-reviews-section [class*="widget__title"],
-.adrini-reviews-section [class*="ReviewWidgetTitle"] {
+.adrini-reviews-section .jm-review-widget-minimal-header__title {
   display: none !important;
+}
+
+/* Compact Loading State */
+.adrini-reviews-loading {
+  text-align: center;
+  padding: 24px 0;
+  color: #665E5E;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.adrini-spin-dot {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #EDE1E3;
+  border-top-color: #651B24;
+  border-radius: 50%;
+  animation: adriniSpin 0.7s linear infinite;
+}
+
+@keyframes adriniSpin {
+  to { transform: rotate(360deg); }
+}
+
+.adrini-empty-notice {
+  font-size: 14px;
+  color: #665E5E;
+  margin: 0 0 12px 0;
 }
 
 /* ============================================================
@@ -146,16 +246,16 @@
 }
 
 /* ------------------------------------------------------------
-   Summary Header Cards
+   Summary Header Cards & Empty State Cards
    ------------------------------------------------------------ */
 .adrini-reviews-section .jdgm-rev-widg__header,
 .adrini-reviews-section .jm-review-widget-sidebar-header__sidebar,
-.adrini-reviews-section .jm-review-widget__header {
+.adrini-reviews-section .jm-review-widget-minimal-header {
   background: #FAF8F8 !important;
   border: 1px solid #EDE1E3 !important;
   border-radius: 8px !important;
   padding: 24px 28px !important;
-  margin-bottom: 24px !important;
+  margin-bottom: 20px !important;
   box-shadow: none !important;
 }
 
@@ -168,10 +268,31 @@
   line-height: 1 !important;
 }
 
+/* Hide redundant secondary empty state in Revamp body when header has empty state */
+.adrini-reviews-section .jm-review-widget__body .jdgm-empty-state {
+  display: none !important;
+}
+
+.adrini-reviews-section .jm-review-widget__body {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Empty State Text */
+.adrini-reviews-section .jm-no-reviews-state__text,
+.adrini-reviews-section .jdgm-empty-state {
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 14px !important;
+  color: #665E5E !important;
+  margin: 0 0 12px 0 !important;
+  text-align: center !important;
+}
+
 /* ------------------------------------------------------------
    Stars
    ------------------------------------------------------------ */
 .adrini-reviews-section .jdgm-star,
+.adrini-reviews-section .jm-star,
 .adrini-reviews-section [class*="StarRating"] svg,
 .adrini-reviews-section [class*="star"] {
   color: #651B24 !important;
@@ -208,6 +329,9 @@
   text-decoration: none !important;
   cursor: pointer !important;
   box-shadow: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .adrini-reviews-section .jdgm-write-rev-link:hover,
@@ -227,6 +351,7 @@
    Review Cards & Review Items
    ------------------------------------------------------------ */
 .adrini-reviews-section .jdgm-rev,
+.adrini-reviews-section .jm-review-item,
 .adrini-reviews-section [class*="ReviewItem"],
 .adrini-reviews-section [class*="review-item"] {
   background: #FFFFFF !important;
@@ -245,6 +370,7 @@
 
 /* Verified Buyer Badge */
 .adrini-reviews-section .jdgm-rev__buyer-badge,
+.adrini-reviews-section .jm-verified-badge,
 .adrini-reviews-section [class*="VerifiedBadge"],
 .adrini-reviews-section [class*="verified-badge"] {
   background: #FAF4EB !important;
@@ -457,7 +583,8 @@
   }
 
   .adrini-reviews-section .jdgm-rev-widg__header,
-  .adrini-reviews-section .jm-review-widget-sidebar-header__sidebar {
+  .adrini-reviews-section .jm-review-widget-sidebar-header__sidebar,
+  .adrini-reviews-section .jm-review-widget-minimal-header {
     padding: 18px 16px !important;
   }
 
