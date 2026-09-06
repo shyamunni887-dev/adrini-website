@@ -40,10 +40,6 @@
         data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
       >
         {{ current_product.metafields.judgeme.widget }}
-        <div class="adrini-reviews-loading" id="adrini-reviews-loading-{{ section.id }}">
-          <span class="adrini-spin-dot"></span>
-          <span class="adrini-loading-text">Loading reviews...</span>
-        </div>
       </div>
     {% endif %}
   </div>
@@ -53,72 +49,37 @@
   window.jdgm = window.jdgm || {};
   window.jdgm.isVersion3 = true;
 </script>
+<link rel="preload" href="https://cdnwidget.judge.me/widget/write_review_modal.js" as="script">
+<link rel="preload" href="https://cdnwidget.judge.me/widget/form.js" as="script">
 <link rel="stylesheet" href="https://cdnwidget.judge.me/widget_v3/form.css" media="all">
 
 <script>
 /* ============================================================
-   ADRINI Judge.me Initialization Observer & Lifecycle Handler
-   Guarantees Judge.me Revamp/Classic mounts without blank space
+   Official Judge.me Revamp Widget Loader Fallback
+   Ensures review_widget.js is loaded once without duplicate calls
    ============================================================ */
 (function() {
-  var sectionId = '{{ section.id }}';
-  var container = document.getElementById('judgeme_product_reviews');
-  if (!container) return;
+  function initJudgeMeRevamp() {
+    var container = document.getElementById('judgeme_product_reviews');
+    if (!container) return;
 
-  var loader = document.getElementById('adrini-reviews-loading-' + sectionId);
+    // If widget is already mounted by loader.js, do not inject again
+    if (container.querySelector('.jm-review-widget, .jdgm-rev-widg')) return;
 
-  function isMounted() {
-    var hasRevamp = container.querySelector('.jm-review-widget');
-    var hasClassic = container.querySelector('.jdgm-rev-widg');
-    if (hasRevamp || hasClassic) {
-      if (loader && loader.parentNode) loader.remove();
-      return true;
-    }
-    return false;
-  }
-
-  // Check immediately
-  if (isMounted()) return;
-
-  // MutationObserver to clean loading state as soon as Judge.me injects elements
-  if (window.MutationObserver) {
-    var observer = new MutationObserver(function(mutations, obs) {
-      if (isMounted()) {
-        obs.disconnect();
-      }
-    });
-    observer.observe(container, { childList: true, subtree: true });
-  }
-
-  // Ensure Revamp entry point module is loaded if header script didn't trigger
-  function ensureWidgetInit() {
-    if (isMounted()) return;
-
-    var baseUrl = (window.jdgm && window.jdgm.CDN_BASE_URL) || 
-      'https://cdn.shopify.com/extensions/01a0674f-e340-7c39-856d-a810d6687196/judgeme-739/assets/';
-    var scriptSrc = baseUrl + 'review_widget.js';
-
+    var scriptSrc = 'https://cdn.shopify.com/extensions/01a0674f-e340-7c39-856d-a810d6687196/judgeme-739/assets/review_widget.js';
     if (!document.querySelector('script[src="' + scriptSrc + '"]')) {
-      var script = document.createElement('script');
-      script.type = 'module';
-      script.src = scriptSrc;
-      document.head.appendChild(script);
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = scriptSrc;
+      document.head.appendChild(s);
     }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', ensureWidgetInit);
+    document.addEventListener('DOMContentLoaded', initJudgeMeRevamp);
   } else {
-    ensureWidgetInit();
+    initJudgeMeRevamp();
   }
-
-  // Diagnostic fallback after timeout if Judge.me cannot load
-  setTimeout(function() {
-    if (!isMounted() && loader) {
-      loader.innerHTML = '<p class="adrini-empty-notice">Be the first to write a review.</p>' +
-        '<button type="button" class="jm-button jm-button--primary" onclick="window.jdgm && window.jdgm.openWriteReviewModal && window.jdgm.openWriteReviewModal() || (window.location.hash=\'#judgeme\')">WRITE A REVIEW</button>';
-    }
-  }, 4000);
 })();
 </script>
 
@@ -193,37 +154,6 @@
 .adrini-reviews-section .jdgm-rev-widg__title,
 .adrini-reviews-section .jm-review-widget-minimal-header__title {
   display: none !important;
-}
-
-/* Compact Loading State */
-.adrini-reviews-loading {
-  text-align: center;
-  padding: 24px 0;
-  color: #665E5E;
-  font-size: 13px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.adrini-spin-dot {
-  width: 24px;
-  height: 24px;
-  border: 2px solid #EDE1E3;
-  border-top-color: #651B24;
-  border-radius: 50%;
-  animation: adriniSpin 0.7s linear infinite;
-}
-
-@keyframes adriniSpin {
-  to { transform: rotate(360deg); }
-}
-
-.adrini-empty-notice {
-  font-size: 14px;
-  color: #665E5E;
-  margin: 0 0 12px 0;
 }
 
 /* ============================================================
