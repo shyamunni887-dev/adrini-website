@@ -18,25 +18,100 @@
   {{ section.shopify_attributes }}
 >
   <div class="adrini-reviews-container">
-    <!-- ADRINI Luxury Section Header -->
+    <!-- ADRINI Luxury Section Header (Single heading) -->
     <div class="adrini-reviews-header">
       <div class="adrini-reviews-eyebrow">{{ section.settings.subheading | default: 'CUSTOMER REVIEWS' }}</div>
       <h2 class="adrini-reviews-title">{{ section.settings.heading | default: 'Customer Reviews' }}</h2>
     </div>
 
-    <!-- Official Judge.me Product Reviews Widget Container -->
+    <!-- Official Judge.me Product Reviews Widget Container with Revamp & Classic support -->
     {% if current_product != blank %}
       <div
         id="judgeme_product_reviews"
         class="jdgm-widget jdgm-review-widget"
-        data-product-title="{{ current_product.title | escape }}"
+        data-widget="review"
+        data-entry-point="review_widget.js"
+        data-entry-key="review-widget/main.js"
+        data-product-id="{{ current_product.id }}"
         data-id="{{ current_product.id }}"
+        data-product-title="{{ current_product.title | escape }}"
+        data-product-handle="{{ current_product.handle | escape }}"
+        data-from-app-block="true"
       >
-        {{ current_product.metafields.judgeme.widget }}
+        {% if current_product.metafields.judgeme.widget != blank %}
+          {{ current_product.metafields.judgeme.widget }}
+        {% else %}
+          <div class="adrini-reviews-loading" id="adrini-reviews-loading-{{ section.id }}">
+            <span class="adrini-spin-dot"></span>
+            <span class="adrini-loading-text">Loading reviews...</span>
+          </div>
+        {% endif %}
       </div>
     {% endif %}
   </div>
 </div>
+
+<script>
+/* ============================================================
+   Judge.me Revamp & Classic Loader Bridge
+   Ensures Judge.me widget initializes reliably across environments
+   ============================================================ */
+(function() {
+  function initJudgeMeWidget() {
+    var container = document.getElementById('judgeme_product_reviews');
+    if (!container) return;
+
+    var baseUrl = (window.jdgm && window.jdgm.CDN_BASE_URL) || 
+      'https://cdn.shopify.com/extensions/01a0674f-e340-7c39-856d-a810d6687196/judgeme-739/assets/';
+    var scriptSrc = baseUrl + 'review_widget.js';
+
+    // Check if review_widget.js module is already injected
+    if (!document.querySelector('script[src="' + scriptSrc + '"]')) {
+      // Load Revamp CSS dependencies if not present
+      var cssFiles = ['layout-DoosNJCm.css', 'ReviewWidget-CrAkUEe7.css'];
+      cssFiles.forEach(function(file) {
+        var href = baseUrl + file;
+        if (!document.querySelector('link[href="' + href + '"]')) {
+          var link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = href;
+          document.head.appendChild(link);
+        }
+      });
+
+      // Inject the Vue Revamp entry module
+      var script = document.createElement('script');
+      script.type = 'module';
+      script.src = scriptSrc;
+      script.onerror = function() {
+        console.warn('Judge.me revamp module failed to load. Falling back to classic widget.');
+        if (window.jdgm && window.jdgm.loadScript) {
+          window.jdgm.loadScript(window.jdgm.CDN_HOST + 'shopify_v2.js');
+        }
+      };
+      document.head.appendChild(script);
+    }
+
+    // Set timeout to clear loading spinner if empty
+    setTimeout(function() {
+      var loader = document.getElementById('adrini-reviews-loading-{{ section.id }}');
+      if (loader && container.children.length > 1) {
+        loader.remove();
+      } else if (loader && (!container.innerHTML.trim() || container.innerHTML.indexOf('adrini-reviews-loading') >= 0)) {
+        // Fallback message if Judge.me API returned no DOM and no reviews
+        loader.innerHTML = '<p class="adrini-empty-notice">Be the first to write a review.</p>' +
+          '<button type="button" class="adrini-fallback-write-btn" onclick="window.openJudgeMeModal && window.openJudgeMeModal() || (window.location.hash=\'#judgeme\')">WRITE A REVIEW</button>';
+      }
+    }, 4000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initJudgeMeWidget);
+  } else {
+    initJudgeMeWidget();
+  }
+})();
+</script>
 
 <style>
 /* ============================================================
@@ -47,12 +122,26 @@
 .adrini-reviews-section {
   width: 100%;
   background: #FFFFFF;
-  padding: 60px 0 80px 0;
+  padding: 36px 0 40px 0;
   border-top: 1px solid #EDE1E3;
   position: relative;
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   color: #1A1208;
   box-sizing: border-box;
+
+  /* Global Judge.me CSS Variable Overrides */
+  --jdgm-primary-color: #651B24 !important;
+  --jdgm-secondary-color: rgba(101, 27, 36, 0.08) !important;
+  --jdgm-star-color: #651B24 !important;
+  --jdgm-write-review-text-color: #FFFFFF !important;
+  --jdgm-write-review-bg-color: #651B24 !important;
+  --jdgm-paginate-color: #651B24 !important;
+  --jdgm-border-radius: 4px !important;
+  --jdgm-reviewer-name-color: #1A1208 !important;
+  --jm-review-widget-text-color: #1A1208 !important;
+  --jm-color-primary: #651B24 !important;
+  --jm-color-star: #651B24 !important;
+  --jm-color-border: #EDE1E3 !important;
 }
 
 .adrini-reviews-section * {
@@ -68,7 +157,7 @@
 /* Header */
 .adrini-reviews-section .adrini-reviews-header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 28px;
 }
 
 .adrini-reviews-section .adrini-reviews-eyebrow {
@@ -83,7 +172,7 @@
 
 .adrini-reviews-section .adrini-reviews-title {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 400;
   letter-spacing: 0.02em;
   color: #1A1208;
@@ -91,19 +180,74 @@
   line-height: 1.2;
 }
 
-/* Hide duplicate internal Judge.me title if section header exists */
-.adrini-reviews-section .jdgm-rev-widg__title {
+/* Prevent duplicate titles from Judge.me internal templates */
+.adrini-reviews-section .jdgm-rev-widg__title,
+.adrini-reviews-section .jm-review-widget__title,
+.adrini-reviews-section [class*="widget__title"],
+.adrini-reviews-section [class*="ReviewWidgetTitle"] {
   display: none !important;
 }
 
+/* Compact Loading State */
+.adrini-reviews-loading {
+  text-align: center;
+  padding: 24px 0;
+  color: #665E5E;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.adrini-spin-dot {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #EDE1E3;
+  border-top-color: #651B24;
+  border-radius: 50%;
+  animation: adriniSpin 0.7s linear infinite;
+}
+
+@keyframes adriniSpin {
+  to { transform: rotate(360deg); }
+}
+
+.adrini-empty-notice {
+  font-size: 14px;
+  color: #665E5E;
+  margin: 0 0 12px 0;
+}
+
+.adrini-fallback-write-btn {
+  background: #651B24 !important;
+  color: #FFFFFF !important;
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 12px 24px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+}
+
+.adrini-fallback-write-btn:hover {
+  background: #4A121A !important;
+}
+
 /* ============================================================
-   JUDGE.ME CORE WIDGET CUSTOMIZATION
+   JUDGE.ME REVAMP & CLASSIC STYLING
    ============================================================ */
 
-.adrini-reviews-section .jdgm-widget {
+.adrini-reviews-section .jdgm-widget,
+.adrini-reviews-section .jm-review-widget {
   max-width: 100% !important;
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
   color: #1A1208 !important;
+  padding-block: 0 !important;
 }
 
 .adrini-reviews-section .jdgm-rev-widg {
@@ -114,30 +258,21 @@
 }
 
 /* ------------------------------------------------------------
-   Summary Header Card
+   Summary Header Cards
    ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-rev-widg__header {
+.adrini-reviews-section .jdgm-rev-widg__header,
+.adrini-reviews-section .jm-review-widget-sidebar-header__sidebar,
+.adrini-reviews-section .jm-review-widget__header {
   background: #FAF8F8 !important;
   border: 1px solid #EDE1E3 !important;
   border-radius: 8px !important;
-  padding: 28px 32px !important;
-  margin-bottom: 32px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  flex-wrap: wrap !important;
-  gap: 24px !important;
+  padding: 24px 28px !important;
+  margin-bottom: 24px !important;
   box-shadow: none !important;
 }
 
-.adrini-reviews-section .jdgm-rev-widg__summary {
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
-  flex-wrap: wrap !important;
-}
-
-.adrini-reviews-section .jdgm-rev-widg__summary-average {
+.adrini-reviews-section .jdgm-rev-widg__summary-average,
+.adrini-reviews-section [class*="average-rating"] {
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-size: 36px !important;
   font-weight: 700 !important;
@@ -145,75 +280,19 @@
   line-height: 1 !important;
 }
 
-.adrini-reviews-section .jdgm-rev-widg__summary-text {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 13px !important;
-  color: #665E5E !important;
-  margin-top: 2px !important;
-}
-
 /* ------------------------------------------------------------
    Stars
    ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-star {
+.adrini-reviews-section .jdgm-star,
+.adrini-reviews-section [class*="StarRating"] svg,
+.adrini-reviews-section [class*="star"] {
   color: #651B24 !important;
-  font-size: 15px !important;
-  padding-right: 2px !important;
-}
-
-.adrini-reviews-section .jdgm-star.jdgm--on {
-  color: #651B24 !important;
-}
-
-.adrini-reviews-section .jdgm-star.jdgm--half {
-  color: #651B24 !important;
+  fill: #651B24 !important;
 }
 
 .adrini-reviews-section .jdgm-star.jdgm--off {
   color: #EAE2E4 !important;
-}
-
-/* ------------------------------------------------------------
-   Histogram (Rating breakdown bars)
-   ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-histogram {
-  max-width: 320px !important;
-  margin: 0 !important;
-}
-
-.adrini-reviews-section .jdgm-histogram__row {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  font-size: 12px !important;
-  color: #665E5E !important;
-  line-height: 1.8 !important;
-}
-
-.adrini-reviews-section .jdgm-histogram__star {
-  color: #651B24 !important;
-  font-size: 13px !important;
-}
-
-.adrini-reviews-section .jdgm-histogram__bar {
-  background: #EAE2E4 !important;
-  height: 6px !important;
-  border-radius: 3px !important;
-  flex: 1 !important;
-  overflow: hidden !important;
-}
-
-.adrini-reviews-section .jdgm-histogram__bar-content {
-  background: #651B24 !important;
-  border-radius: 3px !important;
-  height: 100% !important;
-}
-
-.adrini-reviews-section .jdgm-histogram__frequency {
-  font-size: 12px !important;
-  color: #665E5E !important;
-  min-width: 24px !important;
-  text-align: right !important;
+  fill: #EAE2E4 !important;
 }
 
 /* ------------------------------------------------------------
@@ -221,310 +300,122 @@
    ------------------------------------------------------------ */
 .adrini-reviews-section .jdgm-write-rev-link,
 .adrini-reviews-section .jdgm-btn,
-.adrini-reviews-section .jdgm-submit-rev {
+.adrini-reviews-section .jdgm-submit-rev,
+.adrini-reviews-section .jm-button--primary,
+.adrini-reviews-section button[class*="write-review"],
+.adrini-reviews-section [class*="WriteReviewButton"] {
   background: #651B24 !important;
+  background-color: #651B24 !important;
   color: #FFFFFF !important;
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 12px !important;
+  font-size: 11px !important;
   font-weight: 600 !important;
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
-  padding: 13px 26px !important;
+  padding: 12px 24px !important;
   border-radius: 4px !important;
   border: 1px solid #651B24 !important;
   transition: all 0.25s ease !important;
   text-decoration: none !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
   cursor: pointer !important;
   box-shadow: none !important;
-  line-height: 1.2 !important;
 }
 
 .adrini-reviews-section .jdgm-write-rev-link:hover,
 .adrini-reviews-section .jdgm-btn:hover,
-.adrini-reviews-section .jdgm-submit-rev:hover {
+.adrini-reviews-section .jdgm-submit-rev:hover,
+.adrini-reviews-section .jm-button--primary:hover,
+.adrini-reviews-section button[class*="write-review"]:hover {
   background: #4A121A !important;
+  background-color: #4A121A !important;
   border-color: #4A121A !important;
   color: #FFFFFF !important;
   transform: translateY(-1px) !important;
 }
 
 /* ------------------------------------------------------------
-   Toolbar: Sorting & Filtering
+   Review Cards & Review Items
    ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-sort-dropdown-wrapper,
-.adrini-reviews-section .jdgm-filter-dropdown-wrapper {
-  margin-bottom: 20px !important;
-}
-
-.adrini-reviews-section .jdgm-sort-dropdown,
-.adrini-reviews-section .jdgm-filter-dropdown,
-.adrini-reviews-section select.jdgm-sort-dropdown {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  color: #1A1208 !important;
-  border: 1px solid #EDE1E3 !important;
-  border-radius: 4px !important;
-  padding: 8px 14px !important;
-  background-color: #FFFFFF !important;
-  outline: none !important;
-  cursor: pointer !important;
-}
-
-.adrini-reviews-section .jdgm-sort-dropdown:focus,
-.adrini-reviews-section select.jdgm-sort-dropdown:focus {
-  border-color: #651B24 !important;
-}
-
-/* ------------------------------------------------------------
-   Review Cards & List
-   ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-rev-widg__reviews {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 16px !important;
-  margin-top: 24px !important;
-}
-
-.adrini-reviews-section .jdgm-rev {
+.adrini-reviews-section .jdgm-rev,
+.adrini-reviews-section [class*="ReviewItem"],
+.adrini-reviews-section [class*="review-item"] {
   background: #FFFFFF !important;
   border: 1px solid #EDE1E3 !important;
   border-radius: 8px !important;
-  padding: 22px 24px !important;
-  margin: 0 !important;
+  padding: 20px 22px !important;
+  margin-bottom: 14px !important;
   box-shadow: none !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+  transition: border-color 0.2s ease !important;
 }
 
-.adrini-reviews-section .jdgm-rev:hover {
+.adrini-reviews-section .jdgm-rev:hover,
+.adrini-reviews-section [class*="ReviewItem"]:hover {
   border-color: #D6C8CA !important;
-  box-shadow: 0 4px 16px rgba(101, 27, 36, 0.04) !important;
-}
-
-.adrini-reviews-section .jdgm-rev__header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  flex-wrap: wrap !important;
-  gap: 10px !important;
-  margin-bottom: 12px !important;
-}
-
-.adrini-reviews-section .jdgm-rev__rating {
-  margin-right: 10px !important;
-}
-
-.adrini-reviews-section .jdgm-rev__author-wrapper {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  flex-wrap: wrap !important;
-}
-
-.adrini-reviews-section .jdgm-rev__author {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  color: #1A1208 !important;
 }
 
 /* Verified Buyer Badge */
-.adrini-reviews-section .jdgm-rev__buyer-badge {
+.adrini-reviews-section .jdgm-rev__buyer-badge,
+.adrini-reviews-section [class*="VerifiedBadge"],
+.adrini-reviews-section [class*="verified-badge"] {
   background: #FAF4EB !important;
   color: #651B24 !important;
   border: 1px solid #F0E3D2 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: Inter, -apple-system, sans-serif !important;
   font-size: 10px !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.06em !important;
-  padding: 3px 8px !important;
+  padding: 2px 7px !important;
   border-radius: 20px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-  margin-left: 6px !important;
-}
-
-.adrini-reviews-section .jdgm-rev__timestamp {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 12px !important;
-  color: #665E5E !important;
 }
 
 /* Review Title */
-.adrini-reviews-section .jdgm-rev__title {
+.adrini-reviews-section .jdgm-rev__title,
+.adrini-reviews-section [class*="ReviewTitle"],
+.adrini-reviews-section [class*="review-title"] {
   font-family: 'Cormorant Garamond', Georgia, serif !important;
-  font-size: 20px !important;
+  font-size: 19px !important;
   font-weight: 600 !important;
   color: #1A1208 !important;
-  margin: 10px 0 8px 0 !important;
+  margin: 8px 0 6px 0 !important;
   line-height: 1.3 !important;
 }
 
 /* Review Body */
-.adrini-reviews-section .jdgm-rev__body {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
+.adrini-reviews-section .jdgm-rev__body,
+.adrini-reviews-section [class*="ReviewContent"],
+.adrini-reviews-section [class*="review-content"] {
+  font-family: Inter, -apple-system, sans-serif !important;
   font-size: 14px !important;
-  line-height: 1.65 !important;
+  line-height: 1.6 !important;
   color: #4A4242 !important;
-  margin-top: 4px !important;
-}
-
-/* Review Photos */
-.adrini-reviews-section .jdgm-rev__pics {
-  display: flex !important;
-  gap: 10px !important;
-  margin-top: 14px !important;
-  flex-wrap: wrap !important;
-}
-
-.adrini-reviews-section .jdgm-rev__pic-link,
-.adrini-reviews-section .jdgm-rev__pic-img {
-  border-radius: 6px !important;
-  border: 1px solid #EDE1E3 !important;
-  width: 72px !important;
-  height: 72px !important;
-  object-fit: cover !important;
-  cursor: pointer !important;
-  transition: transform 0.2s ease, border-color 0.2s ease !important;
-}
-
-.adrini-reviews-section .jdgm-rev__pic-link:hover .jdgm-rev__pic-img {
-  transform: scale(1.04) !important;
-  border-color: #651B24 !important;
 }
 
 /* ------------------------------------------------------------
    Pagination / Load More
    ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-paginate {
-  text-align: center !important;
-  margin-top: 36px !important;
-}
-
 .adrini-reviews-section .jdgm-paginate__load-more,
-.adrini-reviews-section a.jdgm-paginate__load-more {
+.adrini-reviews-section a.jdgm-paginate__load-more,
+.adrini-reviews-section [class*="LoadMoreButton"] {
   border: 1.5px solid #651B24 !important;
   color: #651B24 !important;
   background: #FFFFFF !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: Inter, -apple-system, sans-serif !important;
   font-size: 11px !important;
   font-weight: 600 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.1em !important;
-  padding: 13px 32px !important;
+  letter-spacing: 0.08em !important;
+  padding: 12px 28px !important;
   border-radius: 4px !important;
   transition: all 0.25s ease !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  text-decoration: none !important;
   cursor: pointer !important;
 }
 
 .adrini-reviews-section .jdgm-paginate__load-more:hover,
-.adrini-reviews-section a.jdgm-paginate__load-more:hover {
+.adrini-reviews-section a.jdgm-paginate__load-more:hover,
+.adrini-reviews-section [class*="LoadMoreButton"]:hover {
   background: #651B24 !important;
   color: #FFFFFF !important;
-}
-
-.adrini-reviews-section .jdgm-paginate__page {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  color: #651B24 !important;
-  border: 1px solid #EDE1E3 !important;
-  padding: 6px 12px !important;
-  border-radius: 4px !important;
-  margin: 0 4px !important;
-  text-decoration: none !important;
-}
-
-.adrini-reviews-section .jdgm-paginate__page.jdgm-cur,
-.adrini-reviews-section .jdgm-paginate__page:hover {
-  background: #651B24 !important;
-  color: #FFFFFF !important;
-  border-color: #651B24 !important;
-}
-
-/* ------------------------------------------------------------
-   Review Submission Form & Modal
-   ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-form-wrapper,
-.adrini-reviews-section .jdgm-form {
-  background: #FAF8F8 !important;
-  border: 1px solid #EDE1E3 !important;
-  border-radius: 8px !important;
-  padding: 28px 32px !important;
-  margin: 24px 0 !important;
-  box-shadow: none !important;
-}
-
-.adrini-reviews-section .jdgm-form__title {
-  font-family: 'Cormorant Garamond', Georgia, serif !important;
-  font-size: 26px !important;
-  font-weight: 400 !important;
-  color: #1A1208 !important;
-  margin-bottom: 20px !important;
-}
-
-.adrini-reviews-section .jdgm-form fieldset {
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 0 16px 0 !important;
-}
-
-.adrini-reviews-section .jdgm-form label {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-  color: #1A1208 !important;
-  margin-bottom: 6px !important;
-  display: block !important;
-}
-
-.adrini-reviews-section .jdgm-form input[type="text"],
-.adrini-reviews-section .jdgm-form input[type="email"],
-.adrini-reviews-section .jdgm-form textarea {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 14px !important;
-  border: 1px solid #EDE1E3 !important;
-  border-radius: 4px !important;
-  padding: 10px 14px !important;
-  background: #FFFFFF !important;
-  color: #1A1208 !important;
-  width: 100% !important;
-  outline: none !important;
-  transition: border-color 0.2s ease !important;
-}
-
-.adrini-reviews-section .jdgm-form input[type="text"]:focus,
-.adrini-reviews-section .jdgm-form input[type="email"]:focus,
-.adrini-reviews-section .jdgm-form textarea:focus {
-  border-color: #651B24 !important;
-}
-
-.adrini-reviews-section .jdgm-cancel-rev {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  color: #665E5E !important;
-  text-decoration: underline !important;
-  margin-left: 16px !important;
-  cursor: pointer !important;
-}
-
-/* ------------------------------------------------------------
-   Empty State
-   ------------------------------------------------------------ */
-.adrini-reviews-section .jdgm-rev-widg--empty .jdgm-rev-widg__summary-text {
-  font-size: 14px !important;
-  color: #665E5E !important;
-  margin-bottom: 12px !important;
 }
 
 /* ------------------------------------------------------------
@@ -533,7 +424,7 @@
    ------------------------------------------------------------ */
 @media (max-width: 768px) {
   .adrini-reviews-section {
-    padding: 40px 0 60px 0;
+    padding: 24px 0 28px 0;
   }
 
   .adrini-reviews-section .adrini-reviews-container {
@@ -541,69 +432,32 @@
   }
 
   .adrini-reviews-section .adrini-reviews-title {
-    font-size: 28px;
+    font-size: 26px;
   }
 
-  .adrini-reviews-section .jdgm-rev-widg__header {
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    padding: 20px 16px !important;
-    gap: 16px !important;
+  .adrini-reviews-section .adrini-reviews-header {
+    margin-bottom: 20px;
   }
 
-  .adrini-reviews-section .jdgm-rev-widg__summary {
-    flex-direction: column !important;
-    gap: 8px !important;
-  }
-
-  .adrini-reviews-section .jdgm-rev-widg__actions {
-    width: 100% !important;
-  }
-
-  .adrini-reviews-section .jdgm-write-rev-link {
-    width: 100% !important;
+  .adrini-reviews-section .jdgm-rev-widg__header,
+  .adrini-reviews-section .jm-review-widget-sidebar-header__sidebar {
+    padding: 18px 16px !important;
   }
 
   .adrini-reviews-section .jdgm-rev {
-    padding: 16px 16px !important;
+    padding: 16px 14px !important;
   }
 
-  .adrini-reviews-section .jdgm-rev__header {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 6px !important;
-  }
-
-  .adrini-reviews-section .jdgm-form-wrapper,
-  .adrini-reviews-section .jdgm-form {
-    padding: 20px 16px !important;
-  }
-
-  /* Prevent auto-zoom on iOS inputs */
-  .adrini-reviews-section .jdgm-form input[type="text"],
-  .adrini-reviews-section .jdgm-form input[type="email"],
-  .adrini-reviews-section .jdgm-form textarea {
-    font-size: 16px !important;
-  }
-
-  .adrini-reviews-section .jdgm-paginate__load-more,
-  .adrini-reviews-section a.jdgm-paginate__load-more {
+  .adrini-reviews-section .jdgm-write-rev-link,
+  .adrini-reviews-section .jm-button--primary {
     width: 100% !important;
+    text-align: center !important;
   }
 }
 
 @media (max-width: 430px) {
   .adrini-reviews-section .adrini-reviews-title {
-    font-size: 25px;
-  }
-
-  .adrini-reviews-section .jdgm-rev-widg__summary-average {
-    font-size: 30px !important;
-  }
-
-  .adrini-reviews-section .jdgm-rev__title {
-    font-size: 18px !important;
+    font-size: 24px;
   }
 }
 </style>
