@@ -24,7 +24,7 @@
       <h2 class="adrini-reviews-title">{{ section.settings.heading | default: 'Customer Reviews' }}</h2>
     </div>
 
-    <!-- Official Judge.me Product Reviews Widget Container with Revamp & Classic support -->
+    <!-- Official Judge.me Product Reviews Widget Container (Revamp) -->
     {% if current_product != blank %}
       <div
         id="judgeme_product_reviews"
@@ -36,87 +36,25 @@
         data-id="{{ current_product.id }}"
         data-product-title="{{ current_product.title | escape }}"
         data-product-handle="{{ current_product.handle | escape }}"
-        data-from-app-block="true"
+        data-auto-install="false"
+        data-shop-reviews-count="{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}"
       >
-        {% if current_product.metafields.judgeme.widget != blank %}
-          {{ current_product.metafields.judgeme.widget }}
-        {% else %}
-          <div class="adrini-reviews-loading" id="adrini-reviews-loading-{{ section.id }}">
-            <span class="adrini-spin-dot"></span>
-            <span class="adrini-loading-text">Loading reviews...</span>
-          </div>
-        {% endif %}
+        {{ current_product.metafields.judgeme.widget }}
       </div>
     {% endif %}
   </div>
 </div>
 
 <script>
-/* ============================================================
-   Judge.me Revamp & Classic Loader Bridge
-   Ensures Judge.me widget initializes reliably across environments
-   ============================================================ */
-(function() {
-  function initJudgeMeWidget() {
-    var container = document.getElementById('judgeme_product_reviews');
-    if (!container) return;
-
-    var baseUrl = (window.jdgm && window.jdgm.CDN_BASE_URL) || 
-      'https://cdn.shopify.com/extensions/01a0674f-e340-7c39-856d-a810d6687196/judgeme-739/assets/';
-    var scriptSrc = baseUrl + 'review_widget.js';
-
-    // Check if review_widget.js module is already injected
-    if (!document.querySelector('script[src="' + scriptSrc + '"]')) {
-      // Load Revamp CSS dependencies if not present
-      var cssFiles = ['layout-DoosNJCm.css', 'ReviewWidget-CrAkUEe7.css'];
-      cssFiles.forEach(function(file) {
-        var href = baseUrl + file;
-        if (!document.querySelector('link[href="' + href + '"]')) {
-          var link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = href;
-          document.head.appendChild(link);
-        }
-      });
-
-      // Inject the Vue Revamp entry module
-      var script = document.createElement('script');
-      script.type = 'module';
-      script.src = scriptSrc;
-      script.onerror = function() {
-        console.warn('Judge.me revamp module failed to load. Falling back to classic widget.');
-        if (window.jdgm && window.jdgm.loadScript) {
-          window.jdgm.loadScript(window.jdgm.CDN_HOST + 'shopify_v2.js');
-        }
-      };
-      document.head.appendChild(script);
-    }
-
-    // Set timeout to clear loading spinner if empty
-    setTimeout(function() {
-      var loader = document.getElementById('adrini-reviews-loading-{{ section.id }}');
-      if (loader && container.children.length > 1) {
-        loader.remove();
-      } else if (loader && (!container.innerHTML.trim() || container.innerHTML.indexOf('adrini-reviews-loading') >= 0)) {
-        // Fallback message if Judge.me API returned no DOM and no reviews
-        loader.innerHTML = '<p class="adrini-empty-notice">Be the first to write a review.</p>' +
-          '<button type="button" class="adrini-fallback-write-btn" onclick="window.openJudgeMeModal && window.openJudgeMeModal() || (window.location.hash=\'#judgeme\')">WRITE A REVIEW</button>';
-      }
-    }, 4000);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initJudgeMeWidget);
-  } else {
-    initJudgeMeWidget();
-  }
-})();
+  window.jdgm = window.jdgm || {};
+  window.jdgm.isVersion3 = true;
 </script>
+<link rel="stylesheet" href="https://cdnwidget.judge.me/widget_v3/form.css" media="all">
 
 <style>
 /* ============================================================
    ADRINI LUXURY DESIGN SKIN FOR JUDGE.ME PRODUCT REVIEWS
-   Scoped strictly to .adrini-reviews-section
+   Scoped strictly to .adrini-reviews-section and official modal
    ============================================================ */
 
 .adrini-reviews-section {
@@ -188,56 +126,6 @@
   display: none !important;
 }
 
-/* Compact Loading State */
-.adrini-reviews-loading {
-  text-align: center;
-  padding: 24px 0;
-  color: #665E5E;
-  font-size: 13px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.adrini-spin-dot {
-  width: 24px;
-  height: 24px;
-  border: 2px solid #EDE1E3;
-  border-top-color: #651B24;
-  border-radius: 50%;
-  animation: adriniSpin 0.7s linear infinite;
-}
-
-@keyframes adriniSpin {
-  to { transform: rotate(360deg); }
-}
-
-.adrini-empty-notice {
-  font-size: 14px;
-  color: #665E5E;
-  margin: 0 0 12px 0;
-}
-
-.adrini-fallback-write-btn {
-  background: #651B24 !important;
-  color: #FFFFFF !important;
-  font-family: Inter, -apple-system, sans-serif !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  padding: 12px 24px !important;
-  border-radius: 4px !important;
-  border: none !important;
-  cursor: pointer !important;
-  transition: background 0.2s ease !important;
-}
-
-.adrini-fallback-write-btn:hover {
-  background: #4A121A !important;
-}
-
 /* ============================================================
    JUDGE.ME REVAMP & CLASSIC STYLING
    ============================================================ */
@@ -303,7 +191,8 @@
 .adrini-reviews-section .jdgm-submit-rev,
 .adrini-reviews-section .jm-button--primary,
 .adrini-reviews-section button[class*="write-review"],
-.adrini-reviews-section [class*="WriteReviewButton"] {
+.adrini-reviews-section [class*="WriteReviewButton"],
+.adrini-reviews-section [data-testid="write-review-button"] {
   background: #651B24 !important;
   background-color: #651B24 !important;
   color: #FFFFFF !important;
@@ -325,7 +214,8 @@
 .adrini-reviews-section .jdgm-btn:hover,
 .adrini-reviews-section .jdgm-submit-rev:hover,
 .adrini-reviews-section .jm-button--primary:hover,
-.adrini-reviews-section button[class*="write-review"]:hover {
+.adrini-reviews-section button[class*="write-review"]:hover,
+.adrini-reviews-section [data-testid="write-review-button"]:hover {
   background: #4A121A !important;
   background-color: #4A121A !important;
   border-color: #4A121A !important;
@@ -416,6 +306,133 @@
 .adrini-reviews-section [class*="LoadMoreButton"]:hover {
   background: #651B24 !important;
   color: #FFFFFF !important;
+}
+
+/* ============================================================
+   OFFICIAL JUDGE.ME WRITE-A-REVIEW POPUP MODAL (REVAMP / V3)
+   Luxury ADRINI styling and z-index elevation above Sticky ATC
+   ============================================================ */
+
+.jdgm-write-review-modal {
+  z-index: 100000 !important;
+}
+
+.jdgm-write-review-modal__overlay {
+  background: rgba(26, 18, 8, 0.65) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+.jdgm-write-review-modal__container {
+  z-index: 2 !important;
+}
+
+.jdgm-write-review-modal__content {
+  background: #FAF8F8 !important;
+  border-radius: 8px !important;
+  border: 1px solid #EDE1E3 !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16) !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: #1A1208 !important;
+}
+
+.jdgm-write-review-modal__title {
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: 26px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em !important;
+  color: #1A1208 !important;
+}
+
+.jdgm-write-review-modal__intro {
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 13px !important;
+  color: #665E5E !important;
+}
+
+.jdgm-write-review-modal__product-title {
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: #1A1208 !important;
+}
+
+.jdgm-write-review-modal .jdgm-star {
+  color: #651B24 !important;
+  fill: #651B24 !important;
+}
+
+.jdgm-write-review-modal .jdgm-star.jdgm--off {
+  color: #EAE2E4 !important;
+  fill: #EAE2E4 !important;
+}
+
+.jdgm-write-review-modal__field-label {
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  color: #1A1208 !important;
+}
+
+.jdgm-write-review-modal__field-input,
+.jdgm-write-review-modal textarea.jdgm-write-review-modal__field-input {
+  border: 1px solid #EDE1E3 !important;
+  border-radius: 4px !important;
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 14px !important;
+  color: #1A1208 !important;
+  background: #FFFFFF !important;
+}
+
+.jdgm-write-review-modal__field-input:focus,
+.jdgm-write-review-modal textarea.jdgm-write-review-modal__field-input:focus {
+  border-color: #651B24 !important;
+  outline: 1px solid #651B24 !important;
+}
+
+.jdgm-write-review-modal__nav-btn-next,
+.jdgm-write-review-modal__nav-btn-close {
+  background: #651B24 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #651B24 !important;
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+}
+
+.jdgm-write-review-modal__nav-btn-next:hover,
+.jdgm-write-review-modal__nav-btn-close:hover {
+  background: #4A121A !important;
+}
+
+.jdgm-write-review-modal__nav-btn-back {
+  background: transparent !important;
+  color: #651B24 !important;
+  border: 1px solid #EDE1E3 !important;
+  font-family: Inter, -apple-system, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+}
+
+.jdgm-write-review-modal__close-btn {
+  outline: none !important;
+  border: none !important;
+  background: transparent !important;
+  cursor: pointer !important;
+}
+
+.jdgm-write-review-modal__close-btn:focus {
+  outline: none !important;
 }
 
 /* ------------------------------------------------------------
