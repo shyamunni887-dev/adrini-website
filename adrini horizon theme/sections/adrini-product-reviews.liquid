@@ -56,7 +56,7 @@
 <script>
 /* ============================================================
    Official Judge.me Revamp Widget Loader Fallback
-   Ensures review_widget.js is loaded once without duplicate calls
+   Ensures loader.js and review_widget.js are available in all environments
    ============================================================ */
 (function() {
   function initJudgeMeRevamp() {
@@ -66,12 +66,25 @@
     // If widget is already mounted by loader.js, do not inject again
     if (container.querySelector('.jm-review-widget, .jdgm-rev-widg')) return;
 
-    var scriptSrc = 'https://cdn.shopify.com/extensions/01a0674f-e340-7c39-856d-a810d6687196/judgeme-739/assets/review_widget.js';
-    if (!document.querySelector('script[src="' + scriptSrc + '"]')) {
-      var s = document.createElement('script');
-      s.type = 'module';
-      s.src = scriptSrc;
-      document.head.appendChild(s);
+    // If loader.js hasn't loaded (e.g. in dev server or theme editor), inject official loader.js
+    if (typeof jdgmSettings === 'undefined' || !window.jdgm || !window.jdgm.CDN_BASE_URL) {
+      var loaderSrc = 'https://cdn.shopify.com/extensions/01a08079-7afb-7ed0-aaf2-2a318117337b/judgeme-743/assets/loader.js';
+      if (!document.querySelector('script[src*="judgeme"][src*="loader.js"]')) {
+        var s = document.createElement('script');
+        s.src = loaderSrc;
+        s.defer = true;
+        document.head.appendChild(s);
+      }
+    } else {
+      // If loader.js ran but review_widget.js wasn't imported, trigger import
+      var baseUrl = window.jdgm.CDN_BASE_URL || 'https://cdn.shopify.com/extensions/01a08079-7afb-7ed0-aaf2-2a318117337b/judgeme-743/assets/';
+      var scriptSrc = baseUrl + 'review_widget.js';
+      if (!document.querySelector('script[src="' + scriptSrc + '"]')) {
+        var mod = document.createElement('script');
+        mod.type = 'module';
+        mod.src = scriptSrc;
+        document.head.appendChild(mod);
+      }
     }
   }
 
